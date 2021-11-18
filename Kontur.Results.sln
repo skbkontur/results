@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kontur.Results", "Kontur.Results\Kontur.Results.csproj", "{B865AB49-B868-4836-8B8A-B47C6E7B9892}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kontur.Tests.Results", "Kontur.Tests.Results\Kontur.Tests.Results.csproj", "{4A33B336-0260-460F-B4A5-5679A6194494}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93DECE99-2915-41E7-A8E2-342012C6C8DC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		module.yaml = module.yaml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kontur.Results.SourceGenerator", "Kontur.Results.SourceGenerator\Kontur.Results.SourceGenerator.csproj", "{326EB675-DB26-462D-B3D3-2137695DDE61}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Kontur.Results.SourceGenerator.Shared", "Kontur.Results.SourceGenerator.Shared\Kontur.Results.SourceGenerator.Shared.shproj", "{9CD559C2-95FD-4A77-8F32-7ABD1A43F95B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kontur.Results.Monad", "Kontur.Results.Monad\Kontur.Results.Monad.csproj", "{7555FA18-58A0-4EA2-8C38-5577C33242F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kontur.Results.SourceGenerator.Monad", "Kontur.Results.SourceGenerator.Monad\Kontur.Results.SourceGenerator.Monad.csproj", "{1B119A97-ABB5-45CB-AE04-3C55AB0B5539}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Kontur.Results.SourceGenerator.Shared\Kontur.Results.SourceGenerator.Shared.projitems*{1b119a97-abb5-45cb-ae04-3c55ab0b5539}*SharedItemsImports = 5
+		Kontur.Results.SourceGenerator.Shared\Kontur.Results.SourceGenerator.Shared.projitems*{326eb675-db26-462d-b3d3-2137695dde61}*SharedItemsImports = 5
+		Kontur.Results.SourceGenerator.Shared\Kontur.Results.SourceGenerator.Shared.projitems*{9cd559c2-95fd-4a77-8f32-7abd1a43f95b}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Monad|Any CPU = Monad|Any CPU
+		Lib|Any CPU = Lib|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B865AB49-B868-4836-8B8A-B47C6E7B9892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B865AB49-B868-4836-8B8A-B47C6E7B9892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B865AB49-B868-4836-8B8A-B47C6E7B9892}.Monad|Any CPU.ActiveCfg = Release|Any CPU
+		{B865AB49-B868-4836-8B8A-B47C6E7B9892}.Monad|Any CPU.Build.0 = Release|Any CPU
+		{B865AB49-B868-4836-8B8A-B47C6E7B9892}.Lib|Any CPU.ActiveCfg = Release|Any CPU
+		{B865AB49-B868-4836-8B8A-B47C6E7B9892}.Lib|Any CPU.Build.0 = Release|Any CPU
+		{B865AB49-B868-4836-8B8A-B47C6E7B9892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B865AB49-B868-4836-8B8A-B47C6E7B9892}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A33B336-0260-460F-B4A5-5679A6194494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A33B336-0260-460F-B4A5-5679A6194494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A33B336-0260-460F-B4A5-5679A6194494}.Monad|Any CPU.ActiveCfg = Release|Any CPU
+		{4A33B336-0260-460F-B4A5-5679A6194494}.Lib|Any CPU.ActiveCfg = Release|Any CPU
+		{4A33B336-0260-460F-B4A5-5679A6194494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A33B336-0260-460F-B4A5-5679A6194494}.Release|Any CPU.Build.0 = Release|Any CPU
+		{326EB675-DB26-462D-B3D3-2137695DDE61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{326EB675-DB26-462D-B3D3-2137695DDE61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{326EB675-DB26-462D-B3D3-2137695DDE61}.Monad|Any CPU.ActiveCfg = Release|Any CPU
+		{326EB675-DB26-462D-B3D3-2137695DDE61}.Monad|Any CPU.Build.0 = Release|Any CPU
+		{326EB675-DB26-462D-B3D3-2137695DDE61}.Lib|Any CPU.ActiveCfg = Release|Any CPU
+		{326EB675-DB26-462D-B3D3-2137695DDE61}.Lib|Any CPU.Build.0 = Release|Any CPU
+		{326EB675-DB26-462D-B3D3-2137695DDE61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{326EB675-DB26-462D-B3D3-2137695DDE61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7555FA18-58A0-4EA2-8C38-5577C33242F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7555FA18-58A0-4EA2-8C38-5577C33242F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7555FA18-58A0-4EA2-8C38-5577C33242F1}.Monad|Any CPU.ActiveCfg = Release|Any CPU
+		{7555FA18-58A0-4EA2-8C38-5577C33242F1}.Monad|Any CPU.Build.0 = Release|Any CPU
+		{7555FA18-58A0-4EA2-8C38-5577C33242F1}.Lib|Any CPU.ActiveCfg = Release|Any CPU
+		{7555FA18-58A0-4EA2-8C38-5577C33242F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7555FA18-58A0-4EA2-8C38-5577C33242F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B119A97-ABB5-45CB-AE04-3C55AB0B5539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B119A97-ABB5-45CB-AE04-3C55AB0B5539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B119A97-ABB5-45CB-AE04-3C55AB0B5539}.Monad|Any CPU.ActiveCfg = Release|Any CPU
+		{1B119A97-ABB5-45CB-AE04-3C55AB0B5539}.Monad|Any CPU.Build.0 = Release|Any CPU
+		{1B119A97-ABB5-45CB-AE04-3C55AB0B5539}.Lib|Any CPU.ActiveCfg = Release|Any CPU
+		{1B119A97-ABB5-45CB-AE04-3C55AB0B5539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B119A97-ABB5-45CB-AE04-3C55AB0B5539}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9191821C-80A8-4230-B956-B9D0B048607D}
+	EndGlobalSection
+EndGlobal

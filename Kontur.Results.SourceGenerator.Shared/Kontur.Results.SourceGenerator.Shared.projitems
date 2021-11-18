@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9cd559c2-95fd-4a77-8f32-7abd1a43f95b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Kontur.Results.SourceGenerator</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Code\AccessModifierFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Attributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\ClassNamesFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\ClassNamesFactoryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\ClassNamesPass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\ClassNamesPassExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\CompilationFileProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\CompilationFileProviderSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\CompilationUnit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\EnumerableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\IdentifierExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Identifiers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\IMethodBodyFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\IMethodDeclarationFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\InternalMethodDescriptionFactories.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\InternalMethodsDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\InternalPartialMethodDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\InternalStandardMethodsDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\InternalTypeParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\MethodTypeGeneratorParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\MethodTypeGenericParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\MethodTypeInternal3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\MethodTypeInternal2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\MethodTypeInternalGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\ITypeParameterGenericMethodSyntaxGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\MethodBodyFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\MethodDeclarationFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\MethodDescriptionFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\MethodGenericParameterDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Methods\IDescriptionProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Methods\MethodsDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Methods\MethodsDescriptionProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\ParameterNames3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\ParameterNames.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Parameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Public\NamespaceSplitter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodType3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodType2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodTypeGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Public\PublicMethodDescriptionFactories.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Public\PublicMethodsDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\ReturnTypeCalculator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\SelfParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\TaskLikeTypeSyntaxFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\TypeFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\TypeParameterGenericMethodSyntaxGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Using.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SourceGeneratorBase.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,8 @@
+[*.{cs,vb}]
+
+dotnet_diagnostic.CA2225.severity = none
+
+dotnet_code_quality.CA1716.analyzed_symbol_kinds = Namespace, Method, Property, Event, Parameter
+
+dotnet_diagnostic.S3453.severity = none
+

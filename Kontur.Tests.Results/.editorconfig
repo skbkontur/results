@@ -1,0 +1,117 @@
+[*.{cs,vb}]
+
+dotnet_diagnostic.CA1031.severity = none
+
+dotnet_diagnostic.CA1062.severity = none
+
+dotnet_diagnostic.CA1064.severity = none
+
+dotnet_diagnostic.CA1707.severity = none
+
+dotnet_diagnostic.CA1812.severity = none
+
+dotnet_diagnostic.CA2225.severity = none
+
+dotnet_diagnostic.SA1201.severity = none
+
+dotnet_diagnostic.SA1202.severity = none
+
+dotnet_diagnostic.SA1204.severity = none
+
+dotnet_diagnostic.SA1401.severity = none
+
+dotnet_diagnostic.SA1602.severity = none
+
+dotnet_diagnostic.S3871.severity = none
+
+dotnet_diagnostic.StringShouldBeNullOrEmpty.severity = error
+
+dotnet_diagnostic.StringShouldBeNullOrWhiteSpace.severity = error
+
+dotnet_diagnostic.StringShouldEndWith.severity = error
+
+dotnet_diagnostic.StringShouldHaveLength.severity = error
+
+dotnet_diagnostic.StringShouldNotBeNullOrEmpty.severity = error
+
+dotnet_diagnostic.StringShouldNotBeNullOrWhiteSpace.severity = error
+
+dotnet_diagnostic.StringShouldStartWith.severity = error
+
+dotnet_diagnostic.CollectionShouldBeInAscendingOrder.severity = error
+
+dotnet_diagnostic.CollectionShouldBeInDescendingOrder.severity = error
+
+dotnet_diagnostic.CollectionShouldContainItem.severity = error
+
+dotnet_diagnostic.CollectionShouldContainProperty.severity = error
+
+dotnet_diagnostic.CollectionShouldContainSingle.severity = error
+
+dotnet_diagnostic.CollectionShouldEqualOtherCollectionByComparer.severity = error
+
+dotnet_diagnostic.CollectionShouldHaveCount.severity = error
+
+dotnet_diagnostic.CollectionShouldHaveCountGreaterOrEqualTo.severity = error
+
+dotnet_diagnostic.CollectionShouldHaveCountGreaterThan.severity = error
+
+dotnet_diagnostic.CollectionShouldHaveCountLessOrEqualTo.severity = error
+
+dotnet_diagnostic.CollectionShouldHaveCountLessThan.severity = error
+
+dotnet_diagnostic.CollectionShouldHaveElementAt.severity = error
+
+dotnet_diagnostic.CollectionShouldHaveElementAt0Null.severity = error
+
+dotnet_diagnostic.CollectionShouldHaveSameCount.severity = error
+
+dotnet_diagnostic.CollectionShouldIntersectWith.severity = error
+
+dotnet_diagnostic.CollectionShouldNotBeNullOrEmpty.severity = error
+
+dotnet_diagnostic.CollectionShouldNotContainItem.severity = error
+
+dotnet_diagnostic.CollectionShouldNotContainNulls.severity = error
+
+dotnet_diagnostic.CollectionShouldNotContainProperty.severity = error
+
+dotnet_diagnostic.CollectionShouldNotHaveCount.severity = error
+
+dotnet_diagnostic.CollectionShouldNotHaveSameCount.severity = error
+
+dotnet_diagnostic.CollectionShouldNotIntersectWith.severity = error
+
+dotnet_diagnostic.CollectionShouldOnlyContainProperty.severity = error
+
+dotnet_diagnostic.CollectionShouldOnlyHaveUniqueItems.severity = error
+
+dotnet_diagnostic.CollectionShouldOnlyHaveUniqueItemsByComparer.severity = error
+
+dotnet_diagnostic.CollectionsShouldBeEmpty.severity = error
+
+dotnet_diagnostic.CollectionsShouldNotBeEmpty.severity = error
+
+dotnet_diagnostic.DictionaryShouldContainKey.severity = error
+
+dotnet_diagnostic.DictionaryShouldContainKeyAndValue.severity = error
+
+dotnet_diagnostic.DictionaryShouldContainPair.severity = error
+
+dotnet_diagnostic.DictionaryShouldContainValue.severity = error
+
+dotnet_diagnostic.DictionaryShouldNotContainKey.severity = error
+
+dotnet_diagnostic.DictionaryShouldNotContainValue.severity = error
+
+dotnet_diagnostic.ExceptionShouldThrowWithInnerException.severity = error
+
+dotnet_diagnostic.ExceptionShouldThrowWithMessage.severity = error
+
+dotnet_diagnostic.NumericShouldBeApproximately.severity = error
+
+dotnet_diagnostic.NumericShouldBeInRange.severity = error
+
+dotnet_diagnostic.NumericShouldBeNegative.severity = error
+
+dotnet_diagnostic.NumericShouldBePositive.severity = error
