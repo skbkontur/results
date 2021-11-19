@@ -138,7 +138,7 @@ public StringFaultResult<int> GenerateInt()
     return StringFaultResult<int>(randomValue);
   }
 
-  return tringFaultResult<int>("Failed to generate a positive number");
+  return StringFaultResult<int>("Failed to generate a positive number");
 }
 ```
 
