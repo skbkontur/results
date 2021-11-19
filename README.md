@@ -689,7 +689,7 @@ object upcasted = optional.GetValueOrThrow<object>(() => new Exception("There is
 ```csharp
 Result<Exception, string> result = ...;
 
-string extracted = result.GetValueOrThrow(); // Throws `ValueMissingException` on Failure
+string extracted = result.GetValueOrThrow(); // Throws `ValueMissingException<Exception>` on Failure
 string extracted = result.GetValueOrThrow(new Exception("There is no value"));
 string extracted = result.GetValueOrThrow(() => new Exception("There is no value"));
 string extracted = result.GetValueOrThrow(fault => new Exception(fault.Message));
@@ -726,7 +726,7 @@ namespace CustomValues
 ```csharp
 Result<Exception, string> result = ...;
 
-Exception extracted = result.GetFaultOrThrow(); // Throws `ValueExistsException` on Success
+Exception extracted = result.GetFaultOrThrow(); // Throws `ValueExistsException<string>` on Success
 Exception extracted = result.GetFaultOrThrow(new Exception("There is no fault"));
 Exception extracted = result.GetFaultOrThrow(() => new Exception("There is no fault"));
 Exception extracted = result.GetFaultOrThrow(value => new Exception(value));
@@ -895,7 +895,7 @@ namespace Custom
 Optional<string> optional = ...;
 
 // Nothing if `None`
-optional.EnsureNone(); // Throws `ValueExistsException` if `Some`
+optional.EnsureNone(); // Throws `ValueExistsException<string>` if `Some`
 optional.EnsureNone(new Exception("There is value"));
 optional.EnsureNone(() => new Exception("There is value"))
 optional.EnsureNone(value => new Exception($"There is value: {value}"))
@@ -923,7 +923,7 @@ namespace Custom
 Result<Exception, string> result = ...;
 
 // Nothing if `Success`
-result.EnsureSuccess(); // Throws `ResultFailedException` on Failure
+result.EnsureSuccess(); // Throws `ResultFailedException<Exception>` on Failure
 result.EnsureSuccess(new Exception("There is no value"));
 result.EnsureSuccess(() => new Exception("There is no value"))
 result.EnsureSuccess(fault => new Exception(fault.Message))
@@ -933,7 +933,7 @@ result.EnsureSuccess(fault => new Exception(fault.Message))
 Result<Exception> result = ...;
 
 // Nothing if `Success`
-result.EnsureSuccess(); // Throws `ResultFailedException` on Failure
+result.EnsureSuccess(); // Throws `ResultFailedException<Exception>` on Failure
 result.EnsureSuccess(new Exception("It's failure"));
 result.EnsureSuccess(() => new Exception("It's failure"))
 result.EnsureSuccess(fault => new Exception(fault.Message))
@@ -968,7 +968,7 @@ namespace CustomTypes
 Result<Exception, string> result = ...;
 
 // Nothing if `Failure`
-result.EnsureFailure(); // Throws `ResultSucceedException` on Success
+result.EnsureFailure(); // Throws `ResultSucceedException<string>` on Success
 result.EnsureFailure(new Exception("There is no fault"));
 result.EnsureFailure(() => new Exception("There is no fault"))
 result.EnsureFailure(value => new Exception(value))
