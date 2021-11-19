@@ -9,6 +9,7 @@ This library consists of three `Result` types with some tempting [features](#fea
 
 * [License](#license)
 * [Installation](#installation)
+    * [Examples](#examples)
 * [Features](#features)
 * [Drawbacks](#drawbacks)
 * [Instantiation of types](#instantiation-of-types)
@@ -79,6 +80,7 @@ Execute the following command in your cement module instead if you are willing f
 
 `cm ref add results/monad your-csproj.csproj`
 
+### Examples
 Basic example:
 ```csharp
 using Kontur.Results;
