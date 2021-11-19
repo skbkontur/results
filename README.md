@@ -135,10 +135,10 @@ public StringFaultResult<int> GenerateInt()
   int randomValue = random.Next(0, 10);
   if (randomValue > 0)
   {
-    return StringFaultResult<int>(randomValue);
+    return new StringFaultResult<int>(randomValue);
   }
 
-  return StringFaultResult<int>("Failed to generate a positive number");
+  return new StringFaultResult<int>("Failed to generate a positive number");
 }
 ```
 
