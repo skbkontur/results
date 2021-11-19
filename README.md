@@ -689,7 +689,7 @@ object upcasted = optional.GetValueOrThrow<object>(() => new Exception("There is
 ```csharp
 Result<Exception, string> result = ...;
 
-string extracted = result.GetValueOrThrow(); // Throws `ValueMissingException<Exception>` on Failure
+string extracted = result.GetValueOrThrow(); // Throws `ResultFailedException<Exception>` on Failure
 string extracted = result.GetValueOrThrow(new Exception("There is no value"));
 string extracted = result.GetValueOrThrow(() => new Exception("There is no value"));
 string extracted = result.GetValueOrThrow(fault => new Exception(fault.Message));
@@ -726,7 +726,7 @@ namespace CustomValues
 ```csharp
 Result<Exception, string> result = ...;
 
-Exception extracted = result.GetFaultOrThrow(); // Throws `ValueExistsException<string>` on Success
+Exception extracted = result.GetFaultOrThrow(); // Throws `ResultSucceedException<string>` on Success
 Exception extracted = result.GetFaultOrThrow(new Exception("There is no fault"));
 Exception extracted = result.GetFaultOrThrow(() => new Exception("There is no fault"));
 Exception extracted = result.GetFaultOrThrow(value => new Exception(value));
@@ -740,7 +740,7 @@ object upcasted = result.GetFaultOrThrow<object>(value => new Exception(value));
 ```csharp
 Result<Exception> result = ...;
 
-Exception extracted = result.GetFaultOrThrow(); // Throws `ValueExistsException` on Success
+Exception extracted = result.GetFaultOrThrow(); // Throws `ResultSucceedException` on Success
 Exception extracted = result.GetFaultOrThrow(new Exception("There is no fault"));
 Exception extracted = result.GetFaultOrThrow(() => new Exception("There is no fault"));
 
