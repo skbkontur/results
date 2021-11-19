@@ -86,7 +86,7 @@ using Kontur.Results;
 Result<Exception, string> result = "success!"; // implicit conversion
 
 if (result.TryGetValue(out value)) {
-   return value.ToString() // OK. Value is not null here. The compiler allow this.
+   return value.ToString() // OK. Value is not null here. The compiler allows this.
 }
 
 return value.ToString() // warning CS8602: Dereference of a possibly null reference.
