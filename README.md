@@ -132,7 +132,7 @@ class StringFaultResult<TValue> : Result<string, TValue>
 
 public StringFaultResult<int> GenerateInt()
 {
-  int randomValue = random.Next(0, 10);
+  int randomValue = new Random().Next(0, 10);
   if (randomValue > 0)
   {
     return new StringFaultResult<int>(randomValue);
