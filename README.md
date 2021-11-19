@@ -79,19 +79,20 @@ Execute the following command in your cement module instead if you are willing f
 
 `cm ref add results/monad your-csproj.csproj`
 
-Short examples:
+Basic example:
 ```csharp
 using Kontur.Results;
 
-Result<Exception, string> result = "success!";
+Result<Exception, string> result = "success!"; // implicit conversion
 
 if (result.TryGetValue(out value)) {
-   return value.ToString() // OK. Value is not null here.
+   return value.ToString() // OK. Value is not null here. The compiler allow this.
 }
 
 return value.ToString() // warning CS8602: Dereference of a possibly null reference.
 ```
 
+Example with exceptions:
 ```csharp
 using Kontur.Results;
 
@@ -105,10 +106,43 @@ class DraftClient
 }
 
 Result<DraftError, Draft> createDraftResult = await new DraftClient().CreateDraft();
-
-Draft draft = createDraftResult.GetValueOrThrow();
+try
+{
+  Draft draft = createDraftResult.GetValueOrThrow();
+  return draft.Id;
+}
+catch (ResultFailedException<DraftError> ex)
+{
+  log.Warn("Error code: " + ex.Fault.Code);
+}
 ```
 
+Example with inheritance to freeze fault type:
+```csharp
+class StringFaultResult<TValue> : Result<string, TValue>
+{
+  private readonly Result<string, TValue> result;
+
+  public StringFaultResult(string fault) => result = fault;
+  public StringFaultResult(TValue value) => result = value;
+
+  public override TResult Match<TResult>(Func<string, TResult> onFailure, Func<TValue, TResult> onSuccess)
+    => result.Match(onFailure, onSuccess);
+}
+
+public StringFaultResult<int> GenerateInt()
+{
+  int randomValue = random.Next(0, 10);
+  if (randomValue > 0)
+  {
+    return StringFaultResult<int>(randomValue);
+  }
+
+  return tringFaultResult<int>("Failed to generate a positive number");
+}
+```
+
+You can work with data without extracting values from instances:
 ```csharp
 abstract Task<Optional<string>> GetFormLogin();
 abstract Optional<Guid> GetUser(string login);
@@ -119,6 +153,7 @@ Task<Optional<Guid>> userId =
   .Then(login => GetUser(login).OrElse(() => CreateUser(login)))
 ```
 
+Do notation reduces the count of checks and await operators significantly:
 ```csharp
 abstract Result<Exception, Guid> GetCurrentUserId();
 abstract Task<int> GetCurrentIndex();
