@@ -1291,7 +1291,7 @@ string str = result.ToString();
 Result<int> result = ...;
 
 // `ResultFailure<Int32> fault={Fault}` if `Failure`
-// `ResultSuccess<Int32,>` if `Success`
+// `ResultSuccess<Int32>` if `Success`
 string str = result.ToString();
 ```
 
