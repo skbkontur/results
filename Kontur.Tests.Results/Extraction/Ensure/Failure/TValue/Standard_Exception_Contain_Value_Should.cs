@@ -5,23 +5,21 @@ using NUnit.Framework;
 
 namespace Kontur.Tests.Results.Extraction.Ensure.Failure.TValue
 {
-    [TestFixture(typeof(InvalidOperationException))]
-    [TestFixture(typeof(ResultSucceedException))]
-    [TestFixture(typeof(ResultSucceedException<string>))]
-    internal class Standard_Exception_Should<TException>
-        where TException : Exception
+    [TestFixture]
+    internal class Standard_Exception_Contain_Value_Should
     {
         [Test]
         public void Throw_If_Success()
         {
-            const string expected = "foo";
+            var expected = Guid.NewGuid().ToString();
             var result = Result<int, string>.Succeed(expected);
 
             Action action = () => result.EnsureFailure();
 
             action.Should()
-                .Throw<TException>()
-                .WithMessage($"*{expected}*");
+                .Throw<ResultSucceedException<string>>()
+                .WithMessage($"*{expected}*")
+                .Which.Value.Should().Be(expected);
         }
     }
 }

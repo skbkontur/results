@@ -21,7 +21,7 @@ namespace Kontur.Results
 
         public static void EnsureNone<TValue>(this IOptional<TValue> optional)
         {
-            optional.EnsureNone(new ValueExistsException($"{optional} has value"));
+            optional.EnsureNone(value => new ValueExistsException<TValue>(value, $"{optional} has value"));
         }
     }
 }

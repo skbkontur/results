@@ -21,7 +21,7 @@ namespace Kontur.Results
 
         public static void EnsureSuccess<TFault>(this IResult<TFault> result)
         {
-            result.EnsureSuccess(new ResultFailedException($"{result} is failure"));
+            result.EnsureSuccess(fault => new ResultFailedException<TFault>(fault, $"{result} is failure"));
         }
     }
 }

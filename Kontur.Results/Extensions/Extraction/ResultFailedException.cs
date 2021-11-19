@@ -2,7 +2,7 @@
 
 namespace Kontur.Results
 {
-    public sealed class ResultFailedException : InvalidOperationException
+    public class ResultFailedException : InvalidOperationException
     {
         internal ResultFailedException(string message)
             : base(message)

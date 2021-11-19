@@ -28,7 +28,7 @@ namespace Kontur.Results
         [Pure]
         public static TFault GetFaultOrThrow<TFault, TValue>(this IResult<TFault, TValue> result)
         {
-            return result.GetFaultOrThrow(() => new ResultSucceedException($"Can not get fault from {result}"));
+            return result.GetFaultOrThrow(value => new ResultSucceedException<TValue>(value, $"Can not get fault from {result}"));
         }
     }
 }

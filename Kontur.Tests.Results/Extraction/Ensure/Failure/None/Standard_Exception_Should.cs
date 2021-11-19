@@ -7,6 +7,7 @@ namespace Kontur.Tests.Results.Extraction.Ensure.Failure.None
 {
     [TestFixture(typeof(InvalidOperationException))]
     [TestFixture(typeof(ValueExistsException))]
+    [TestFixture(typeof(ValueExistsException<string>))]
     internal class Standard_Exception_Should<TException>
         where TException : Exception
     {

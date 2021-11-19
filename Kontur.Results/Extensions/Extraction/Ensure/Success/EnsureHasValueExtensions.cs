@@ -16,7 +16,7 @@ namespace Kontur.Results
 
         public static void EnsureHasValue<TValue>(this IOptional<TValue> optional)
         {
-            optional.EnsureHasValue(new ValueMissingException($"No value in {optional}"));
+            optional.EnsureHasValue(() => new ValueMissingException($"No value in {optional}"));
         }
     }
 }

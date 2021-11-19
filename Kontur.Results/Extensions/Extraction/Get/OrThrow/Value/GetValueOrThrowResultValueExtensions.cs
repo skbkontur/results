@@ -28,7 +28,7 @@ namespace Kontur.Results
         [Pure]
         public static TValue GetValueOrThrow<TFault, TValue>(this IResult<TFault, TValue> result)
         {
-            return result.GetValueOrThrow(() => new ResultFailedException($"Can not get value from {result}"));
+            return result.GetValueOrThrow(fault => new ResultFailedException<TFault>(fault, $"Can not get value from {result}"));
         }
     }
 }
