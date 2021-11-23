@@ -152,14 +152,15 @@ abstract ValueTask<Optional<Guid>> CreateUser(string login);
 
 Task<Optional<Guid>> userId =
    GetFormLogin()
-  .Then(login => GetUser(login).OrElse(() => CreateUser(login)))
+  .Then(login => GetUser(login))
+  .OrElse(() => CreateUser(login))
 ```
 
 Do notation reduces the count of checks and await operators significantly:
 ```csharp
 abstract Result<Exception, Guid> GetCurrentUserId();
 abstract Task<int> GetCurrentIndex();
-abstract Result<Exception> EnsureUserIdIsCorrect();
+abstract Result<Exception> EnsureUserIdIsCorrect(Guid userId);
 abstract ValueTask<Result<Exception, string>> GetMessage(Guid userId, int index);
 abstract Result<Exception, ConvertResult> Convert(string message, Guid userId);
 
@@ -1818,7 +1819,7 @@ The last `select` expression can return either `Optional<TResult>` or just `TRes
 
 ```csharp
 abstract Result<Exception, Guid> GetCurrentUserId();
-abstract Result<Exception> EnsureUserIdIsCorrect();
+abstract Result<Exception> EnsureUserIdIsCorrect(Guid userId);
 abstract Result<Exception, int> GetCurrentIndex();
 abstract Result<Exception, Product> GetCurrentProduct();
 abstract Result<int, string> GetMessage(Guid userId, int index, Product product);
@@ -1868,7 +1869,7 @@ Where:
 ```csharp
 abstract Result<Exception, Guid> GetCurrentUserId();
 abstract Task<int> GetCurrentIndex();
-abstract Result<Exception> EnsureUserIdIsCorrect();
+abstract Result<Exception> EnsureUserIdIsCorrect(Guid userId);
 abstract ValueTask<Result<Exception, Product>> GetCurrentProduct();
 abstract Task<Result<int, string>> GetMessage(Guid userId, int index, Product product);
 abstract Task<Format> GetFormat(int index, string message);
