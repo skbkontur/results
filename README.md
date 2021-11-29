@@ -1868,8 +1868,8 @@ Where:
 
 ```csharp
 abstract Result<Exception, Guid> GetCurrentUserId();
-abstract Task<int> GetCurrentIndex();
 abstract Result<Exception> EnsureUserIdIsCorrect(Guid userId);
+abstract Task<int> GetCurrentIndex();
 abstract ValueTask<Result<Exception, Product>> GetCurrentProduct();
 abstract Task<Result<int, string>> GetMessage(Guid userId, int index, Product product);
 abstract Task<Format> GetFormat(int index, string message);
