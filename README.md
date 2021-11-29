@@ -159,8 +159,8 @@ Task<Optional<Guid>> userId =
 Do notation reduces the count of checks and await operators significantly:
 ```csharp
 abstract Result<Exception, Guid> GetCurrentUserId();
-abstract Task<int> GetCurrentIndex();
 abstract Result<Exception> EnsureUserIdIsCorrect(Guid userId);
+abstract Task<int> GetCurrentIndex();
 abstract ValueTask<Result<Exception, string>> GetMessage(Guid userId, int index);
 abstract Result<Exception, ConvertResult> Convert(string message, Guid userId);
 
@@ -254,11 +254,11 @@ Result<Exception, string> result = flag
   ? "hello"
   : new Exception();
 
-Result<Exception, string> result = flag
+var result = flag
   ? "hello"
   : ResultFailure<string>.Create(new Exception());
 
-Result<Exception, string> result = flag
+var result = flag
   ? Result<int>.Succeed("hello")
   : new Exception();
 
@@ -1669,19 +1669,19 @@ Async examples:
 Optional<string> optional1 = ...;
 Optional<string> optional2 = ...;
 
-ValueTask<Optional<string>> result = optional1.OrElse(async value => await Task.FromResult(optional2));
-ValueTask<Optional<string>> result = optional1.OrElse(value => new ValueTask(optional2));
-Task<Optional<string>> result = optional1.OrElse(value => Task.FromResult(optional2));
+ValueTask<Optional<string>> result = optional1.OrElse(async () => await Task.FromResult(optional2));
+ValueTask<Optional<string>> result = optional1.OrElse(() => new ValueTask(optional2));
+Task<Optional<string>> result = optional1.OrElse(() => Task.FromResult(optional2));
 
-ValueTask<Optional<string>> result = new ValueTask(optional1).OrElse(value => optional2);
-ValueTask<Optional<string>> result = new ValueTask(optional1).OrElse(async value => await Task.FromResult(optional2));
-ValueTask<Optional<string>> result = new ValueTask(optional1).OrElse(value => new ValueTask(optional2));
-Task<Optional<string>> result = new ValueTask(optional1).OrElse(value => Task.FromResult(optional2));
+ValueTask<Optional<string>> result = new ValueTask(optional1).OrElse(() => optional2);
+ValueTask<Optional<string>> result = new ValueTask(optional1).OrElse(async () => await Task.FromResult(optional2));
+ValueTask<Optional<string>> result = new ValueTask(optional1).OrElse(() => new ValueTask(optional2));
+Task<Optional<string>> result = new ValueTask(optional1).OrElse(() => Task.FromResult(optional2));
 
-Task<Optional<string>> result = Task.FromResult(optional1).OrElse(value => optional2);
-Task<Optional<string>> result = Task.FromResult(optional1).OrElse(async value => await Task.FromResult(optional2));
-Task<Optional<string>> result = Task.FromResult(optional1).OrElse(value => new ValueTask(optional2));
-Task<Optional<string>> result = Task.FromResult(optional1).OrElse(value => Task.FromResult(optional2));
+Task<Optional<string>> result = Task.FromResult(optional1).OrElse(() => optional2);
+Task<Optional<string>> result = Task.FromResult(optional1).OrElse(async () => await Task.FromResult(optional2));
+Task<Optional<string>> result = Task.FromResult(optional1).OrElse(() => new ValueTask(optional2));
+Task<Optional<string>> result = Task.FromResult(optional1).OrElse(() => Task.FromResult(optional2));
 ```
 
 ```csharp
