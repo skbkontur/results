@@ -152,8 +152,7 @@ abstract ValueTask<Optional<Guid>> CreateUser(string login);
 
 Task<Optional<Guid>> userId =
    GetFormLogin()
-  .Then(login => GetUser(login))
-  .OrElse(() => CreateUser(login))
+  .Then(login => GetUser(login).OrElse(() => CreateUser(login)))
 ```
 
 Do notation reduces the count of checks and await operators significantly:
