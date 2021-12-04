@@ -1358,7 +1358,8 @@ Safety is enforced by covariance rules. So:
 
 ## Conversion of generic arguments
 
-All conversion and `Result` combining methods except `Upcast` method support async extensions for every listed synchronous scenario.
+All conversion methods except `Upcast` method support async extensions for every listed synchronous scenario.
+All synchronous methods support upcasts of `TFault` and `TValue`.
 
 Async extensions make use of methods returning `Task<T>`, `ValueTask<T>` and inline async lambdas. For example:
 ```csharp
@@ -1572,10 +1573,16 @@ var doesNotCompile = objectResult2.Upcast<string, string>();
 var doesNotCompile = objectResult3.Upcast<string, string>();
 ```
 
+Async extensions are not supported `Upcast` methods.
+
 
 ## Result combining
 
 There are some monadic extensions that can help you to reduce lines and errors in your code.
+All `Optional`/`Result` combining methods support async extensions for every listed synchronous scenario.
+
+Currently synchronous `Optional`/`Result` combining methods do not support upcasts of `TFault` and `TValue`.
+
 
 ### Then
 
@@ -1584,6 +1591,9 @@ There are some monadic extensions that can help you to reduce lines and errors i
 If a first optional/result is `None`/`Failure` then the `None`/`Failure` is returned.
 If the first optional/result is `Some`/`Success` then a second optional/result is returned.
 The second `Optional`/`Result` factory method is only executed if the first `Optional`/`Result` is `Some`/`Success`.
+
+`TFault` types should be identical. Upcasts are not supported yet.
+`TValue` types can be different.
 
 ```csharp
 Optional<int> optional1 = ...;
@@ -1656,6 +1666,10 @@ All meaningful combinations of `Optional<TValue>`, `Result<TFault>` and `Result<
 If a first optional/result is `Some`/`Success` then it is returned.
 If the first optional/result is `None`/`Failure` then a second optional/result is returned.
 The second `Optional`/`Result` factory method is only executed if the first `Optional`/`Result` is `None`/`Failure`.
+
+`TValue` types should be identical. Upcasts are not supported yet.
+`TFault` types can be different.
+
 
 ```csharp
 Optional<string> optional1 = ...;
@@ -1757,6 +1771,9 @@ Like both of them, a factory method of a second `Optional`/`Result` or value is 
 Like `MapValue` it allows changing type and value by using value factory.
 Unlike `MapValue` and like `Then` it allows creating a second `Optional`/`Result` which is a result of the whole operation.
 It also allows you to change `Some`/`Success` to `None`/`Failure` if you want.
+
+`TFault` types should be identical. Upcasts are not supported yet.
+`TValue` types can be different.
 
 ```csharp
 Optional<string> optional = ...;
@@ -1940,9 +1957,12 @@ You can also override extensions methods. For example:
 
 ## Yet to be implemented
 
-* (easy) Currently only `Result` combining methods (`Map`, `Select`, `Then`, `OrElse` and do notation), `MapValue` and `MapFault` support async extensions with `Task` or `ValueTask` types. Data extraction methods (like `TryGetValue`, `Switch` or `GetOrThrow`) only support synchronous execution. Send me your requests if you need async extensions.
+* (easy) Currently only `Result` combining methods (`Map`, `Select`, `Then`, `OrElse` and do notation), `MapValue` and `MapFault` support async extensions with `Task` or `ValueTask` types. Data extraction methods (like `TryGetValue`, `Switch` or `GetOrThrow`) only support synchronous execution.
+* (easy) Currently monadic extensions (`Select`, `Then`, `OrElse` and do notation) do not support upcats event synchronous methods.
 * (medium) Currently implemented source generators can not generate async extensions and implicit conversion operators for custom inherited classes in your assemblies.
-* (hard) Do notation for `Result<TFault, TValue>` with different `TFault` type arguments is possible in a limited way but unimplemented. If it is implemented, it would disallow a few struct type arguments for `TFault` and would not enable all scenarios of selecting `Result<TFaultOther>` with different `TFault` argument in subsequent `from/in` clauses. Send me many requests if you really need that. The current workaround is to use `MapFault` method before passing `Result` to a do notation clause.
+* (hard) Do notation for `Result<TFault, TValue>` with different `TFault` type arguments is possible in a limited way but unimplemented. If it is implemented, it would disallow a few struct type arguments for `TFault` and would not enable all scenarios of selecting `Result<TFaultOther>` with different `TFault` argument in subsequent `from/in` clauses. The current workaround is to use `MapFault` method before passing `Result` to a do notation clause.
+
+Send me your requests if you need such features.
 
 
 ## Contributing
