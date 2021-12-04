@@ -225,9 +225,9 @@ Optional<string> optional = "hello";
 Optional<string> optional = Optional.None();
 
 Result<Exception, string> result = "hello";
-Result<Exception, string> result = Result.Succeed("hello");
 Result<Exception, string> result = new Exception();
-Result<Exception, string> result = Result.Fail(new Exception());
+Result<int, int> result = Result.Succeed(55);
+Result<int, int> result = Result.Fail(0);
 
 Result<Exception> result = Result.Succeed();
 Result<Exception> result = new Exception();
@@ -258,7 +258,7 @@ var result = flag
   : ResultFailure<string>.Create(new Exception());
 
 var result = flag
-  ? Result<int>.Succeed("hello")
+  ? Result<Exception>.Succeed("hello")
   : new Exception();
 
 Result<int, int> result = flag
@@ -275,13 +275,17 @@ var result = flag
 ```
 
 ```csharp
+Result<Exception> = flag
+  ? new Exception()
+  : Result.Succeed();
+
 var result = flag
   ? Result<Exception>.Fail(new Exception())
   : Result.Succeed();
 
-Result<Exception> = flag
+var result = flag
   ? new Exception()
-  : Result.Succeed();
+  : Result<Exception>.Succeed();
 
 ```
 
