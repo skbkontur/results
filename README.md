@@ -186,7 +186,8 @@ Task<Result<Exception, ConvertResult>> result =
 
 * Assemblies contain only three `Result` type implementations and extension methods for them. There is no other stuff.
 
-* `Result` type implementations are if-less and make use of abstract classes polymorphism and VMT to maintain simplicity and error safety. As a result, there is no null-forgiving operator. Also, there are no ternary operators that check `Success` flag or similar stuff.
+* `Result<TFault, TValue>` has no third state. It is restricted by a schema and the compiler that only two states are possible in memory of an application. One of them is `HasValue`. Other one is `HasFault`. So there are not `bottom` or `empty` state.
+* `Result` type implementations are if-less and make use of abstract classes polymorphism and VMT to maintain simplicity and error safety. As a result, there is no null-forgiving operator and no third state. Also, there are no ternary operators that check `Success` flag or similar stuff.
 * [Inheritance](#inheritance) allows to freeze or limit generic `TFault` and `TValue` parameters with user custom type arguments.
 
 ## Drawbacks
