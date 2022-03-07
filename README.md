@@ -9,7 +9,9 @@ This library consists of three `Result` types with some tempting [features](#fea
 
 * [License](#license)
 * [Installation](#installation)
-    * [Examples](#examples)
+    * [Nuget](#nuget)
+    * [Cement](#cement)
+* [Examples](#examples)
 * [Features](#features)
 * [Drawbacks](#drawbacks)
 * [Instantiation of types](#instantiation-of-types)
@@ -70,6 +72,16 @@ MIT
 
 ## Installation
 
+### Nuget
+
+Execute that command in Package Manager console:
+`Install-Package Kontur.Results -Version 1.0.1`
+
+Execute the following command instead if you are willing for [monadic extensions](#result-combining) (implemented separately). It consists of [Then](#then), [OrElse](#orelse), [Select](#select) and [do notation](#do-notation-with-async-extensions):
+`Install-Package Kontur.Results.Monad -Version 1.0.1`
+
+### Cement
+
 Use [cement](https://github.com/skbkontur/cement#get-started) to add a reference to `Kontur.Results` assembly.
 
 Execute that command in your cement module:
@@ -80,7 +92,7 @@ Execute the following command in your cement module instead if you are willing f
 
 `cm ref add results/monad your-csproj.csproj`
 
-### Examples
+## Examples
 Basic example:
 ```csharp
 using Kontur.Results;
