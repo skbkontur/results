@@ -74,10 +74,12 @@ MIT
 
 ### Nuget
 
-Execute that command in Package Manager console:
+Execute that command in Package Manager console to install [Kontur.Results](https://www.nuget.org/packages/Kontur.Results/):
+
 `Install-Package Kontur.Results -Version 1.0.1`
 
-Execute the following command instead if you are willing for [monadic extensions](#result-combining) (implemented separately). It consists of [Then](#then), [OrElse](#orelse), [Select](#select) and [do notation](#do-notation-with-async-extensions):
+Execute the following command instead to install [Kontur.Results.Monad](https://www.nuget.org/packages/Kontur.Results.Monad/) if you are willing for [monadic extensions](#result-combining) (implemented separately). It consists of [Then](#then), [OrElse](#orelse), [Select](#select) and [do notation](#do-notation-with-async-extensions):
+
 `Install-Package Kontur.Results.Monad -Version 1.0.1`
 
 ### Cement
