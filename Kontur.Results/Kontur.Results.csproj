@@ -8,6 +8,7 @@
     <Title>Kontur.Results</Title>
     <Description>A library with Result types, such as Result and Optional.</Description>
     <PackageProjectUrl>https://github.com/skbkontur/results</PackageProjectUrl>
+    <NoWarn>NU5125</NoWarn>
     <PackageLicenseUrl>https://github.com/skbkontur/results/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>kontur kontur.results result results optional either</PackageTags>
     <RepositoryUrl>https://github.com/skbkontur/results</RepositoryUrl>
