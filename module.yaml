@@ -1,6 +1,7 @@
 default:
   build:
     target: Kontur.Results.sln
+    parameters: "/p:_CleaningWithoutRebuilding=false"
 
 lib *default:
   deps:
