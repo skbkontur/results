@@ -101,7 +101,7 @@ using Kontur.Results;
 
 Result<Exception, string> result = "success!"; // implicit conversion
 
-if (result.TryGetValue(out value)) {
+if (result.TryGetValue(out string value)) {
    return value.ToString() // OK. Value is not null here. The compiler allows this.
 }
 
