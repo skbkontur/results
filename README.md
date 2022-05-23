@@ -1362,7 +1362,7 @@ Some variants are found in the tests folder.
 
 Some examples:
 
-#### Threatening `Result` and `Optional` as containers with single or no elements
+#### Threat `Result` and `Optional` as containers with single or no elements
 
 This is the simplest variant. But using it results in losing fault details.
 
@@ -2426,6 +2426,7 @@ You can also override extensions methods. For example:
 
 * (easy) Currently only `Result` combining methods (`Map`, `Select`, `Then`, `OrElse` and do notation), `MapValue` and `MapFault` support async extensions with `Task` or `ValueTask` types. Data extraction methods (like `TryGetValue`, `Switch` or `GetOrThrow`) only support synchronous execution.
 * (easy) Currently monadic extensions (`Select`, `Then`, `OrElse` and do notation) do not support upcasts for synchronous methods.
+* (medium) Implement do-notations (LINQ Query Syntax) for collections.
 * (medium) Currently implemented source generators can not generate async extensions and implicit conversion operators for custom inherited classes in your assemblies.
 * (hard) Do notation for `Result<TFault, TValue>` with different `TFault` type arguments is possible in a limited way but unimplemented. If it is implemented, it would disallow a few struct type arguments for `TFault` and would not enable all scenarios of selecting `Result<TFaultOther>` with different `TFault` argument in subsequent `from/in` clauses. The current workaround is to use `MapFault` method before passing `Result` to a do notation clause.
 
