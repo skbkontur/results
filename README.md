@@ -186,17 +186,6 @@ Task<Result<Exception, ConvertResult>> result =
   select Convert(message, userId);
 ```
 
-You can work with data without extracting values from instances:
-```csharp
-abstract Task<Optional<string>> GetFormLogin();
-abstract Optional<Guid> GetUser(string login);
-abstract ValueTask<Optional<Guid>> CreateUser(string login);
-
-Task<Optional<Guid>> userId =
-   GetFormLogin()
-  .Then(login => GetUser(login).OrElse(() => CreateUser(login)))
-```
-
 Data parsing is now simple:
 ```csharp
 class NaturalNumber
