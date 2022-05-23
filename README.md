@@ -186,6 +186,52 @@ Task<Result<Exception, ConvertResult>> result =
   select Convert(message, userId);
 ```
 
+You can work with data without extracting values from instances:
+```csharp
+abstract Task<Optional<string>> GetFormLogin();
+abstract Optional<Guid> GetUser(string login);
+abstract ValueTask<Optional<Guid>> CreateUser(string login);
+
+Task<Optional<Guid>> userId =
+   GetFormLogin()
+  .Then(login => GetUser(login).OrElse(() => CreateUser(login)))
+```
+
+Data parsing is now simple:
+```csharp
+class NaturalNumber
+{
+  private readonly int value;
+  private NaturalNumber(int value) => this.value = value;
+  public static NaturalNumber operator +(NaturalNumber a, NaturalNumber b) => new NaturalNumber(a.value + b.value);
+
+  public static bool TryParse(int value, [MaybeNullWhen(returnValue: false)] out NaturalNumber number)
+  {
+    if (value > 0)
+    {
+      number = new NaturalNumber(value);
+      return true;
+    }
+    number = null;
+    return false;
+  }
+
+  public static Optional<NaturalNumber> TryParse(int value) => TryParse(value, out var number) ? number : Optional.None();
+  public static NaturalNumber Parse(int value) => TryParse(value).GetValueOrThrow();
+}
+
+Result<Exception, int> TryParseString(string input) => int.TryParse(input, out var number)
+  ? number
+  : new Exception(input + " is not an integer");
+
+Result<Exception, NaturalNumber> result =
+  from integer1 from TryParseString(Console.ReadLine())
+  from natural1 from NaturalNumber.TryParse(integer1).OrElse(Result.Fail(new Exception(integer1 + " is not positive number")))
+  from integer2 from TryParseString(Console.ReadLine())
+  from natural2 from NaturalNumber.TryParse(integer2).OrElse(Result.Fail(new Exception(integer2 + " is not positive number")))
+  select natural1 + natural2;
+```
+
 
 ## Features
 
