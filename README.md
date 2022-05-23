@@ -1767,6 +1767,7 @@ Result<Guid, int> extracted = result.MapValue(15);
 
 <details>
   <summary>Async examples</summary>
+
 ```csharp
 Result<Guid, string> result = ...;
 
@@ -1953,6 +1954,7 @@ Optional<string> result = optional1.Then(i => i > 10 ? Optional<string>.Some(i.T
 
 <details>
   <summary>Async examples</summary>
+
 ```csharp
 Optional<int> optional1 = ...;
 Optional<string> optional2 = ...;
