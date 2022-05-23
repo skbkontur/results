@@ -1816,7 +1816,7 @@ If there is at least one async method in a chain returning `Task<T>` the result 
 Optional<string> optional = ...;
 
 Optional<string> extracted = optional.MapValue(str => str + "suffix");
-Optional<string> extracted = optional.MapValue(() => 1.ToString());
+Optional<string> extracted = optional.MapValue(() => "new value");
 Optional<string> extracted = optional.MapValue("other string");
 
 Optional<int> extracted = optional.MapValue(str => int.Parse(str));
@@ -1858,7 +1858,7 @@ Task<Optional<string>> extracted = optional.MapValue(str => Task.FromResult(str)
 Result<Guid, string> result = ...;
 
 Result<Guid, string> extracted = result.MapValue(str => str + "suffix");
-Result<Guid, string> extracted = result.MapValue(() => 1.ToString());
+Result<Guid, string> extracted = result.MapValue(() => "new value");
 Result<Guid, string> extracted = result.MapValue("other string");
 
 Result<Guid, int> extracted = result.MapValue(str => int.Parse(str));
@@ -1904,7 +1904,7 @@ Task<Result<Guid, string>> extracted = result.MapValue(str => Task.FromResult(st
 Result<string, Guid> result = ...;
 
 Result<string, Guid> extracted = result.MapFault(str => str + "suffix");
-Result<string, Guid> extracted = result.MapFault(() => 1.ToString());
+Result<string, Guid> extracted = result.MapFault(() => "new fault");
 Result<string, Guid> extracted = result.MapFault("other string");
 
 Result<int, Guid> extracted = result.MapFault(str => int.Parse(str));
@@ -1946,7 +1946,7 @@ Task<Result<string, Guid>> extracted = result.MapFault(str => Task.FromResult(st
 Result<string> result = ...;
 
 Result<string> extracted = result.MapFault(str => str + "suffix");
-Result<string> extracted = result.MapFault(() => 1.ToString());
+Result<string> extracted = result.MapFault(() => "new fault");
 Result<string> extracted = result.MapFault("other string");
 
 Result<int> extracted = result.MapFault(str => int.Parse(str));
