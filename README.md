@@ -185,8 +185,11 @@ Task<Optional<Guid>> userId =
    GetFormLogin()
   .Then(login => GetUser(login).OrElse(() => CreateUser(login)))
 ```
+</details>
 
-Do notation reduces the count of checks and await operators significantly:
+<details>
+  <summary>Do notation reduces the count of checks and await operators significantly</summary>
+
 ```csharp
 abstract ValueTask<Result<Exception, Guid>> GetCurrentUserId();
 abstract Result<Exception> EnsureUserIdIsCorrect(Guid userId);
