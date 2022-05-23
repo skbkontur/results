@@ -2,7 +2,7 @@
 {
     internal class StringConstantProvider : IConstantProvider<string>
     {
-        public string GetError() => GetValue();
+        public string GetError() => this.GetValue();
 
         public string GetValue() => "constant";
     }

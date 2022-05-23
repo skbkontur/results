@@ -4,8 +4,8 @@
     {
         internal UpcastExample(StringFaultResult<TValue> source, TResult result)
         {
-            Source = source;
-            Result = result;
+            this.Source = source;
+            this.Result = result;
         }
 
         internal StringFaultResult<TValue> Source { get; }

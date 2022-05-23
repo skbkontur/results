@@ -26,7 +26,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Li
 
             var returnType = TypeFactory.CreateResult(faultType, resultType);
 
-            return methodDescriptionFactory.CreateSelect(
+            return this.methodDescriptionFactory.CreateSelect(
                 "ResultValueResultValue",
                 returnType,
                 MethodNames.Select,

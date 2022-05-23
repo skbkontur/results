@@ -33,7 +33,7 @@ namespace Kontur.Results.SourceGenerator.Code
 
         internal IEnumerable<CompilationUnit> GetAll()
         {
-            var methodsDescriptions = provider.Get().ToArray();
+            var methodsDescriptions = this.provider.Get().ToArray();
 
             var internalPartialCompilationFile = methodsDescriptions
                 .Select(methods => methods.Internal.Partial)
@@ -44,9 +44,9 @@ namespace Kontur.Results.SourceGenerator.Code
                 .SelectMany(all => all.Internal.Methods)
                 .Select(CreateInternalCompilationFile)
                 .Concat(internalPartialCompilationFile)
-                .Append(CreateLocalExtensionCompilationFile(methodsDescriptions.SelectMany(all => all.Public.Extensions)))
-                .Append(CreateGlobalExtensionCompilationFile(methodsDescriptions.SelectMany(all => all.Public.ExtensionsGlobal)))
-                .Select(CreateCompilationUnit);
+                .Append(this.CreateLocalExtensionCompilationFile(methodsDescriptions.SelectMany(all => all.Public.Extensions)))
+                .Append(this.CreateGlobalExtensionCompilationFile(methodsDescriptions.SelectMany(all => all.Public.ExtensionsGlobal)))
+                .Select(this.CreateCompilationUnit);
         }
 
         private static CompilationFile CreateInternalCompilationFile(InternalStandardMethodsDescription internalMethods)
@@ -98,13 +98,13 @@ namespace Kontur.Results.SourceGenerator.Code
                 .AddMembers(memberDeclarationSyntax)
                 .NormalizeWhitespace();
 
-            var indentationFixed = typeParameterGenericMethodSyntaxGenerator.FixMethodTypeParameterIndentation(compilationUnit);
+            var indentationFixed = this.typeParameterGenericMethodSyntaxGenerator.FixMethodTypeParameterIndentation(compilationUnit);
             return new(fileName, indentationFixed);
         }
 
         private CompilationFile CreateGlobalExtensionCompilationFile(IEnumerable<MemberDeclarationSyntax> methods)
         {
-            var className = compilationFileProviderSettings.GlobalExtensionsFileName;
+            var className = this.compilationFileProviderSettings.GlobalExtensionsFileName;
             var classSyntax = SyntaxFactory.ClassDeclaration(className)
                 .AddAttributeLists(EditorBrowsableAttributeList)
                 .AddModifiers(ExtensionMethodAccessModifiers)
@@ -118,7 +118,7 @@ namespace Kontur.Results.SourceGenerator.Code
 
         private CompilationFile CreateLocalExtensionCompilationFile(IEnumerable<MemberDeclarationSyntax> methods)
         {
-            var className = compilationFileProviderSettings.LocalExtensionsFileName;
+            var className = this.compilationFileProviderSettings.LocalExtensionsFileName;
             var classSyntax = SyntaxFactory.ClassDeclaration(className)
                 .AddAttributeLists(EditorBrowsableAttributeList)
                 .AddModifiers(ExtensionMethodAccessModifiers)

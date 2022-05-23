@@ -36,8 +36,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 .ToArray();
 
             var valueMethods = methodTypes
-                .Select(method =>
-                    CreateValue(
+                .Select(method => this.CreateValue(
                         method,
                         methodName,
                         genericParameters,
@@ -48,8 +47,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
 
             var factoryMethods = NamespaceSplitter.Split(
                 methodTypes,
-                method =>
-                    CreateFactory(
+                method => this.CreateFactory(
                         method,
                         methodName,
                         genericParameters,
@@ -80,8 +78,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 .ToArray();
 
             var valueMethods = methodTypes
-                .Select(method =>
-                    CreateValue(
+                .Select(method => this.CreateValue(
                         method,
                         methodName,
                         genericParameters,
@@ -92,8 +89,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
 
             var factoryMethods = NamespaceSplitter.Split(
                 methodTypes,
-                method =>
-                    CreateFactory(
+                method => this.CreateFactory(
                         method,
                         methodName,
                         genericParameters,
@@ -104,8 +100,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
 
             var passMethods = NamespaceSplitter.Split(
                 methodTypes,
-                method =>
-                    CreatePass(
+                method => this.CreatePass(
                         method,
                         methodName,
                         genericParameters,
@@ -140,8 +135,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
 
             var (localMethods, globalMethods) = NamespaceSplitter.Split(
                 methodTypes,
-                method =>
-                    CreatePass(
+                method => this.CreatePass(
                         method,
                         methodName,
                         genericParameters,
@@ -180,8 +174,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                     parameterOtherTypeUpperBound,
                     parameterOtherTypeTasks)
                 .Where(method => !local || method.ParameterNextIsTask)
-                .Select(method =>
-                    CreatePass(
+                .Select(method => this.CreatePass(
                         method,
                         methodName,
                         genericParameters,
@@ -221,7 +214,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             TypeSyntax passType,
             SimpleNameSyntax delegateClassName)
         {
-            return CreateFull(
+            return this.CreateFull(
                 Enumerable.Empty<AttributeSyntax>(),
                 methodType,
                 methodName,
@@ -245,7 +238,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
            TypeSyntax passType,
            SimpleNameSyntax delegateClassName)
         {
-            return CreateFull(
+            return this.CreateFull(
                 Enumerable.Empty<AttributeSyntax>(),
                 methodType,
                 methodName,
@@ -266,7 +259,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             SyntaxToken parameterOther,
             SimpleNameSyntax delegateClassName)
         {
-            return CreateFull(
+            return this.CreateFull(
                 Enumerable.Empty<AttributeSyntax>(),
                 methodType,
                 methodName,
@@ -287,7 +280,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             SyntaxToken parameterOther,
             SimpleNameSyntax delegateClassName)
         {
-            return CreateFull(
+            return this.CreateFull(
                 new[] { Attributes.Pure },
                 methodType,
                 methodName,
@@ -312,7 +305,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         {
             var selfParameterName = firstParameterIsTask ? parameterSelf.TaskName : parameterSelf.Name;
 
-            var body = bodyFactory.CreateDelegateToOtherClass(
+            var body = this.bodyFactory.CreateDelegateToOtherClass(
                 methodName,
                 delegateClassName,
                 genericParameters
@@ -324,7 +317,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                     SyntaxFactory.IdentifierName(parameterOther),
                 }.Select(SyntaxFactory.Argument));
 
-            return methodDeclarationFactory.Create(
+            return this.methodDeclarationFactory.Create(
                 attributes,
                 AccessModifierFactory.Create(SyntaxKind.PublicKeyword, SyntaxKind.StaticKeyword),
                 methodType.ReturnType,
@@ -353,7 +346,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         {
             var selfParameterName = firstParameterIsTask ? parameterSelf.TaskName : parameterSelf.Name;
 
-            var body = bodyFactory.CreateDelegateToOtherClass(
+            var body = this.bodyFactory.CreateDelegateToOtherClass(
                 methodName,
                 delegateClassName,
                 genericParameters
@@ -366,7 +359,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                     SyntaxFactory.IdentifierName(parameterOther),
                 }.Select(SyntaxFactory.Argument));
 
-            return methodDeclarationFactory.Create(
+            return this.methodDeclarationFactory.Create(
                 attributes,
                 AccessModifierFactory.Create(SyntaxKind.PublicKeyword, SyntaxKind.StaticKeyword),
                 methodType.ReturnType,

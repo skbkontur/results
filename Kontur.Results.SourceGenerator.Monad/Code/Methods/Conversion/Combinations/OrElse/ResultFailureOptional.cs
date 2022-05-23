@@ -21,7 +21,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Or
             var value = Identifiers.TypeValue;
             var valueType = SyntaxFactory.IdentifierName(value);
 
-            return methodDescriptionFactory.CreatePass(
+            return this.methodDescriptionFactory.CreatePass(
                 "ResultFailureOptional",
                 TypeFactory.CreateResult(faultType, valueType),
                 MethodNames.OrElse,

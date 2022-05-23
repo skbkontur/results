@@ -6,7 +6,7 @@ namespace Kontur.Results
     {
         internal ResultFailure(T fault)
         {
-            Fault = fault;
+            this.Fault = fault;
         }
 
         internal T Fault { get; }
@@ -18,7 +18,7 @@ namespace Kontur.Results
 
         public override TResult Match<TResult>(Func<T, TResult> onFailure, Func<TResult> onSuccess)
         {
-            return onFailure(Fault);
+            return onFailure(this.Fault);
         }
     }
 }

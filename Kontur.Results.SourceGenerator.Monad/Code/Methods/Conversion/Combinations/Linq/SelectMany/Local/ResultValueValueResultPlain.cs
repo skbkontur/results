@@ -26,7 +26,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Li
 
             var returnType = TypeFactory.CreateResult(faultType);
 
-            return methodDescriptionFactory.CreateSelectMany(
+            return this.methodDescriptionFactory.CreateSelectMany(
                 "ResultValueValueResultPlain",
                 returnType,
                 MethodNames.SelectMany,

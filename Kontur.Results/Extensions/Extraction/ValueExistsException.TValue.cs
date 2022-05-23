@@ -5,7 +5,7 @@
         internal ValueExistsException(TValue value, string message)
             : base(message)
         {
-            Value = value;
+            this.Value = value;
         }
 
         public TValue Value { get; }

@@ -29,7 +29,7 @@ namespace Kontur.Results.SourceGenerator
 
         public void Execute(GeneratorExecutionContext context)
         {
-            using var sp = GetServiceProvider();
+            using var sp = this.GetServiceProvider();
 
             var provider = sp.GetRequiredService<CompilationFileProvider>();
 
@@ -43,7 +43,7 @@ namespace Kontur.Results.SourceGenerator
         private ServiceProvider GetServiceProvider()
         {
             var serviceCollection = new ServiceCollection()
-                .AddSingleton(_ => settings)
+                .AddSingleton(_ => this.settings)
                 .AddSingleton<CompilationFileProvider>()
                 .AddSingleton<MethodsDescriptionProvider>()
                 .AddSingleton<ITypeParameterGenericMethodSyntaxGenerator, TypeParameterGenericMethodSyntaxGenerator>()

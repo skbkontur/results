@@ -13,9 +13,9 @@ namespace Kontur.Results
         {
         }
 
-        public bool HasSome => Match(false, true);
+        public bool HasSome => this.Match(false, true);
 
-        public bool IsNone => !HasSome;
+        public bool IsNone => !this.HasSome;
 
         public static implicit operator bool(Optional<TValue> optional)
         {
@@ -45,12 +45,12 @@ namespace Kontur.Results
             return new Some<TValue>(value);
         }
 
-        TResult IOptional<TValue>.Match<TResult>(Func<TResult> onNone, Func<TValue, TResult> onSome) => Match(onNone, onSome);
+        TResult IOptional<TValue>.Match<TResult>(Func<TResult> onNone, Func<TValue, TResult> onSome) => this.Match(onNone, onSome);
 
         [Pure]
         public bool TryGetValue([MaybeNullWhen(false)] out TValue value)
         {
-            return Match(
+            return this.Match(
                     () => EmptyContainer<TValue>.Instance,
                     val => new FilledContainer<TValue>(val))
                 .TryGet(out value);
@@ -59,27 +59,27 @@ namespace Kontur.Results
         [Pure]
         public TResult Match<TResult>(TResult onNoneValue, TResult onSomeValue)
         {
-            return Match(() => onNoneValue, onSomeValue);
+            return this.Match(() => onNoneValue, onSomeValue);
         }
 
         public TResult Match<TResult>(TResult onNoneValue, Func<TResult> onSome)
         {
-            return Match(() => onNoneValue, onSome);
+            return this.Match(() => onNoneValue, onSome);
         }
 
         public TResult Match<TResult>(TResult onNoneValue, Func<TValue, TResult> onSome)
         {
-            return Match(() => onNoneValue, onSome);
+            return this.Match(() => onNoneValue, onSome);
         }
 
         public TResult Match<TResult>(Func<TResult> onNone, TResult onSomeValue)
         {
-            return Match(onNone, () => onSomeValue);
+            return this.Match(onNone, () => onSomeValue);
         }
 
         public TResult Match<TResult>(Func<TResult> onNone, Func<TResult> onSome)
         {
-            return Match(onNone, _ => onSome());
+            return this.Match(onNone, _ => onSome());
         }
 
         public abstract TResult Match<TResult>(Func<TResult> onNone, Func<TValue, TResult> onSome);
@@ -87,25 +87,25 @@ namespace Kontur.Results
         public sealed override string ToString()
         {
             var typeArguments = $"<{TypeArgument.Name}>";
-            return Match(
+            return this.Match(
                 () => $"{nameof(None<TValue>)}{typeArguments}",
                 value => $"{nameof(Some<TValue>)}{typeArguments} value={value}");
         }
 
         public sealed override bool Equals(object obj)
         {
-            return obj is Optional<TValue> other && other.GetState().Equals(GetState());
+            return obj is Optional<TValue> other && other.GetState().Equals(this.GetState());
         }
 
         public sealed override int GetHashCode()
         {
-            return (TypeArgument, GetState()).GetHashCode();
+            return (TypeArgument, this.GetState()).GetHashCode();
         }
 
         [Pure]
         private (bool Success, TValue? Value) GetState()
         {
-            return Match<(bool, TValue?)>(() => (false, default), value => (true, value));
+            return this.Match<(bool, TValue?)>(() => (false, default), value => (true, value));
         }
     }
 }

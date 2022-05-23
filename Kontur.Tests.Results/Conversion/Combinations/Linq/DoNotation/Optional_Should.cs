@@ -70,7 +70,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.DoNotation
         {
             internal Product(string name)
             {
-                Name = name;
+                this.Name = name;
             }
 
             internal string Name { get; }
@@ -80,7 +80,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.DoNotation
         {
             internal Format(string prefix)
             {
-                Prefix = prefix;
+                this.Prefix = prefix;
             }
 
             internal string Prefix { get; }
@@ -90,7 +90,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.DoNotation
         {
             internal ConvertResult(string result)
             {
-                Result = result;
+                this.Result = result;
             }
 
             internal string Result { get; }

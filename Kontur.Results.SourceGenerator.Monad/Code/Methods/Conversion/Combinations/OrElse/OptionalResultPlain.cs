@@ -23,7 +23,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Or
 
             var returnType = TypeFactory.CreateResult(faultType);
 
-            return methodDescriptionFactory.CreateFactory(
+            return this.methodDescriptionFactory.CreateFactory(
                 "OptionalResultPlain",
                 returnType,
                 MethodNames.OrElse,

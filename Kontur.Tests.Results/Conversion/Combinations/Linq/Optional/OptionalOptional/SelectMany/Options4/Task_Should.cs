@@ -17,241 +17,241 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> Option_Option_Option_Option(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in option1
-                from y in option2
-                from z in option3
-                from m in option4
+                from x in optional1
+                from y in optional2
+                from z in optional3
+                from m in optional4
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> TaskOption_Option_Option_Option(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in Task.FromResult(option1)
-                from y in option2
-                from z in option3
-                from m in option4
+                from x in Task.FromResult(optional1)
+                from y in optional2
+                from z in optional3
+                from m in optional4
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> Option_TaskOption_Option_Option(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in option1
-                from y in Task.FromResult(option2)
-                from z in option3
-                from m in option4
+                from x in optional1
+                from y in Task.FromResult(optional2)
+                from z in optional3
+                from m in optional4
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> Option_Option_TaskOption_Option(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in option1
-                from y in option2
-                from z in Task.FromResult(option3)
-                from m in option4
+                from x in optional1
+                from y in optional2
+                from z in Task.FromResult(optional3)
+                from m in optional4
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> Option_Option_Option_TaskOption(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in option1
-                from y in option2
-                from z in option3
-                from m in Task.FromResult(option4)
+                from x in optional1
+                from y in optional2
+                from z in optional3
+                from m in Task.FromResult(optional4)
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> TaskOption_TaskOption_Option_Option(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in Task.FromResult(option1)
-                from y in Task.FromResult(option2)
-                from z in option3
-                from m in option4
+                from x in Task.FromResult(optional1)
+                from y in Task.FromResult(optional2)
+                from z in optional3
+                from m in optional4
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> TaskOption_Option_TaskOption_Option(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in Task.FromResult(option1)
-                from y in option2
-                from z in Task.FromResult(option3)
-                from m in option4
+                from x in Task.FromResult(optional1)
+                from y in optional2
+                from z in Task.FromResult(optional3)
+                from m in optional4
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> TaskOption_Option_Option_TaskOption(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in Task.FromResult(option1)
-                from y in option2
-                from z in option3
-                from m in Task.FromResult(option4)
+                from x in Task.FromResult(optional1)
+                from y in optional2
+                from z in optional3
+                from m in Task.FromResult(optional4)
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> Option_TaskOption_TaskOption_Option(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in option1
-                from y in Task.FromResult(option2)
-                from z in Task.FromResult(option3)
-                from m in option4
+                from x in optional1
+                from y in Task.FromResult(optional2)
+                from z in Task.FromResult(optional3)
+                from m in optional4
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> Option_TaskOption_Option_TaskOption(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in option1
-                from y in Task.FromResult(option2)
-                from z in option3
-                from m in Task.FromResult(option4)
+                from x in optional1
+                from y in Task.FromResult(optional2)
+                from z in optional3
+                from m in Task.FromResult(optional4)
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> Option_Option_TaskOption_TaskOption(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in option1
-                from y in option2
-                from z in Task.FromResult(option3)
-                from m in Task.FromResult(option4)
+                from x in optional1
+                from y in optional2
+                from z in Task.FromResult(optional3)
+                from m in Task.FromResult(optional4)
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> TaskOption_TaskOption_TaskOption_Option(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in Task.FromResult(option1)
-                from y in Task.FromResult(option2)
-                from z in Task.FromResult(option3)
-                from m in option4
+                from x in Task.FromResult(optional1)
+                from y in Task.FromResult(optional2)
+                from z in Task.FromResult(optional3)
+                from m in optional4
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> TaskOption_TaskOption_Option_TaskOption(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in Task.FromResult(option1)
-                from y in Task.FromResult(option2)
-                from z in option3
-                from m in Task.FromResult(option4)
+                from x in Task.FromResult(optional1)
+                from y in Task.FromResult(optional2)
+                from z in optional3
+                from m in Task.FromResult(optional4)
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> TaskOption_Option_TaskOption_TaskOption(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in Task.FromResult(option1)
-                from y in option2
-                from z in Task.FromResult(option3)
-                from m in Task.FromResult(option4)
+                from x in Task.FromResult(optional1)
+                from y in optional2
+                from z in Task.FromResult(optional3)
+                from m in Task.FromResult(optional4)
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> Option_TaskOption_TaskOption_TaskOption(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in option1
-                from y in Task.FromResult(option2)
-                from z in Task.FromResult(option3)
-                from m in Task.FromResult(option4)
+                from x in optional1
+                from y in Task.FromResult(optional2)
+                from z in Task.FromResult(optional3)
+                from m in Task.FromResult(optional4)
                 select SelectResult(x + y + z + m);
         }
 
         [TestCaseSource(nameof(Cases))]
         public Task<Optional<int>> TaskOption_TaskOption_TaskOption_TaskOption(
-            Optional<int> option1,
-            Optional<int> option2,
-            Optional<int> option3,
-            Optional<int> option4)
+            Optional<int> optional1,
+            Optional<int> optional2,
+            Optional<int> optional3,
+            Optional<int> optional4)
         {
             return
-                from x in Task.FromResult(option1)
-                from y in Task.FromResult(option2)
-                from z in Task.FromResult(option3)
-                from m in Task.FromResult(option4)
+                from x in Task.FromResult(optional1)
+                from y in Task.FromResult(optional2)
+                from z in Task.FromResult(optional3)
+                from m in Task.FromResult(optional4)
                 select SelectResult(x + y + z + m);
         }
     }

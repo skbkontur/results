@@ -3,7 +3,7 @@ using System.Linq;
 using Kontur.Results;
 using NUnit.Framework;
 
-namespace Kontur.Tests.Results.Extraction.SelectMany.Optional
+namespace Kontur.Tests.Results.Extraction.SelectMany.Container.Optional
 {
     [TestFixture]
     internal class Options2Enumerable1_Should
@@ -14,12 +14,12 @@ namespace Kontur.Tests.Results.Extraction.SelectMany.Optional
         private static readonly IEnumerable<int> Empty = Enumerable.Empty<int>();
 
         private static TestCaseData Create(
-            Optional<int> option1,
-            Optional<int> option2,
+            Optional<int> optional1,
+            Optional<int> optional2,
             IEnumerable<int> enumerable,
             IEnumerable<int> result)
         {
-            return new(option1, option2, enumerable) { ExpectedResult = result };
+            return new(optional1, optional2, enumerable) { ExpectedResult = result };
         }
 
         private static readonly TestCaseData[] Cases =
@@ -40,40 +40,40 @@ namespace Kontur.Tests.Results.Extraction.SelectMany.Optional
 
         [TestCaseSource(nameof(Cases))]
         public IEnumerable<int> Option_Option_Enumerable(
-            Optional<int> option1,
-            Optional<int> option2,
+            Optional<int> optional1,
+            Optional<int> optional2,
             IEnumerable<int> enumerable)
         {
             return
-                from x in option1
-                from y in option2
+                from x in optional1
+                from y in optional2
                 from z in enumerable
                 select x + y + z;
         }
 
         [TestCaseSource(nameof(Cases))]
         public IEnumerable<int> Option_Enumerable_Option(
-            Optional<int> option1,
-            Optional<int> option2,
+            Optional<int> optional1,
+            Optional<int> optional2,
             IEnumerable<int> enumerable)
         {
             return
-                from x in option1
+                from x in optional1
                 from y in enumerable
-                from z in option2
+                from z in optional2
                 select x + y + z;
         }
 
         [TestCaseSource(nameof(Cases))]
         public IEnumerable<int> Enumerable_Option_Option(
-            Optional<int> option1,
-            Optional<int> option2,
+            Optional<int> optional1,
+            Optional<int> optional2,
             IEnumerable<int> enumerable)
         {
             return
                 from x in enumerable
-                from y in option1
-                from z in option2
+                from y in optional1
+                from z in optional2
                 select x + y + z;
         }
     }

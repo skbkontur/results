@@ -24,7 +24,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Li
             var result = Identifiers.TypeResult;
             var resultType = SyntaxFactory.IdentifierName(result);
 
-            return methodDescriptionFactory.CreateSelectMany(
+            return this.methodDescriptionFactory.CreateSelectMany(
                 "OptionalValueValue",
                 TypeFactory.CreateOptional(resultType),
                 MethodNames.SelectMany,

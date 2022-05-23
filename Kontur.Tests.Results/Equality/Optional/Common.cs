@@ -7,9 +7,9 @@ namespace Kontur.Tests.Results.Equality.Optional
 {
     internal static class Common
     {
-        private static TestCaseData Create<TValue1, TValue2>(Optional<TValue1> option1, Optional<TValue2> option2)
+        private static TestCaseData Create<TValue1, TValue2>(Optional<TValue1> optional1, Optional<TValue2> optional2)
         {
-            return new(option1, option2);
+            return new(optional1, optional2);
         }
 
         private static TestCaseData CreateEqual<TValue>(Optional<TValue> optional)
@@ -27,10 +27,10 @@ namespace Kontur.Tests.Results.Equality.Optional
             yield return CreateEqual(Optional<string>.Some("hello"));
         }
 
-        private static IEnumerable<TestCaseData> CreateNotEqual<TValue1, TValue2>(Optional<TValue1> option1, Optional<TValue2> option2)
+        private static IEnumerable<TestCaseData> CreateNotEqual<TValue1, TValue2>(Optional<TValue1> optional1, Optional<TValue2> optional2)
         {
-            yield return new(option1, option2);
-            yield return new(option2, option1);
+            yield return new(optional1, optional2);
+            yield return new(optional2, optional1);
         }
 
         private static IEnumerable<IEnumerable<TestCaseData>> CreateNonEqualsCaseTemplates()

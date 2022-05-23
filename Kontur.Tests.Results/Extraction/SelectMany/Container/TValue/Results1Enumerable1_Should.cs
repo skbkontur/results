@@ -1,21 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-#pragma warning disable S1128 // False positive. Unused "using" should be removed
 using Kontur.Results;
-#pragma warning restore S1128 // Unused "using" should be removed
 using NUnit.Framework;
 
-namespace Kontur.Tests.Results.Inheritance.Extraction.SelectMany
+namespace Kontur.Tests.Results.Extraction.SelectMany.Container.TValue
 {
     [TestFixture]
     internal class Results1Enumerable1_Should
     {
-        private static readonly StringFaultResult<int> Failure = StringFaultResult.Fail<int>(new("unused"));
-        private static readonly StringFaultResult<int> Result4 = StringFaultResult.Succeed(4);
+        private static readonly Result<string, int> Failure = Result<string, int>.Fail("unused");
+        private static readonly Result<string, int> Result4 = Result<string, int>.Succeed(4);
         private static readonly IEnumerable<int> Empty = Enumerable.Empty<int>();
 
         private static TestCaseData Create(
-            StringFaultResult<int> result,
+            Result<string, int> result,
             IEnumerable<int> enumerable,
             IEnumerable<int> values)
         {
@@ -33,7 +31,7 @@ namespace Kontur.Tests.Results.Inheritance.Extraction.SelectMany
         };
 
         [TestCaseSource(nameof(Cases))]
-        public IEnumerable<int> Result_Enumerable(StringFaultResult<int> result, IEnumerable<int> enumerable)
+        public IEnumerable<int> Result_Enumerable(Result<string, int> result, IEnumerable<int> enumerable)
         {
             return
                 from x in result
@@ -42,7 +40,7 @@ namespace Kontur.Tests.Results.Inheritance.Extraction.SelectMany
         }
 
         [TestCaseSource(nameof(Cases))]
-        public IEnumerable<int> Enumerable_Result(StringFaultResult<int> result, IEnumerable<int> enumerable)
+        public IEnumerable<int> Enumerable_Result(Result<string, int> result, IEnumerable<int> enumerable)
         {
             return
                 from x in enumerable

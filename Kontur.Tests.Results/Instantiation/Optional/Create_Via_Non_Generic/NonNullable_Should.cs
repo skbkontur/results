@@ -30,7 +30,7 @@ namespace Kontur.Tests.Results.Instantiation.Optional.Create_Via_Non_Generic
         [TestCaseSource(nameof(Cases))]
         public bool HasValue(Func<T, Optional<T>> optionFactory)
         {
-            var option = optionFactory(value);
+            var option = optionFactory(this.value);
 
             return option.HasSome;
         }
@@ -38,11 +38,11 @@ namespace Kontur.Tests.Results.Instantiation.Optional.Create_Via_Non_Generic
         [Test]
         public void Store_Value()
         {
-            var option = Kontur.Results.Optional.Some(value);
+            var option = Kontur.Results.Optional.Some(this.value);
 
             var result = option.GetValueOrThrow();
 
-            result.Should().Be(value);
+            result.Should().Be(this.value);
         }
     }
 }

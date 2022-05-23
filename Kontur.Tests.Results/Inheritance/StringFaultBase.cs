@@ -4,24 +4,24 @@
     {
         public StringFaultBase(string fault)
         {
-            Fault = fault;
+            this.Fault = fault;
         }
 
         public string Fault { get; }
 
         public sealed override string ToString()
         {
-            return Fault;
+            return this.Fault;
         }
 
         public sealed override bool Equals(object? obj)
         {
-            return obj is StringFaultBase other && Equals(Fault, other.Fault);
+            return obj is StringFaultBase other && Equals(this.Fault, other.Fault);
         }
 
         public sealed override int GetHashCode()
         {
-            return (GetType(), Fault).GetHashCode();
+            return (this.GetType(), this.Fault).GetHashCode();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Th
             var result = Identifiers.TypeResult;
             var resultType = SyntaxFactory.IdentifierName(result);
 
-            return methodDescriptionFactory.CreatePass(
+            return this.methodDescriptionFactory.CreatePass(
                 "OptionalResultValue",
                 TypeFactory.CreateOptional(resultType),
                 MethodNames.Then,

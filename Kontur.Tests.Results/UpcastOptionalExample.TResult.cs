@@ -6,8 +6,8 @@ namespace Kontur.Tests.Results
     {
         internal UpcastOptionalExample(Optional<Child> optional, TResult result)
         {
-            Optional = optional;
-            Result = result;
+            this.Optional = optional;
+            this.Result = result;
         }
 
         internal Optional<Child> Optional { get; }

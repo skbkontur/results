@@ -14,7 +14,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods
 
         internal IEnumerable<MethodsDescription> Get()
         {
-            return providers.Select(provider => provider.Get());
+            return this.providers.Select(provider => provider.Get());
         }
     }
 }

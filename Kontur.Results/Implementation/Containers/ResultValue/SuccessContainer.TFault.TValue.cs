@@ -9,7 +9,7 @@ namespace Kontur.Results.Containers.ResultValue
 
         internal SuccessContainer(TValue value)
         {
-            storedValue = value;
+            this.storedValue = value;
         }
 
         [Pure]
@@ -18,7 +18,7 @@ namespace Kontur.Results.Containers.ResultValue
             [MaybeNullWhen(true)] out TFault fault)
         {
             fault = default;
-            value = storedValue;
+            value = this.storedValue;
             return true;
         }
     }

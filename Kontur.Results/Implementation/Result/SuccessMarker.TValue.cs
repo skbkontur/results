@@ -4,7 +4,7 @@
     {
         internal SuccessMarker(TValue value)
         {
-            Value = value;
+            this.Value = value;
         }
 
         internal TValue Value { get; }

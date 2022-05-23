@@ -30,7 +30,7 @@ namespace Kontur.Tests.Results.Instantiation.Plain.Create_Via_Non_Generic
         [TestCaseSource(nameof(Cases))]
         public bool Success(Func<T, Result<T>> resultFactory)
         {
-            var result = resultFactory(example);
+            var result = resultFactory(this.example);
 
             return result.Success;
         }
@@ -38,11 +38,11 @@ namespace Kontur.Tests.Results.Instantiation.Plain.Create_Via_Non_Generic
         [Test]
         public void Store_Fault()
         {
-            var result = Result.Fail(example);
+            var result = Result.Fail(this.example);
 
             var fault = result.GetFaultOrThrow();
 
-            fault.Should().Be(example);
+            fault.Should().Be(this.example);
         }
     }
 }

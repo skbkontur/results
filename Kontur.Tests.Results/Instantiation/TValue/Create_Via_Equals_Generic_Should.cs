@@ -30,7 +30,7 @@ namespace Kontur.Tests.Results.Instantiation.TValue
         [TestCaseSource(nameof(CreateCases))]
         public bool HasValue(Func<T, Result<T, T>> resultFactory)
         {
-            var result = resultFactory(example);
+            var result = resultFactory(this.example);
 
             return result.Success;
         }
@@ -38,21 +38,21 @@ namespace Kontur.Tests.Results.Instantiation.TValue
         [Test]
         public void Store_Value()
         {
-            var result = Result<T, T>.Succeed(example);
+            var result = Result<T, T>.Succeed(this.example);
 
             var value = result.GetValueOrThrow();
 
-            value.Should().Be(example);
+            value.Should().Be(this.example);
         }
 
         [Test]
         public void Store_Fault()
         {
-            var result = Result<T, T>.Fail(example);
+            var result = Result<T, T>.Fail(this.example);
 
             var fault = result.GetFaultOrThrow();
 
-            fault.Should().Be(example);
+            fault.Should().Be(this.example);
         }
     }
 }

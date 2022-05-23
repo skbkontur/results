@@ -18,9 +18,9 @@ namespace Kontur.Tests.Results.Equality.Optional
             select testCase.Returns(pair.Result);
 
         [TestCaseSource(nameof(Cases))]
-        public bool Compare<TValue1, TValue2>(Optional<TValue1> option1, Optional<TValue2> option2)
+        public bool Compare<TValue1, TValue2>(Optional<TValue1> optional1, Optional<TValue2> optional2)
         {
-            return option1.Equals(option2);
+            return optional1.Equals(optional2);
         }
     }
 }

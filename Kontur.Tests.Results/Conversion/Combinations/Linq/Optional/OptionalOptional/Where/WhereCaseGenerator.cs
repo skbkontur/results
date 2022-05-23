@@ -19,7 +19,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
                 .SelectMany(testCase => CreateCases(testCase, value => fixtureCase.GetOption(value, constant)));
         }
 
-        private static IEnumerable<TestCaseData> CreateCases(SelectCase testCase, Func<int, Kontur.Results.Optional<int>> resultFactory)
+        private static IEnumerable<TestCaseData> CreateCases(SelectCase testCase, Func<int, Optional<int>> resultFactory)
         {
             var result = testCase.Result.Select(resultFactory);
             return WhereCaseFactory.Create(testCase.Args, result);

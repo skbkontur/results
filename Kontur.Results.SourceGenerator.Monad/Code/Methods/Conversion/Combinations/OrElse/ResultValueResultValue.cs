@@ -26,7 +26,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Or
 
             var returnType = TypeFactory.CreateResult(resultType, valueType);
 
-            return methodDescriptionFactory.CreatePass(
+            return this.methodDescriptionFactory.CreatePass(
                 "ResultValueResultValue",
                 returnType,
                 MethodNames.OrElse,

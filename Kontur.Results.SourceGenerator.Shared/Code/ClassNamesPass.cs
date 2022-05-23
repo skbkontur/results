@@ -7,6 +7,6 @@
         {
         }
 
-        internal string Pass => Create(nameof(Pass));
+        internal string Pass => this.Create(nameof(this.Pass));
     }
 }

@@ -13,7 +13,7 @@ namespace Kontur.Results
 
         public override TResult Match<TResult>(Func<TResult> onNone, Func<TValue, TResult> onSome)
         {
-            return onSome(value);
+            return onSome(this.value);
         }
     }
 }

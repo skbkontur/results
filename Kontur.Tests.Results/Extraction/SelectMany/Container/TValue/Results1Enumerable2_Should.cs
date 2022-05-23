@@ -3,7 +3,7 @@ using System.Linq;
 using Kontur.Results;
 using NUnit.Framework;
 
-namespace Kontur.Tests.Results.Extraction.SelectMany.TValue
+namespace Kontur.Tests.Results.Extraction.SelectMany.Container.TValue
 {
     [TestFixture]
     internal class Results1Enumerable2_Should

@@ -20,7 +20,7 @@ namespace Kontur.Results.SourceGenerator.Code
             var attributes = SyntaxFactory.List(methodAttributes
                 .Select(attribute => SyntaxFactory.AttributeList(SyntaxFactory.SeparatedList(new[] { attribute }))));
 
-            return Create(
+            return this.Create(
                     accessModifiers,
                     returnType,
                     methodName,

@@ -30,7 +30,7 @@ namespace Kontur.Tests.Results.Instantiation.TValue.Create_Via_Non_Generic
         [TestCaseSource(nameof(Cases))]
         public bool HasValue(Func<T, Result<T, T>> resultFactory)
         {
-            var result = resultFactory(example);
+            var result = resultFactory(this.example);
 
             return result.Success;
         }
@@ -38,41 +38,41 @@ namespace Kontur.Tests.Results.Instantiation.TValue.Create_Via_Non_Generic
         [Test]
         public void Store_Value()
         {
-            var result = Result<Guid>.Succeed(example);
+            var result = Result<Guid>.Succeed(this.example);
 
             var value = result.GetValueOrThrow();
 
-            value.Should().Be(example);
+            value.Should().Be(this.example);
         }
 
         [Test]
         public void Store_Value_For_Same_Types()
         {
-            var result = Result<T>.Succeed(example);
+            var result = Result<T>.Succeed(this.example);
 
             var value = result.GetValueOrThrow();
 
-            value.Should().Be(example);
+            value.Should().Be(this.example);
         }
 
         [Test]
         public void Store_Fault()
         {
-            var result = ResultFailure<Guid>.Create(example);
+            var result = ResultFailure<Guid>.Create(this.example);
 
             var fault = result.GetFaultOrThrow();
 
-            fault.Should().Be(example);
+            fault.Should().Be(this.example);
         }
 
         [Test]
         public void Store_Fault_For_Same_Types()
         {
-            var result = ResultFailure<T>.Create(example);
+            var result = ResultFailure<T>.Create(this.example);
 
             var fault = result.GetFaultOrThrow();
 
-            fault.Should().Be(example);
+            fault.Should().Be(this.example);
         }
     }
 }

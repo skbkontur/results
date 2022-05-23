@@ -13,7 +13,7 @@ namespace Kontur.Results
 
         public override TResult Match<TResult>(Func<TFault, TResult> onFailure, Func<TValue, TResult> onSuccess)
         {
-            return onFailure(fault);
+            return onFailure(this.fault);
         }
     }
 }

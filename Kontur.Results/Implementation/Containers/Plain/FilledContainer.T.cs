@@ -8,13 +8,13 @@ namespace Kontur.Results.Containers.Plain
 
         internal FilledContainer(T data)
         {
-            stored = data;
+            this.stored = data;
         }
 
         [Pure]
         public bool TryGet(out T data)
         {
-            data = stored;
+            data = this.stored;
             return true;
         }
     }

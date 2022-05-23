@@ -13,7 +13,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Then.OptionalOptional
     [TestFixture]
     internal class Method_Should
     {
-        private static IEnumerable<(Optional<int> Option1, Optional<string> Option2, Optional<string> Result)> CreateCases()
+        private static IEnumerable<(Optional<int> Optional1, Optional<string> Optional2, Optional<string> Result)> CreateCases()
         {
             yield return (Optional<int>.None(), Optional<string>.None(), Optional<string>.None());
             yield return (Optional<int>.Some(1), Optional<string>.None(), Optional<string>.None());
@@ -144,7 +144,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Then.OptionalOptional
         private static readonly IEnumerable<TestCaseData> Cases =
             from testCase in CreateCases()
             from method in AllMethods()
-            select new TestCaseData(testCase.Option1, testCase.Option2, method).Returns(testCase.Result);
+            select new TestCaseData(testCase.Optional1, testCase.Optional2, method).Returns(testCase.Result);
 
         [TestCaseSource(nameof(Cases))]
         public async Task<Optional<string>> Process(

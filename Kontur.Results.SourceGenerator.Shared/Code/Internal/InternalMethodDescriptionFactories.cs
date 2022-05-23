@@ -37,7 +37,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 .ToArray();
 
             var valueMethods = methodTypes
-                .Select(method => CreateValue(
+                .Select(method => this.CreateValue(
                     method,
                     methodName,
                     genericParameters,
@@ -56,7 +56,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
 
             var factoryMethods = methodTypes
                 .Where(IsFirstParameterTask)
-                .Select(method => CreateFactoryPartial(
+                .Select(method => this.CreateFactoryPartial(
                     method,
                     methodName,
                     genericParameters,
@@ -85,7 +85,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 .ToArray();
 
             var valueMethods = methodTypes
-                .Select(method => CreateValue(
+                .Select(method => this.CreateValue(
                     method,
                     methodName,
                     genericParameters,
@@ -102,7 +102,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 },
                 valueMethods);
 
-            var factoryMethods = methodTypes.Select(method => CreateFactory(
+            var factoryMethods = methodTypes.Select(method => this.CreateFactory(
                 method,
                 methodName,
                 genericParameters,
@@ -121,7 +121,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
 
             var passMethods = methodTypes
                 .Where(IsFirstParameterTask)
-                .Select(method => CreatePassPartial(
+                .Select(method => this.CreatePassPartial(
                     method,
                     methodName,
                     genericParameters,
@@ -152,7 +152,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
 
             var passMethods = methodTypes
                 .Where(IsFirstParameterTask)
-                .Select(method => CreatePassPartial(
+                .Select(method => this.CreatePassPartial(
                     method,
                     methodName,
                     genericParameters,
@@ -185,7 +185,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
 
             var passMethods = methodTypes
                 .Where(IsFirstParameterTask)
-                .Select(method => CreatePassPartial(
+                .Select(method => this.CreatePassPartial(
                     method,
                     methodName,
                     genericParameters,
@@ -210,7 +210,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
            SyntaxToken parameterOther,
            TypeSyntax passType)
         {
-            return CreatePartial(
+            return this.CreatePartial(
                 methodType,
                 methodName,
                 genericParameters,
@@ -229,7 +229,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             TypeSyntax nextPassType,
             TypeSyntax passType)
         {
-            return CreatePartial(
+            return this.CreatePartial(
                 methodType,
                 methodName,
                 genericParameters,
@@ -247,7 +247,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             SelfParameter parameterSelf,
             SyntaxToken parameterOther)
         {
-            return CreatePartial(
+            return this.CreatePartial(
                 methodType,
                 methodName,
                 genericParameters,
@@ -264,7 +264,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             SyntaxToken parameterOther,
             SimpleNameSyntax delegateClassName)
         {
-            return CreateDelegate(
+            return this.CreateDelegate(
                 Enumerable.Empty<AttributeSyntax>(),
                 methodType,
                 methodName,
@@ -286,7 +286,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             SyntaxToken parameterOther,
             SimpleNameSyntax delegateClassName)
         {
-            return CreateDelegate(
+            return this.CreateDelegate(
                 new[] { Attributes.Pure },
                 methodType,
                 methodName,
@@ -439,7 +439,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 .Concat(genericParameterTypes.Select(genericParameter => genericParameter.Identifier))
                 .ToArray();
 
-            var blockSyntax = bodyFactory.CreateDelegateToOtherClass(
+            var blockSyntax = this.bodyFactory.CreateDelegateToOtherClass(
                 methodName,
                 delegateClassName,
                 genericParameters.Select(SyntaxFactory.IdentifierName),
@@ -454,7 +454,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 SyntaxFactory.Parameter(selfParameterName).WithType(methodType.Parameter1.Type),
                 SyntaxFactory.Parameter(parameterOther).WithType(parameterType),
             };
-            var methodDeclarationSyntax = methodDeclarationFactory.Create(
+            var methodDeclarationSyntax = this.methodDeclarationFactory.Create(
                 attributes,
                 AccessModifierFactory.Create(SyntaxKind.InternalKeyword, SyntaxKind.StaticKeyword),
                 methodType.ReturnType,
@@ -463,14 +463,14 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 parameterSyntaxes,
                 blockSyntax);
 
-            return AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
+            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
         }
 
         private MethodDeclarationSyntax AddTypeConstraints(
             IEnumerable<MethodTypeGenericParameter> genericParameterTypes,
             MethodDeclarationSyntax methodDeclarationSyntax)
         {
-            var typeParameterConstraints = typeParameterGenericMethodSyntaxGenerator
+            var typeParameterConstraints = this.typeParameterGenericMethodSyntaxGenerator
                 .CreateTypeParameterConstraints(genericParameterTypes
                     .Select(param => new MethodGenericParameterDescription(param.Identifier, param.UpperBound)))
                 .ToArray();
@@ -504,7 +504,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 SyntaxFactory.Parameter(parameterSelf.TaskName).WithType(methodType.Parameter1.Type),
                 SyntaxFactory.Parameter(parameterOther).WithType(parameterType),
             };
-            var methodDeclarationSyntax = methodDeclarationFactory.Create(
+            var methodDeclarationSyntax = this.methodDeclarationFactory.Create(
                 AccessModifierFactory.Create(SyntaxKind.InternalKeyword, SyntaxKind.StaticKeyword, SyntaxKind.AsyncKeyword),
                 methodType.ReturnType,
                 methodName,
@@ -513,7 +513,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 parameterSyntaxes,
                 body);
 
-            return AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
+            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
         }
 
         private MethodDeclarationSyntax CreatePartial(
@@ -548,7 +548,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 SyntaxFactory.Parameter(parameterNext).WithType(parameterTypeNext),
                 SyntaxFactory.Parameter(parameterOther).WithType(parameterType),
             };
-            var methodDeclarationSyntax = methodDeclarationFactory.Create(
+            var methodDeclarationSyntax = this.methodDeclarationFactory.Create(
                 AccessModifierFactory.Create(SyntaxKind.InternalKeyword, SyntaxKind.StaticKeyword, SyntaxKind.AsyncKeyword),
                 methodType.ReturnType,
                 methodName,
@@ -557,7 +557,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 parameterSyntaxes,
                 body);
 
-            return AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
+            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
         }
     }
 }

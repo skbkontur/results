@@ -8,8 +8,8 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Result.SelectCaseGen
     {
         internal SelectCase(IEnumerable<Result<string, int>> args, Result<string, int> result)
         {
-            Args = args;
-            Result = result;
+            this.Args = args;
+            this.Result = result;
         }
 
         internal IEnumerable<Result<string, int>> Args { get; }
@@ -18,23 +18,23 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Result.SelectCaseGen
 
         public override bool Equals(object? obj)
         {
-            return obj is SelectCase other && Equals(other);
+            return obj is SelectCase other && this.Equals(other);
         }
 
         private bool Equals(SelectCase other)
         {
-            return Result.Equals(other.Result) && Args.SequenceEqual(other.Args);
+            return this.Result.Equals(other.Result) && this.Args.SequenceEqual(other.Args);
         }
 
         public override int GetHashCode()
         {
-            return (args: Args, Result).GetHashCode();
+            return (args: this.Args, this.Result).GetHashCode();
         }
 
         public override string ToString()
         {
-            var serialized = string.Join("; ", Args.Select(a => $"({a})"));
-            return $"Result: {Result}. Args: " + serialized;
+            var serialized = string.Join("; ", this.Args.Select(a => $"({a})"));
+            return $"Result: {this.Result}. Args: " + serialized;
         }
     }
 }

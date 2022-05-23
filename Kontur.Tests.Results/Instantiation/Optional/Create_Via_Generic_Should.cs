@@ -30,7 +30,7 @@ namespace Kontur.Tests.Results.Instantiation.Optional
         [TestCaseSource(nameof(CreateCases))]
         public bool HasValue(Func<T, Optional<T>> optionFactory)
         {
-            var option = optionFactory(value);
+            var option = optionFactory(this.value);
 
             return option.HasSome;
         }
@@ -38,11 +38,11 @@ namespace Kontur.Tests.Results.Instantiation.Optional
         [Test]
         public void Store_Value()
         {
-            var option = Optional<T>.Some(value);
+            var option = Optional<T>.Some(this.value);
 
             var result = option.GetValueOrThrow();
 
-            result.Should().Be(value);
+            result.Should().Be(this.value);
         }
     }
 }

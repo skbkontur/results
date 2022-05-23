@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>2.0.0</PackageVersion>
     <Title>Kontur.Results</Title>
     <Description>A library with Result types, such as Result and Optional.</Description>
     <PackageProjectUrl>https://github.com/skbkontur/results</PackageProjectUrl>

@@ -11,13 +11,13 @@
             this.parameterTypes = parameterTypes;
         }
 
-        internal string Value => Create(nameof(Value));
+        internal string Value => this.Create(nameof(this.Value));
 
-        internal string Factory => Create(nameof(Factory));
+        internal string Factory => this.Create(nameof(this.Factory));
 
         protected string Create(string suffix)
         {
-            return $"{methodName}{parameterTypes}{suffix}Internal";
+            return $"{this.methodName}{this.parameterTypes}{suffix}Internal";
         }
     }
 }

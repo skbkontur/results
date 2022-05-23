@@ -10,19 +10,19 @@ namespace Kontur.Results.SourceGenerator.Code
 
         internal ParameterNames3(SelfParameter self, string next, string other)
         {
-            Self = self;
+            this.Self = self;
             this.next = next;
             this.other = other;
         }
 
         internal SelfParameter Self { get; }
 
-        internal SyntaxToken NextValue => SyntaxFactory.Identifier(next);
+        internal SyntaxToken NextValue => SyntaxFactory.Identifier(this.next);
 
-        internal SyntaxToken NextFactory => SyntaxFactory.Identifier(next + "Factory");
+        internal SyntaxToken NextFactory => SyntaxFactory.Identifier(this.next + "Factory");
 
-        internal SyntaxToken Value => SyntaxFactory.Identifier(other);
+        internal SyntaxToken Value => SyntaxFactory.Identifier(this.other);
 
-        internal SyntaxToken Factory => SyntaxFactory.Identifier(other + "Factory");
+        internal SyntaxToken Factory => SyntaxFactory.Identifier(this.other + "Factory");
     }
 }

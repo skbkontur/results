@@ -3,7 +3,7 @@ using System.Linq;
 using Kontur.Results;
 using NUnit.Framework;
 
-namespace Kontur.Tests.Results.Extraction.SelectMany.Optional
+namespace Kontur.Tests.Results.Extraction.SelectMany.Container.Optional
 {
     [TestFixture]
     internal class Options1Enumerable1_Should

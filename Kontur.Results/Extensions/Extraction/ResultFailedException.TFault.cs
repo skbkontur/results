@@ -5,7 +5,7 @@
         internal ResultFailedException(TFault fault, string message)
             : base(message)
         {
-            Fault = fault;
+            this.Fault = fault;
         }
 
         public TFault Fault { get; }

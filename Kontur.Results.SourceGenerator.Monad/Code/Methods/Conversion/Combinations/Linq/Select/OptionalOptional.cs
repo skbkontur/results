@@ -23,7 +23,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Li
 
             var returnType = TypeFactory.CreateOptional(resultType);
 
-            return methodDescriptionFactory.CreateSelect(
+            return this.methodDescriptionFactory.CreateSelect(
                 "OptionalOptional",
                 returnType,
                 MethodNames.Select,

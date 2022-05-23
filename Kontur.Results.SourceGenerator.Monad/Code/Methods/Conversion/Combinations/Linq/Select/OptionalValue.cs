@@ -21,7 +21,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Li
             var result = Identifiers.TypeResult;
             var resultType = SyntaxFactory.IdentifierName(result);
 
-            return methodDescriptionFactory.CreateSelect(
+            return this.methodDescriptionFactory.CreateSelect(
                 "OptionalValue",
                 TypeFactory.CreateOptional(resultType),
                 MethodNames.Select,

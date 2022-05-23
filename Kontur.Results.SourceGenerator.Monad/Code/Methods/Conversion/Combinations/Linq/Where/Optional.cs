@@ -21,7 +21,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Li
             var boolean = Identifiers.Bool;
             var booleanType = SyntaxFactory.IdentifierName(boolean);
 
-            return methodDescriptionFactory.CreateSelect(
+            return this.methodDescriptionFactory.CreateSelect(
                 "Optional",
                 TypeFactory.CreateOptional(valueType),
                 MethodNames.Where,

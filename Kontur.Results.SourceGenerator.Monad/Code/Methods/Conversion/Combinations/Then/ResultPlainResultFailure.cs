@@ -20,7 +20,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Th
 
             var returnType = TypeFactory.CreateResultFailure(faultType);
 
-            return methodDescriptionFactory.CreateFactory(
+            return this.methodDescriptionFactory.CreateFactory(
                 "ResultPlainResultFailure",
                 returnType,
                 MethodNames.Then,

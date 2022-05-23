@@ -8,6 +8,8 @@ dotnet_diagnostic.CA1064.severity = none
 
 dotnet_diagnostic.CA1707.severity = none
 
+dotnet_code_quality.CA1716.analyzed_symbol_kinds = Method, Property, Event, Parameter
+
 dotnet_diagnostic.CA1812.severity = none
 
 dotnet_diagnostic.CA2225.severity = none

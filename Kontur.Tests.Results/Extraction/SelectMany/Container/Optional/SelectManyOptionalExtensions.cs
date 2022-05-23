@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kontur.Results;
 
-namespace Kontur.Results
+namespace Kontur.Tests.Results.Extraction.SelectMany.Container.Optional
 {
     public static class SelectManyOptionalExtensions
     {

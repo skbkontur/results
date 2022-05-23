@@ -9,17 +9,17 @@ namespace Kontur.Tests.Results.Inheritance
 
         public StringFaultResult(StringFault fault)
         {
-            result = Fail(fault);
+            this.result = Fail(fault);
         }
 
         public StringFaultResult(TValue value)
         {
-            result = Succeed(value);
+            this.result = Succeed(value);
         }
 
         public override TResult Match<TResult>(Func<StringFault, TResult> onFailure, Func<TValue, TResult> onSuccess)
         {
-            return result.Match(onFailure, onSuccess);
+            return this.result.Match(onFailure, onSuccess);
         }
     }
 }

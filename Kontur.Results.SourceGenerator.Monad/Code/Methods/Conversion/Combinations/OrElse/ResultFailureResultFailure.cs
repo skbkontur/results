@@ -23,7 +23,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Or
 
             var returnType = TypeFactory.CreateResultFailure(resultType);
 
-            return methodDescriptionFactory.CreatePass(
+            return this.methodDescriptionFactory.CreatePass(
                 "ResultFailureResultFailure",
                 returnType,
                 MethodNames.OrElse,

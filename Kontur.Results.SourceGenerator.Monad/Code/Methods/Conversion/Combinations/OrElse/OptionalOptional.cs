@@ -21,7 +21,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Or
             var returnType = TypeFactory.CreateOptional(valueType);
             var parameterSelfType = TypeFactory.CreateOptional(valueType);
 
-            return methodDescriptionFactory.CreateFactory(
+            return this.methodDescriptionFactory.CreateFactory(
                 "OptionalOptional",
                 returnType,
                 MethodNames.OrElse,

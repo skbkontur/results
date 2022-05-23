@@ -6,8 +6,8 @@ namespace Kontur.Tests.Results
     {
         internal UpcastPlainExample(Result<Child> source, TResult result)
         {
-            Source = source;
-            Result = result;
+            this.Source = source;
+            this.Result = result;
         }
 
         internal Result<Child> Source { get; }

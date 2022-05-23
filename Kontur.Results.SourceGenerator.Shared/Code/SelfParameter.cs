@@ -7,8 +7,8 @@ namespace Kontur.Results.SourceGenerator.Code
     {
         internal SelfParameter(string name)
         {
-            Name = SyntaxFactory.Identifier(name);
-            TaskName = SyntaxFactory.Identifier(name + "Task");
+            this.Name = SyntaxFactory.Identifier(name);
+            this.TaskName = SyntaxFactory.Identifier(name + "Task");
         }
 
         public SyntaxToken Name { get; }

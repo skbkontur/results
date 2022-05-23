@@ -21,7 +21,7 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Conversion.Combinations.Li
             var value = Identifiers.TypeValue;
             var valueType = SyntaxFactory.IdentifierName(value);
 
-            return methodDescriptionFactory.CreateSelect(
+            return this.methodDescriptionFactory.CreateSelect(
                 "ResultValue",
                 TypeFactory.CreateResult(faultType, valueType),
                 MethodNames.Where,
