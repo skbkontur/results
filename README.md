@@ -95,7 +95,10 @@ Execute the following command in your cement module instead if you are willing f
 `cm ref add results/monad your-csproj.csproj`
 
 ## Examples
-Basic example:
+
+<details>
+  <summary>Basic example</summary>
+
 ```csharp
 using Kontur.Results;
 
@@ -107,8 +110,11 @@ if (result.TryGetValue(out string value)) {
 
 return value.ToString() // warning CS8602: Dereference of a possibly null reference.
 ```
+</details>
 
-Example with exceptions:
+<details>
+  <summary>Working with exceptions</summary>
+
 ```csharp
 using Kontur.Results;
 
@@ -137,8 +143,11 @@ catch (ResultFailedException<DraftError> ex)
   log.Warn("Error code: " + ex.Fault.Code);
 }
 ```
+</details>
 
-Example with inheritance to freeze fault type:
+<details>
+  <summary>Inheritance to freeze fault type</summary>
+
 ```csharp
 class StringFaultResult<TValue> : Result<string, TValue>
 {
@@ -162,8 +171,11 @@ public StringFaultResult<int> GenerateInt()
   return new StringFaultResult<int>("Failed to generate a positive number");
 }
 ```
+</details>
 
-You can work with data without extracting values from instances:
+<details>
+  <summary>Working with data without extracting values from instances</summary>
+
 ```csharp
 abstract Task<Optional<string>> GetFormLogin();
 abstract Optional<Guid> GetUser(string login);
@@ -190,8 +202,11 @@ Task<Result<Exception, ConvertResult>> result =
   from message in GetMessage(userId, nextIndex)
   select Convert(message, userId);
 ```
+</details>
 
-Data parsing is now simple:
+<details>
+  <summary>Data parsing</summary>
+
 ```csharp
 class NaturalNumber
 {
@@ -225,7 +240,7 @@ Result<Exception, NaturalNumber> result =
   from natural2 in NaturalNumber.TryParse(int2).OrElse(Result.Fail(new Exception(int2 + " is not positive")))
   select natural1 + natural2;
 ```
-
+</details>
 
 ## Features
 
@@ -458,7 +473,12 @@ string extracted = optional.Match(onNone: () => "valueOnNone", onSomeValue: "Num
 string extracted = optional.Match(onNoneValue: "valueOnNone", onSome: i => $"Number {i}");
 string extracted = optional.Match(onNoneValue: "valueOnNone", onSome: () => "Number is present");
 string extracted = optional.Match(onNoneValue: "valueOnNone", onSomeValue: "Number is present");
+```
 
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object upcasted = optional.Match(onNone: () => new object(), onSome: i => $"Number {i}");
 object upcasted = optional.Match(onNone: () => new object(), onSome: () => "Number is present");
 object upcasted = optional.Match(onNone: () => new object(), onSomeValue: "Number is present");
@@ -480,6 +500,7 @@ object upcasted = optional.Match<object>(onNoneValue: new Exception("There is no
 object upcasted = optional.Match<object>(onNoneValue: new Exception("There is no value"), onSome: () => "Number is present");
 object upcasted = optional.Match<object>(onNoneValue: new Exception("There is no value"), onSomeValue: "Number is present");
 ```
+</details>
 
 ```csharp
 Result<Exception, int> result = ...;
@@ -493,7 +514,12 @@ string extracted = result.Match(onFailure: () => "valueOnNone", onSuccessValue: 
 string extracted = result.Match(onFailureValue: "valueOnNone", onSuccess: i => $"Number {i}");
 string extracted = result.Match(onFailureValue: "valueOnNone", onSuccess: () => "Number is present");
 string extracted = result.Match(onFailureValue: "valueOnNone", onSuccessValue: "Number is present");
+```
 
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object upcasted = result.Match(onFailure: ex => new object(), onSuccess: i => $"Number {i}");
 object upcasted = result.Match(onFailure: ex => new object(), onSuccess: () => "Number is present");
 object upcasted = result.Match(onFailure: ex => new object(), onSuccessValue: "Number is present");
@@ -524,6 +550,7 @@ object upcasted = result.Match<object>(onFailureValue: new Exception("There is n
 object upcasted = result.Match<object>(onFailureValue: new Exception("There is no value"), onSuccess: () => "Number is present");
 object upcasted = result.Match<object>(onFailureValue: new Exception("There is no value"), onSuccessValue: "Number is present");
 ```
+</details>
 
 ```csharp
 Result<Exception> result = ...;
@@ -534,7 +561,12 @@ string extracted = result.Match(onFailure: () => "valueOnNone", onSuccess: () =>
 string extracted = result.Match(onFailure: () => "valueOnNone", onSuccessValue: "Fault is not present");
 string extracted = result.Match(onFailureValue: "valueOnNone", onSuccess: () => "Fault is not present");
 string extracted = result.Match(onFailureValue: "valueOnNone", onSuccessValue: "Fault is not present");
+```
 
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object upcasted = result.Match(onFailure: ex => new object(), onSuccess: () => "Fault is not present");
 object upcasted = result.Match(onFailure: ex => new object(), onSuccessValue: "Fault is not present");
 object upcasted = result.Match(onFailure: () => new object(), onSuccess: () => "Fault is not present");
@@ -556,6 +588,8 @@ object upcasted = result.Match<object>(onFailure: () => new Exception(), onSucce
 object upcasted = result.Match<object>(onFailureValue: new Exception(), onSuccess: () => "Fault is not present");
 object upcasted = result.Match<object>(onFailureValue: new Exception(), onSuccessValue: "Fault is not present");
 ```
+</details>
+
 
 ### Switch
 ```csharp
@@ -697,7 +731,12 @@ Optional<string> optional = ...;
 
 string extracted = optional.GetValueOrElse(() => "defaultValue");
 string extracted = optional.GetValueOrElse("defaultValue");
+```
 
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object upcasted = optional.GetValueOrElse(() => new object());
 object upcasted = optional.GetValueOrElse(new object());
 
@@ -708,6 +747,8 @@ Optional<object> objectOptional = ...;
 object upcasted = objectOptional.GetValueOrElse(() => "defaultValue");
 object upcasted = objectOptional.GetValueOrElse("defaultValue");
 ```
+</details>
+
 
 ```csharp
 Result<Exception, string> result = ...;
@@ -715,7 +756,12 @@ Result<Exception, string> result = ...;
 string extracted = result.GetValueOrElse(fault => $"Converted to success fault: {fault.Message}");
 string extracted = result.GetValueOrElse(() => "defaultValue");
 string extracted = result.GetValueOrElse("defaultValue");
+```
 
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object upcasted = result.GetValueOrElse(_ => new object());
 object upcasted = result.GetValueOrElse(() => new object());
 object upcasted = result.GetValueOrElse(new object());
@@ -729,6 +775,8 @@ object upcasted = objectResult.GetValueOrElse(fault => fault.Message);
 object upcasted = objectResult.GetValueOrElse(() => "defaultValue");
 object upcasted = objectResult.GetValueOrElse("defaultValue");
 ```
+</details>
+
 
 ### GetFaultOrElse
 ```csharp
@@ -737,7 +785,11 @@ Result<Exception, string> result = ...;
 Exception extracted = result.GetFaultOrElse(value => new Exception(value));
 Exception extracted = result.GetFaultOrElse(() => new Exception());
 Exception extracted = result.GetFaultOrElse(new Exception());
+```
+<details>
+  <summary>Examples with upcast</summary>
 
+```csharp
 object upcasted = result.GetFaultOrElse(_ => new object());
 object upcasted = result.GetFaultOrElse(() => new object());
 object upcasted = result.GetFaultOrElse(new object());
@@ -751,13 +803,18 @@ object upcasted = objectResult.GetFaultOrElse(value => value);
 object upcasted = objectResult.GetFaultOrElse(() => "defaultFault");
 object upcasted = objectResult.GetFaultOrElse("defaultFault");
 ```
+</details>
 
 ```csharp
 Result<Exception> result = ...;
 
 Exception extracted = result.GetFaultOrElse(() => new Exception());
 Exception extracted = result.GetFaultOrElse(new Exception());
+```
+<details>
+  <summary>Examples with upcast</summary>
 
+```csharp
 object upcasted = result.GetFaultOrElse(() => new object());
 object upcasted = result.GetFaultOrElse(new object());
 
@@ -768,6 +825,7 @@ Result<object> objectResult = ...;
 object upcasted = objectResult.GetFaultOrElse(() => "defaultFault");
 object upcasted = objectResult.GetFaultOrElse("defaultFault");
 ```
+</details>
 
 ### GetValueOrThrow
 ```csharp
