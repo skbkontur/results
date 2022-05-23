@@ -4,6 +4,6 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
 {
     internal class NoneFixtureCase : IFixtureCase
     {
-        public Optional<TValue> GetOption<TValue>(TValue value, TValue constant) => Optional<TValue>.None();
+        public Optional<TValue> GetOptional<TValue>(TValue value, TValue constant) => Optional<TValue>.None();
     }
 }

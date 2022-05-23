@@ -11,7 +11,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Wh
         private static readonly IEnumerable<TestCaseData> Cases = WhereCaseGenerator.Create(1);
 
         [TestCaseSource(nameof(Cases))]
-        public Optional<int> OneOption(Optional<int> optional, IsSuitable isSuitable)
+        public Optional<int> OneOptional(Optional<int> optional, IsSuitable isSuitable)
         {
             return
                 from value in optional
@@ -20,7 +20,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Wh
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption(Optional<int> optional, IsSuitable isSuitable)
+        public Task<Optional<int>> TaskOptional(Optional<int> optional, IsSuitable isSuitable)
         {
             return
                 from value in Task.FromResult(optional)

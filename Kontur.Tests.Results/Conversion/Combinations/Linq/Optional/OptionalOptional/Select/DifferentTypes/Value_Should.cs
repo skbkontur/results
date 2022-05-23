@@ -12,11 +12,11 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
 
         private static Optional<string> SelectResult(int value)
         {
-            return GetOption(ConvertToString(value));
+            return GetOptional(ConvertToString(value));
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Optional<string> OneOption(Optional<int> optional)
+        public Optional<string> OneOptional(Optional<int> optional)
         {
             return
                 from value in optional
@@ -24,7 +24,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Optional<string> Option_Let(Optional<int> optional)
+        public Optional<string> Optional_Let(Optional<int> optional)
         {
             return
                 from valueLet in optional
@@ -33,7 +33,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<string>> TaskOption(Optional<int> optional)
+        public Task<Optional<string>> TaskOptional(Optional<int> optional)
         {
             return
                 from value in Task.FromResult(optional)
@@ -41,7 +41,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<string>> TaskOption_Let(Optional<int> optional)
+        public Task<Optional<string>> TaskOptional_Let(Optional<int> optional)
         {
             return
                 from valueLet in Task.FromResult(optional)

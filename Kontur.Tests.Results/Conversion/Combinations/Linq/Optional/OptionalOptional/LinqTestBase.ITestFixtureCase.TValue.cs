@@ -19,14 +19,14 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         {
         }
 
-        protected static Optional<TValue> GetOption(TValue value) => FixtureCase.GetOption(value, Constant);
+        protected static Optional<TValue> GetOptional(TValue value) => FixtureCase.GetOptional(value, Constant);
 
         protected static IEnumerable<TestCaseData> CreateSelectCases(int argumentsCount, Func<int, TValue> convertValue)
         {
             return SelectCasesGenerator
                 .Create(argumentsCount)
                 .ToTestCases(result => result.Select(
-                    value => FixtureCase.GetOption(convertValue(value), Constant)));
+                    value => FixtureCase.GetOptional(convertValue(value), Constant)));
         }
     }
 }

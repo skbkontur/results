@@ -18,7 +18,7 @@ namespace Kontur.Tests.Results.Extraction.Get.OrDefault.Optional.Class
         };
 
         [TestCaseSource(nameof(Cases))]
-        public string? Process_Option(Optional<string> optional)
+        public string? Process_Optional(Optional<string> optional)
         {
             return optional.GetValueOrDefault();
         }

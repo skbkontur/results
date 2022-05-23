@@ -11,7 +11,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         private static readonly IEnumerable<TestCaseData> Cases = SelectCasesGenerator.Create(1).ToTestCases();
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> OneOption(Optional<int> optional)
+        public Task<Optional<int>> OneOptional(Optional<int> optional)
         {
             return
                 from value in optional
@@ -19,7 +19,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Let(Optional<int> optional)
+        public Task<Optional<int>> Optional_Let(Optional<int> optional)
         {
             return
                 from valueLet in optional
@@ -28,7 +28,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption(Optional<int> optional)
+        public Task<Optional<int>> TaskOptional(Optional<int> optional)
         {
             return
                 from value in Task.FromResult(optional)
@@ -36,7 +36,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Let(Optional<int> optional)
+        public Task<Optional<int>> TaskOptional_Let(Optional<int> optional)
         {
             return
                 from valueLet in Task.FromResult(optional)

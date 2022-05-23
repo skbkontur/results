@@ -11,7 +11,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         private static readonly IEnumerable<TestCaseData> Cases = SelectCasesGenerator.Create(2).ToTestCases();
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Option(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> Optional_Optional(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from x in optional1
@@ -20,7 +20,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Let_Option(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> Optional_Let_Optional(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from xLet in optional1
@@ -30,7 +30,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Option_Let(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> Optional_Optional_Let(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from x in optional1
@@ -40,7 +40,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Let_Option_Let(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> Optional_Let_Optional_Let(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from xLet in optional1
@@ -51,7 +51,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Option(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> TaskOptional_Optional(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from x in Task.FromResult(optional1)
@@ -60,7 +60,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Let_Option(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> TaskOptional_Let_Optional(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from xLet in Task.FromResult(optional1)
@@ -70,7 +70,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Option_Let(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> TaskOptional_Optional_Let(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from x in Task.FromResult(optional1)
@@ -80,7 +80,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Let_Option_Let(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> TaskOptional_Let_Optional_Let(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from xLet in Task.FromResult(optional1)
@@ -91,7 +91,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_TaskOption(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> Optional_TaskOptional(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from x in optional1
@@ -100,7 +100,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Let_TaskOption(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> Optional_Let_TaskOptional(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from xLet in optional1
@@ -110,7 +110,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_TaskOption_Let(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> Optional_TaskOptional_Let(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from x in optional1
@@ -120,7 +120,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Let_TaskOption_Let(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> Optional_Let_TaskOptional_Let(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from xLet in optional1
@@ -131,7 +131,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_TaskOption(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> TaskOptional_TaskOptional(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from x in Task.FromResult(optional1)
@@ -140,7 +140,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Let_TaskOption(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> TaskOptional_Let_TaskOptional(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from xLet in Task.FromResult(optional1)
@@ -150,7 +150,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_TaskOption_Let(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> TaskOptional_TaskOptional_Let(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from x in Task.FromResult(optional1)
@@ -160,7 +160,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Let_TaskOption_Let(Optional<int> optional1, Optional<int> optional2)
+        public Task<Optional<int>> TaskOptional_Let_TaskOptional_Let(Optional<int> optional1, Optional<int> optional2)
         {
             return
                 from xLet in Task.FromResult(optional1)

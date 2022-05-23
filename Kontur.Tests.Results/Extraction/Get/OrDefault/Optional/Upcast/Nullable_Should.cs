@@ -22,7 +22,7 @@ namespace Kontur.Tests.Results.Extraction.Get.OrDefault.Optional.Upcast
         }
 
         [TestCaseSource(nameof(GetCases))]
-        public Base? Process_Option(Optional<Child?> optional)
+        public Base? Process_Optional(Optional<Child?> optional)
         {
             return optional.GetValueOrDefault<Base?>();
         }

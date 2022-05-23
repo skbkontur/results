@@ -31,7 +31,7 @@ namespace Kontur.Tests.Results.Extraction.SelectMany.Container.Optional
         };
 
         [TestCaseSource(nameof(Cases))]
-        public IEnumerable<int> Option_Enumerable(Optional<int> optional, IEnumerable<int> enumerable)
+        public IEnumerable<int> Optional_Enumerable(Optional<int> optional, IEnumerable<int> enumerable)
         {
             return
                 from x in optional
@@ -40,7 +40,7 @@ namespace Kontur.Tests.Results.Extraction.SelectMany.Container.Optional
         }
 
         [TestCaseSource(nameof(Cases))]
-        public IEnumerable<int> Enumerable_Option(Optional<int> optional, IEnumerable<int> enumerable)
+        public IEnumerable<int> Enumerable_Optional(Optional<int> optional, IEnumerable<int> enumerable)
         {
             return
                 from x in enumerable

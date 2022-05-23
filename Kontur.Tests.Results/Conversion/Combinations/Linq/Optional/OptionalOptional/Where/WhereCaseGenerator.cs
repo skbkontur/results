@@ -16,7 +16,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         {
             return SelectCasesGenerator
                 .Create(argumentsCount)
-                .SelectMany(testCase => CreateCases(testCase, value => fixtureCase.GetOption(value, constant)));
+                .SelectMany(testCase => CreateCases(testCase, value => fixtureCase.GetOptional(value, constant)));
         }
 
         private static IEnumerable<TestCaseData> CreateCases(SelectCase testCase, Func<int, Optional<int>> resultFactory)

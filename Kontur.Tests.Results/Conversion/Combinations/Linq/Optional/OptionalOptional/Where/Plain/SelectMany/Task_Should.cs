@@ -12,11 +12,11 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
 
         private static Task<Optional<int>> SelectResult(int value)
         {
-            return Task.FromResult(GetOption(value));
+            return Task.FromResult(GetOptional(value));
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Option_Where(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
+        public Task<Optional<int>> Optional_Optional_Where(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
         {
             return
                 from x in optional1
@@ -26,7 +26,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Option_Where(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
+        public Task<Optional<int>> TaskOptional_Optional_Where(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
         {
             return
                 from x in Task.FromResult(optional1)
@@ -36,7 +36,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_TaskOption_Where(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
+        public Task<Optional<int>> Optional_TaskOptional_Where(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
         {
             return
                 from x in optional1
@@ -46,7 +46,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_TaskOption_Where(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
+        public Task<Optional<int>> TaskOptional_TaskOptional_Where(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
         {
             return
                 from x in Task.FromResult(optional1)
@@ -56,7 +56,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Where_Option(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
+        public Task<Optional<int>> Optional_Where_Optional(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
         {
             return
                 from x in optional1
@@ -66,7 +66,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Where_Option(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
+        public Task<Optional<int>> TaskOptional_Where_Optional(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
         {
             return
                 from x in Task.FromResult(optional1)
@@ -76,7 +76,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Where_TaskOption(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
+        public Task<Optional<int>> Optional_Where_TaskOptional(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
         {
             return
                 from x in optional1
@@ -86,7 +86,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Where_TaskOption(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
+        public Task<Optional<int>> TaskOptional_Where_TaskOptional(Optional<int> optional1, Optional<int> optional2, IsSuitable isSuitable)
         {
             return
                 from x in Task.FromResult(optional1)

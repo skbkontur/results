@@ -16,7 +16,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
             .ToTestCases(option => option.MapValue(sum => sum + TaskTerm));
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Task(Optional<int> optional)
+        public Task<Optional<int>> Optional_Task(Optional<int> optional)
         {
             return
                 from x in optional
@@ -25,7 +25,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.Optional.Se
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Task(Optional<int> optional)
+        public Task<Optional<int>> TaskOptional_Task(Optional<int> optional)
         {
             return
                 from x in Task.FromResult(optional)

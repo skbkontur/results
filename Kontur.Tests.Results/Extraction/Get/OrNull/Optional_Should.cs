@@ -18,7 +18,7 @@ namespace Kontur.Tests.Results.Extraction.Get.OrNull
         };
 
         [TestCaseSource(nameof(Cases))]
-        public int? Process_Option(Optional<int> optional)
+        public int? Process_Optional(Optional<int> optional)
         {
             return optional.GetValueOrNull();
         }

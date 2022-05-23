@@ -17,11 +17,11 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
 
         private static Task<Optional<int>> SelectResult(int value)
         {
-            return Task.FromResult(GetOption(value));
+            return Task.FromResult(GetOptional(value));
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Task_Task(Optional<int> optional)
+        public Task<Optional<int>> Optional_Task_Task(Optional<int> optional)
         {
             return
                 from x in optional
@@ -31,7 +31,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Task_Task(Optional<int> optional)
+        public Task<Optional<int>> TaskOptional_Task_Task(Optional<int> optional)
         {
             return
                 from x in Task.FromResult(optional)

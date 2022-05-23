@@ -11,37 +11,37 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         private static readonly IEnumerable<TestCaseData> Cases = CreateSelectCases(1);
 
         [TestCaseSource(nameof(Cases))]
-        public Optional<int> OneOption(Optional<int> optional)
+        public Optional<int> OneOptional(Optional<int> optional)
         {
             return
                 from value in optional
-                select GetOption(value);
+                select GetOptional(value);
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Optional<int> Option_Let(Optional<int> optional)
+        public Optional<int> Optional_Let(Optional<int> optional)
         {
             return
                 from valueLet in optional
                 let value = valueLet
-                select GetOption(value);
+                select GetOptional(value);
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption(Optional<int> optional)
+        public Task<Optional<int>> TaskOptional(Optional<int> optional)
         {
             return
                 from value in Task.FromResult(optional)
-                select GetOption(value);
+                select GetOptional(value);
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Let(Optional<int> optional)
+        public Task<Optional<int>> TaskOptional_Let(Optional<int> optional)
         {
             return
                 from valueLet in Task.FromResult(optional)
                 let value = valueLet
-                select GetOption(value);
+                select GetOptional(value);
         }
     }
 }

@@ -12,11 +12,11 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
 
         private static Task<Optional<int>> SelectResult(int value)
         {
-            return Task.FromResult(GetOption(value));
+            return Task.FromResult(GetOptional(value));
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Option_Option_Option(
+        public Task<Optional<int>> Optional_Optional_Optional_Optional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -31,7 +31,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Option_Option_Option(
+        public Task<Optional<int>> TaskOptional_Optional_Optional_Optional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -46,7 +46,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_TaskOption_Option_Option(
+        public Task<Optional<int>> Optional_TaskOptional_Optional_Optional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -61,7 +61,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Option_TaskOption_Option(
+        public Task<Optional<int>> Optional_Optional_TaskOptional_Optional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -76,7 +76,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Option_Option_TaskOption(
+        public Task<Optional<int>> Optional_Optional_Optional_TaskOptional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -91,7 +91,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_TaskOption_Option_Option(
+        public Task<Optional<int>> TaskOptional_TaskOptional_Optional_Optional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -106,7 +106,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Option_TaskOption_Option(
+        public Task<Optional<int>> TaskOptional_Optional_TaskOptional_Optional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -121,7 +121,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Option_Option_TaskOption(
+        public Task<Optional<int>> TaskOptional_Optional_Optional_TaskOptional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -136,7 +136,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_TaskOption_TaskOption_Option(
+        public Task<Optional<int>> Optional_TaskOptional_TaskOptional_Optional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -151,7 +151,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_TaskOption_Option_TaskOption(
+        public Task<Optional<int>> Optional_TaskOptional_Optional_TaskOptional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -166,7 +166,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Option_TaskOption_TaskOption(
+        public Task<Optional<int>> Optional_Optional_TaskOptional_TaskOptional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -181,7 +181,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_TaskOption_TaskOption_Option(
+        public Task<Optional<int>> TaskOptional_TaskOptional_TaskOptional_Optional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -196,7 +196,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_TaskOption_Option_TaskOption(
+        public Task<Optional<int>> TaskOptional_TaskOptional_Optional_TaskOptional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -211,7 +211,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Option_TaskOption_TaskOption(
+        public Task<Optional<int>> TaskOptional_Optional_TaskOptional_TaskOptional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -226,7 +226,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_TaskOption_TaskOption_TaskOption(
+        public Task<Optional<int>> Optional_TaskOptional_TaskOptional_TaskOptional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,
@@ -241,7 +241,7 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_TaskOption_TaskOption_TaskOption(
+        public Task<Optional<int>> TaskOptional_TaskOptional_TaskOptional_TaskOptional(
             Optional<int> optional1,
             Optional<int> optional2,
             Optional<int> optional3,

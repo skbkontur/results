@@ -14,7 +14,7 @@ namespace Kontur.Tests.Results.Conversion.Upcast
                 .Select(example => new TestCaseData(example.Optional).Returns(example.Result));
 
         [TestCaseSource(nameof(GetCases))]
-        public Optional<Base> Process_Option(Optional<Child> optional)
+        public Optional<Base> Process_Optional(Optional<Child> optional)
         {
             return optional.Upcast<Base>();
         }

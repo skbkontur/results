@@ -4,6 +4,6 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
 {
     internal class SomeConstantFixtureCase : IFixtureCase
     {
-        public Optional<TValue> GetOption<TValue>(TValue value, TValue constant) => Optional<TValue>.Some(constant);
+        public Optional<TValue> GetOptional<TValue>(TValue value, TValue constant) => Optional<TValue>.Some(constant);
     }
 }

@@ -16,23 +16,23 @@ namespace Kontur.Tests.Results.Conversion.Combinations.Linq.Optional.OptionalOpt
         private static readonly IEnumerable<TestCaseData> Cases = CreateSelectCases(1, sum => sum + TaskTerm1 + TaskTerm2);
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> Option_Task_Task(Optional<int> optional)
+        public Task<Optional<int>> Optional_Task_Task(Optional<int> optional)
         {
             return
                 from x in optional
                 from y in Task1000
                 from z in Task10000
-                select GetOption(x + y + z);
+                select GetOptional(x + y + z);
         }
 
         [TestCaseSource(nameof(Cases))]
-        public Task<Optional<int>> TaskOption_Task_Task(Optional<int> optional)
+        public Task<Optional<int>> TaskOptional_Task_Task(Optional<int> optional)
         {
             return
                 from x in Task.FromResult(optional)
                 from y in Task1000
                 from z in Task10000
-                select GetOption(x + y + z);
+                select GetOptional(x + y + z);
         }
     }
 }
