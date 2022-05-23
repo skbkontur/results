@@ -2069,6 +2069,9 @@ It also allows you to change `Some`/`Success` to `None`/`Failure` if you want.
 `TFault` types should be identical. Upcasts are not supported yet.
 `TValue` types can be different.
 
+<details>
+  <summary>`Optional` examples</summary>
+
 ```csharp
 Optional<string> optional = ...;
 
@@ -2088,6 +2091,7 @@ Task<Optional<int>> extracted = Task.FromResult(optional).Select(async str => aw
 Task<Optional<int>> extracted = Task.FromResult(optional).Select(str => new ValueTask(int.Parse(str)));
 Task<Optional<int>> extracted = Task.FromResult(optional).Select(str => Task.FromResult(int.Parse(str)));
 ```
+</details>
 
 ```csharp
 Result<Exception, string> result = ...;
