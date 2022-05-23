@@ -28,9 +28,9 @@ namespace Kontur.Tests.Results.Instantiation.Optional.Create_Via_Non_Generic
         [TestCase(10, ExpectedResult = 10)]
         public int? Store_Value(int? value)
         {
-            var option = Kontur.Results.Optional.Some(value);
+            var optional = Kontur.Results.Optional.Some(value);
 
-            return option.GetValueOrThrow();
+            return optional.GetValueOrThrow();
         }
     }
 }

@@ -22,10 +22,10 @@ namespace Kontur.Tests.Results.Instantiation.Optional
         [TestCaseSource(nameof(Cases))]
         public Optional<int> Create_Via_Other_Argument_Implicit_Conversion(bool flag)
         {
-            var option = flag
+            var optional = flag
                 ? Kontur.Results.Optional.Some(SomeValue)
                 : Kontur.Results.Optional.None();
-            return option;
+            return optional;
         }
 
         [TestCaseSource(nameof(Cases))]

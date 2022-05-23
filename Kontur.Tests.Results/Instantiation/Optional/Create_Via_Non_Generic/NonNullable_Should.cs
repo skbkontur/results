@@ -16,9 +16,9 @@ namespace Kontur.Tests.Results.Instantiation.Optional.Create_Via_Non_Generic
         this.value = value;
         }
 
-        private static TestCaseData Create(Func<T, Optional<T>> optionFactory, bool hasValue)
+        private static TestCaseData Create(Func<T, Optional<T>> optionalFactory, bool hasValue)
         {
-            return new(optionFactory) { ExpectedResult = hasValue };
+            return new(optionalFactory) { ExpectedResult = hasValue };
         }
 
         private static readonly TestCaseData[] Cases =
@@ -28,19 +28,19 @@ namespace Kontur.Tests.Results.Instantiation.Optional.Create_Via_Non_Generic
         };
 
         [TestCaseSource(nameof(Cases))]
-        public bool HasValue(Func<T, Optional<T>> optionFactory)
+        public bool HasValue(Func<T, Optional<T>> optionalFactory)
         {
-            var option = optionFactory(this.value);
+            var optional = optionalFactory(this.value);
 
-            return option.HasSome;
+            return optional.HasSome;
         }
 
         [Test]
         public void Store_Value()
         {
-            var option = Kontur.Results.Optional.Some(this.value);
+            var optional = Kontur.Results.Optional.Some(this.value);
 
-            var result = option.GetValueOrThrow();
+            var result = optional.GetValueOrThrow();
 
             result.Should().Be(this.value);
         }
