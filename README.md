@@ -171,10 +171,10 @@ Task<Optional<Guid>> userId =
 
 Do notation reduces the count of checks and await operators significantly:
 ```csharp
-abstract Result<Exception, Guid> GetCurrentUserId();
+abstract ValueTask<Result<Exception, Guid>> GetCurrentUserId();
 abstract Result<Exception> EnsureUserIdIsCorrect(Guid userId);
 abstract Task<int> GetCurrentIndex();
-abstract ValueTask<Result<Exception, string>> GetMessage(Guid userId, int index);
+abstract Task<Result<Exception, string>> GetMessage(Guid userId, int index);
 abstract Result<Exception, ConvertResult> Convert(string message, Guid userId);
 
 Task<Result<Exception, ConvertResult>> result =
@@ -214,10 +214,10 @@ Result<Exception, int> TryParseString(string input) => int.TryParse(input, out v
   : new Exception(input + " is not an integer");
 
 Result<Exception, NaturalNumber> result =
-  from integer1 from TryParseString(Console.ReadLine())
-  from natural1 from NaturalNumber.TryParse(integer1).OrElse(Result.Fail(new Exception(integer1 + " is not positive number")))
-  from integer2 from TryParseString(Console.ReadLine())
-  from natural2 from NaturalNumber.TryParse(integer2).OrElse(Result.Fail(new Exception(integer2 + " is not positive number")))
+  from integer1 in TryParseString(Console.ReadLine())
+  from natural1 in NaturalNumber.TryParse(integer1).OrElse(Result.Fail(new Exception(integer1 + " is not positive number")))
+  from integer2 in TryParseString(Console.ReadLine())
+  from natural2 in NaturalNumber.TryParse(integer2).OrElse(Result.Fail(new Exception(integer2 + " is not positive number")))
   select natural1 + natural2;
 ```
 
