@@ -757,6 +757,9 @@ object upcasted = result.GetValueOrThrow<object>(fault => new Exception(fault.Me
 ```
 
 To override exception thrown by default for a specific `TValue` you can implement an extension method with the specific `TValue` in your namespace. You can also use [inheritance](#inheritance) to override exception thrown by default for `TValue` in any namespace.
+<details>
+  <summary>Example</summary>
+
 ```csharp
 namespace CustomValues
 {
@@ -777,6 +780,7 @@ namespace CustomValues
   }
 }
 ```
+</details>
 
 ### GetFaultOrThrow
 ```csharp
@@ -806,6 +810,9 @@ object upcasted = result.GetFaultOrThrow<object>(() => new Exception("There is n
 ```
 
 To override exception thrown by default exception for a specific `TFault` you can implement an extension method with the specific `TFault` in your namespace. You can also use [inheritance](#inheritance) to override exception thrown by default for `TFault` in any namespace.
+<details>
+  <summary>Example</summary>
+
 ```csharp
 namespace CustomFaults
 {
@@ -826,6 +833,7 @@ namespace CustomFaults
   }
 }
 ```
+</details>
 
 ### GetValueOrDefault
 ```csharp
@@ -930,6 +938,9 @@ optional.EnsureHasValue(() => new Exception("There is no value"))
 ```
 
 To override exception thrown by default exception for a specific `TValue` you can implement an extension method with the specific `TValue` in your namespace. You can also use [inheritance](#inheritance) to override exception thrown by default for `TValue` in any namespace.
+<details>
+  <summary>Example</summary>
+
 ```csharp
 namespace Custom
 {
@@ -945,6 +956,7 @@ namespace Custom
   }
 }
 ```
+</details>
 
 ### EnsureNone
 ```csharp
@@ -958,6 +970,9 @@ optional.EnsureNone(value => new Exception($"There is value: {value}"))
 ```
 
 To override exception thrown by default exception for a specific `TValue` you can implement an extension method with the specific `TValue` in your namespace. You can also use [inheritance](#inheritance) to override exception thrown by default for `TValue` in any namespace.
+<details>
+  <summary>Example</summary>
+
 ```csharp
 namespace Custom
 {
@@ -973,6 +988,7 @@ namespace Custom
   }
 }
 ```
+</details>
 
 ### EnsureSuccess
 ```csharp
@@ -996,6 +1012,9 @@ result.EnsureSuccess(fault => new Exception(fault.Message))
 ```
 
 To override exception thrown by default exception for a specific `TValue` or `TFault` you can implement an extension method with the specific `TValue` or `TFault` in your namespace. You can also use [inheritance](#inheritance) to override exception thrown by default for `TFault` or `TValue` in any namespace.
+<details>
+  <summary>Example</summary>
+
 ```csharp
 namespace CustomTypes
 {
@@ -1018,6 +1037,7 @@ namespace CustomTypes
   }
 }
 ```
+</details>
 
 ### EnsureFailure
 ```csharp
@@ -1040,6 +1060,9 @@ result.EnsureFailure(() => new Exception("It's success"))
 ```
 
 To override exception thrown by default exception for a specific `TValue` or `TFault` you can implement an extension method with the specific `TValue` or `TFault` in your namespace. You can also use [inheritance](#inheritance) to override exception thrown by default for `TFault`or `TValue` in any namespace.
+<details>
+  <summary>Example</summary>
+
 ```csharp
 namespace CustomTypes
 {
@@ -1062,6 +1085,8 @@ namespace CustomTypes
   }
 }
 ```
+</details>
+
 
 ### HasSome
 ```csharp
@@ -1294,7 +1319,9 @@ IEnumerable<int> extracted =
 
 ```
 
-To implement it you can use the following code:
+<details>
+  <summary>To implement it you can use the code</summary>
+
 ```
 public static IEnumerable<TResult> SelectMany<TValue, TItem, TResult>(
   this IOptional<TValue> optional,
@@ -1312,6 +1339,7 @@ public static IEnumerable<TResult> SelectMany<TItem, TValue, TResult>(
   return collection.SelectMany(value => optionSelector(value).GetValues(), resultSelector);
 }
 ```
+</details>
 
 ##### Result
 ```csharp
@@ -1367,7 +1395,9 @@ IEnumerable<int> extracted =
 
 ```
 
-To implement it you can use the following code:
+<details>
+  <summary>To implement it you can use the code</summary>
+
 ```
 public static IEnumerable<TResult> SelectMany<TFault, TValue, TItem, TResult>(
   this IResult<TFault, TValue> result,
@@ -1385,6 +1415,7 @@ public static IEnumerable<TResult> SelectMany<TItem, TFault, TValue, TResult>(
   return collection.SelectMany(value => selector(value).GetValues(), resultSelector);
 }
 ```
+</details>
 
 #### Returning the first found fault
 
@@ -1445,7 +1476,9 @@ Optional<IEnumerable<int>> extracted =
 
 ```
 
-To implement it, four `SelectMany` methods can be used:
+<details>
+  <summary>To implement it, four `SelectMany` methods can be used</summary>
+
 ```
 static Optional<IEnumerable<TResult>> SelectMany<TItem, TValue, TResult>(
   this IEnumerable<TItem> collection,
@@ -1483,6 +1516,7 @@ static Optional<IEnumerable<TResult>> SelectMany<TValue, TItem, TResult>(
   Func<TValue, TItem, TResult> resultSelector) =>
   optional.MapValue(value => collectionSelector(value).Select(item => resultSelector(value, item)));
 ```
+</details>
 
 ##### Result
 ```csharp
@@ -1538,7 +1572,9 @@ Result<Exception, IEnumerable<int>> extracted =
 
 ```
 
-To implement it, four `SelectMany` methods can be used:
+<details>
+  <summary>To implement it, four `SelectMany` methods can be used</summary>
+
 ```
 static Result<TFault, IEnumerable<TResult>> SelectMany<TItem, TFault, TValue, TResult>(
   this IEnumerable<TItem> collection,
@@ -1576,7 +1612,7 @@ static Result<TFault, IEnumerable<TResult>> SelectMany<TFault, TValue, TItem, TR
             Func<TValue, TItem, TResult> resultSelector) =>
             result.MapValue(value => collectionSelector(value).Select(item => resultSelector(value, item)));
 ```
-
+</details>
 
 ### foreach
 ```csharp
@@ -1687,6 +1723,9 @@ Optional<int> extracted = optional.MapValue(() => int.Parse("123"));
 Optional<int> extracted = optional.MapValue(15);
 ```
 
+<details>
+  <summary>Async examples</summary>
+
 ```csharp
 Optional<string> optional = ...;
 
@@ -1712,6 +1751,7 @@ Task<Optional<string>> extracted = optional.MapValue(async str => await Task.Fro
 Task<Optional<string>> extracted = optional.MapValue(str => new ValueTask(str));
 Task<Optional<string>> extracted = optional.MapValue(str => Task.FromResult(str));
 ```
+</details>
 
 ```csharp
 Result<Guid, string> result = ...;
@@ -1725,6 +1765,8 @@ Result<Guid, int> extracted = result.MapValue(() => int.Parse("123"));
 Result<Guid, int> extracted = result.MapValue(15);
 ```
 
+<details>
+  <summary>Async examples</summary>
 ```csharp
 Result<Guid, string> result = ...;
 
@@ -1750,6 +1792,7 @@ Task<Result<Guid, string>> extracted = result.MapValue(async str => await Task.F
 Task<Result<Guid, string>> extracted = result.MapValue(str => new ValueTask(str));
 Task<Result<Guid, string>> extracted = result.MapValue(str => Task.FromResult(str));
 ```
+</details>
 
 ### MapFault
 
@@ -1766,6 +1809,9 @@ Result<int, Guid> extracted = result.MapFault(str => int.Parse(str));
 Result<int, Guid> extracted = result.MapFault(() => int.Parse("123"));
 Result<int, Guid> extracted = result.MapFault(15);
 ```
+
+<details>
+  <summary>Async examples</summary>
 
 ```csharp
 Result<string, Guid> result = ...;
@@ -1792,6 +1838,7 @@ Task<Result<string, Guid>> extracted = result.MapFault(async str => await Task.F
 Task<Result<string, Guid>> extracted = result.MapFault(str => new ValueTask(str));
 Task<Result<string, Guid>> extracted = result.MapFault(str => Task.FromResult(str));
 ```
+</details>
 
 ```csharp
 Result<string> result = ...;
@@ -1804,6 +1851,9 @@ Result<int> extracted = result.MapFault(str => int.Parse(str));
 Result<int> extracted = result.MapFault(() => int.Parse("123"));
 Result<int> extracted = result.MapFault(15);
 ```
+
+<details>
+  <summary>Async examples</summary>
 
 ```csharp
 Result<string> result = ...;
@@ -1830,6 +1880,7 @@ Task<Result<string>> extracted = result.MapFault(async str => await Task.FromRes
 Task<Result<string>> extracted = result.MapFault(str => new ValueTask(str));
 Task<Result<string>> extracted = result.MapFault(str => Task.FromResult(str));
 ```
+</details>
 
 ### Upcast
 
@@ -1900,7 +1951,8 @@ Optional<string> result = optional1.Then(() => optional2);
 Optional<string> result = optional1.Then(i => i > 10 ? Optional<string>.Some(i.ToString()) : Optional<string>.None());
 ```
 
-Async examples:
+<details>
+  <summary>Async examples</summary>
 ```csharp
 Optional<int> optional1 = ...;
 Optional<string> optional2 = ...;
@@ -1919,6 +1971,7 @@ Task<Optional<string>> result = Task.FromResult(optional1).Then(async value => a
 Task<Optional<string>> result = Task.FromResult(optional1).Then(value => new ValueTask(optional2));
 Task<Optional<string>> result = Task.FromResult(optional1).Then(value => Task.FromResult(optional2));
 ```
+</details>
 
 ```csharp
 Result<Exception, int> result1 = ...;
@@ -1931,7 +1984,9 @@ Result<Exception, string> result = result1.Then(() => result2);
 Result<Exception, string> result = result1.Then(i => i > 10 ? Result<Exception, string>.Success(i.ToString()) : Result<Exception, string>.Failure());
 ```
 
-Async examples:
+<details>
+  <summary>Async examples</summary>
+
 ```csharp
 Result<Exception, int> result1 = ...;
 Result<Exception, string> result2 = ...;
@@ -1950,6 +2005,7 @@ Task<Result<Exception, string>> result = Task.FromResult(result1).Then(async val
 Task<Result<Exception, string>> result = Task.FromResult(result1).Then(value => new ValueTask(result2));
 Task<Result<Exception, string>> result = Task.FromResult(result1).Then(value => Task.FromResult(result2));
 ```
+</details>
 
 All meaningful combinations of `Optional<TValue>`, `Result<TFault>` and `Result<TFault, TValue>` are also supported.
 
@@ -1975,7 +2031,9 @@ Optional<string> result = optional1.OrElse(optional2);
 Optional<string> result = optional1.OrElse(() => optional2);
 ```
 
-Async examples:
+<details>
+  <summary>Async examples</summary>
+
 ```csharp
 Optional<string> optional1 = ...;
 Optional<string> optional2 = ...;
@@ -1994,6 +2052,7 @@ Task<Optional<string>> result = Task.FromResult(optional1).OrElse(async () => aw
 Task<Optional<string>> result = Task.FromResult(optional1).OrElse(() => new ValueTask(optional2));
 Task<Optional<string>> result = Task.FromResult(optional1).OrElse(() => Task.FromResult(optional2));
 ```
+</details>
 
 ```csharp
 Result<int, string> result1 = ...;
@@ -2006,7 +2065,9 @@ Result<Exception, string> result = result1.OrElse(() => result2);
 Result<Exception, string> result = result1.OrElse(fault => result2);
 ```
 
-Async examples:
+<details>
+  <summary>Async examples</summary>
+
 ```csharp
 Result<int, string> result1 = ...;
 Result<Exception, string> result2 = ...;
@@ -2025,6 +2086,7 @@ Task<Result<Exception, string>> result = Task.FromResult(result1).OrElse(async f
 Task<Result<Exception, string>> result = Task.FromResult(result1).OrElse(fault => new ValueTask(result2));
 Task<Result<Exception, string>> result = Task.FromResult(result1).OrElse(fault => Task.FromResult(result2));
 ```
+</details>
 
 All meaningful combinations of `Optional<TValue>`, `Result<TFault>` and `Result<TFault, TValue>` are also supported.
 
@@ -2070,7 +2132,7 @@ It also allows you to change `Some`/`Success` to `None`/`Failure` if you want.
 `TValue` types can be different.
 
 <details>
-  <summary>`Optional` examples</summary>
+  <summary>Optional examples</summary>
 
 ```csharp
 Optional<string> optional = ...;
@@ -2093,6 +2155,9 @@ Task<Optional<int>> extracted = Task.FromResult(optional).Select(str => Task.Fro
 ```
 </details>
 
+<details>
+  <summary>Result examples</summary>
+
 ```csharp
 Result<Exception, string> result = ...;
 
@@ -2114,6 +2179,7 @@ Task<Optional<int>> extracted = Task.FromResult(result).Select(async str => awai
 Task<Optional<int>> extracted = Task.FromResult(result).Select(str => new ValueTask(int.Parse(str)));
 Task<Optional<int>> extracted = Task.FromResult(result).Select(str => Task.FromResult(int.Parse(str)));
 ```
+</details>
 
 ### Do notation
 ```csharp
