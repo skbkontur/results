@@ -92,7 +92,7 @@ namespace Kontur.Results
                 value => $"{nameof(Some<TValue>)}{typeArguments} value={value}");
         }
 
-        public sealed override bool Equals(object obj)
+        public sealed override bool Equals(object? obj)
         {
             return obj is Optional<TValue> other && other.GetState().Equals(this.GetState());
         }

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Kontur.Results;
+#pragma warning disable S1128 // False positive. Unused "using" should be removed
 using Kontur.Tests.Results.Extraction.SelectMany.FirstFault.Optional.Using;
+#pragma warning restore S1128 // Unused "using" should be removed
 using NUnit.Framework;
 
 namespace Kontur.Tests.Results.Extraction.SelectMany.FirstFault.Optional

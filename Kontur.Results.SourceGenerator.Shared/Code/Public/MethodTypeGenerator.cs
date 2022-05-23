@@ -74,6 +74,6 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 .Append(new(parameterUpperBound, null, false));
         }
 
-        private record ParameterInfo(SimpleNameSyntax ProposedType, TypeSyntax? GenericArgument, bool TaskLike);
+        private sealed record ParameterInfo(SimpleNameSyntax ProposedType, TypeSyntax? GenericArgument, bool TaskLike);
     }
 }

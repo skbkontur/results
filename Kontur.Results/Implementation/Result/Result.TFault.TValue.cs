@@ -144,7 +144,7 @@ namespace Kontur.Results
                 value => $"{nameof(ResultSuccess<TFault, TValue>)}{typeArguments} value={value}");
         }
 
-        public sealed override bool Equals(object obj)
+        public sealed override bool Equals(object? obj)
         {
             return obj is Result<TFault, TValue> other && other.GetState().Equals(this.GetState());
         }

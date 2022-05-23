@@ -130,7 +130,7 @@ namespace Kontur.Results.SourceGenerator.Code
                 PutIntoNamespace(classSyntax));
         }
 
-        private record CompilationFile(
+        private sealed record CompilationFile(
             string FileName,
             IEnumerable<UsingDirectiveSyntax> UsingDirectives,
             MemberDeclarationSyntax Class);
