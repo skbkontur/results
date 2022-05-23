@@ -1423,7 +1423,7 @@ IEnumerable<int> extracted =
 <details>
   <summary>To implement it you can use the code</summary>
 
-```
+```csharp
 public static IEnumerable<TResult> SelectMany<TValue, TItem, TResult>(
   this IOptional<TValue> optional,
   Func<TValue, IEnumerable<TItem>> collectionSelector,
@@ -1499,7 +1499,7 @@ IEnumerable<int> extracted =
 <details>
   <summary>To implement it you can use the code</summary>
 
-```
+```csharp
 public static IEnumerable<TResult> SelectMany<TFault, TValue, TItem, TResult>(
   this IResult<TFault, TValue> result,
   Func<TValue, IEnumerable<TItem>> collectionSelector,
