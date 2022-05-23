@@ -1580,7 +1580,7 @@ Optional<IEnumerable<int>> extracted =
 <details>
   <summary>To implement it, four `SelectMany` methods can be used</summary>
 
-```
+```csharp
 static Optional<IEnumerable<TResult>> SelectMany<TItem, TValue, TResult>(
   this IEnumerable<TItem> collection,
   Func<TItem, Optional<TValue>> optionalSelector,
@@ -1676,7 +1676,7 @@ Result<Exception, IEnumerable<int>> extracted =
 <details>
   <summary>To implement it, four `SelectMany` methods can be used</summary>
 
-```
+```csharp
 static Result<TFault, IEnumerable<TResult>> SelectMany<TItem, TFault, TValue, TResult>(
   this IEnumerable<TItem> collection,
   Func<TItem, Result<TFault, TValue>> selector,
