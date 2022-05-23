@@ -112,10 +112,15 @@ Example with exceptions:
 ```csharp
 using Kontur.Results;
 
+class DraftError
+{
+  public int Code { get; init; }
+}
+
 class DraftClient
 {
    ...
-   Task<Result<DraftError, Draft>> CreateDraft()
+   public Task<Result<DraftError, Draft>> CreateDraft()
    {
      ...
    }
@@ -214,10 +219,10 @@ Result<Exception, int> TryParseString(string input) => int.TryParse(input, out v
   : new Exception(input + " is not an integer");
 
 Result<Exception, NaturalNumber> result =
-  from integer1 in TryParseString(Console.ReadLine())
-  from natural1 in NaturalNumber.TryParse(integer1).OrElse(Result.Fail(new Exception(integer1 + " is not positive number")))
-  from integer2 in TryParseString(Console.ReadLine())
-  from natural2 in NaturalNumber.TryParse(integer2).OrElse(Result.Fail(new Exception(integer2 + " is not positive number")))
+  from int1 in TryParseString(Console.ReadLine())
+  from natural1 in NaturalNumber.TryParse(int1).OrElse(Result.Fail(new Exception(int1 + " is not positive")))
+  from int2 in TryParseString(Console.ReadLine())
+  from natural2 in NaturalNumber.TryParse(int2).OrElse(Result.Fail(new Exception(int2 + " is not positive")))
   select natural1 + natural2;
 ```
 
