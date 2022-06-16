@@ -422,7 +422,7 @@ else
   // value may be null here. If you used it, you would get "warning CS8602: Dereference of a possibly null reference"
 }
 
-// Both value and fault may be null here. If you used them, you would get "warning CS8602: Dereference of a possibly null reference"
+// Both value and fault may be null here. If you used any of them, you would get "warning CS8602: Dereference of a possibly null reference"
 
 ```
 
@@ -463,7 +463,7 @@ else
   // fault may be null here. If you use it, you get "warning CS8602: Dereference of a possibly null reference"
 }
 
-// Both value and fault may be null here. If you used them, you would get "warning CS8602: Dereference of a possibly null reference"
+// Both value and fault may be null here. If you used any of them, you would get "warning CS8602: Dereference of a possibly null reference"
 ```
 
 ### Match
