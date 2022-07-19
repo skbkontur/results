@@ -2349,9 +2349,9 @@ Task<Optional<ConvertResult>> result =
 ```
 Where:
 * `A` (first `from`/`in` clause) must return `Optional<T>`, `ValueTask<Optional<T>>` or `Task<Optional<T>>`.
-* `B` and `E` may return `bool`, `ValueTask<bool>` or `Task<bool>`.
-* `C`, `D`, `F` and `G` may return one of `Optional<T>`, `ValueTask<T>`, `ValueTask<Optional<T>>`, `Task<T>` or `Task<Optional<T>>`. Subsequent expressions may depend on previous expressions (`F` and `G` for example) or may not depend on previous expressions (`C` and `D` for example). The total count of `B`, `C`, `D`, `E`, `F` and `G`-like statements is efficiently unlimited.
-* `H` should return  `TResult`, `Optional<TResult>`, `ValueTask<TResult>`, `ValueTask<Optional<TResult>>`, `Task<TResult>` or `Task<Optional<TResult>>`.
+* `B` and `E` (`where` clause) may return `bool`, `ValueTask<bool>` or `Task<bool>`.
+* `C`, `D`, `F` and `G`  (subsequent `from`/`in` clause) may return one of `Optional<T>`, `ValueTask<T>`, `ValueTask<Optional<T>>`, `Task<T>` or `Task<Optional<T>>`. Subsequent expressions may depend on previous expressions (`F` and `G` for example) or may not depend on previous expressions (`C` and `D` for example). The total count of `B`, `C`, `D`, `E`, `F` and `G`-like statements is efficiently unlimited.
+* `H` (`select` clause) should return  `TResult`, `Optional<TResult>`, `ValueTask<TResult>`, `ValueTask<Optional<TResult>>`, `Task<TResult>` or `Task<Optional<TResult>>`.
 
 ```csharp
 abstract Result<Exception, Guid> GetCurrentUserId();
@@ -2377,9 +2377,9 @@ Task<Result<Exception, ConvertResult>> result =
 
 Where:
 * `A` (first `from`/`in` clause) must return `Result<TFault, TValue>`, `ValueTask<Result<TFault, TValue>>` or `Task<Result<TFault, TValue>>`.
-* `B` and `E` may return `Result<TFault>`, `ValueTask<Result<TFault>>` or `Task<Result<TFault>>`.
-* `C`, `D`, `F` and `G` may return one of `Result<TFault, TValue>`, `ValueTask<TValue>`, `ValueTask<Result<TFault, TValue>>`, `Task<TValue>` or `Task<Result<TFault, TValue>>`. Subsequent expressions may depend on previous expressions (`F` and `G` for example) or may not depend on previous expressions (`C` and `D` for example). The total count of `B`, `C`, `D`, `E`, `F` and `G`-like statements is efficiently unlimited.
-* `H` should return  `TResult`, `Result<TFault, TResult>`, `ValueTask<TResult>`, `ValueTask<Result<TFault, TResult>>`, `Task<TResult>` or `Task<Result<TFault, TResult>>`.
+* `B` and `E` (`where` clause) may return `Result<TFault>`, `ValueTask<Result<TFault>>` or `Task<Result<TFault>>`.
+* `C`, `D`, `F` and `G` (subsequent `from`/`in` clause) may return one of `Result<TFault, TValue>`, `ValueTask<TValue>`, `ValueTask<Result<TFault, TValue>>`, `Task<TValue>` or `Task<Result<TFault, TValue>>`. Subsequent expressions may depend on previous expressions (`F` and `G` for example) or may not depend on previous expressions (`C` and `D` for example). The total count of `B`, `C`, `D`, `E`, `F` and `G`-like statements is efficiently unlimited.
+* `H` (`select` clause) should return  `TResult`, `Result<TFault>`, `Result<TFault, TResult>`, `ValueTask<TResult>`, `ValueTask<Result<TFault>>`, `ValueTask<Result<TFault, TResult>>`, `Task<TResult>`, `Task<Result<TFault>>` or `Task<Result<TFault, TResult>>`.
 
 `TFault` should be identical in all clauses. Use `MapFault` to convert different `TFault` to the same one.
 
