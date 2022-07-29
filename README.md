@@ -1,5 +1,8 @@
 # Yet another `Result` types implementation
 
+[![NuGet](https://img.shields.io/nuget/v/Kontur.Results.svg)](https://www.nuget.org/packages/Kontur.Results/)
+
+
 This library consists of three `Result` types with some tempting [features](#features) :
 * `Optional<TValue>`
 * `Result<TFault>`
