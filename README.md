@@ -149,43 +149,16 @@ catch (ResultFailedException<DraftError> ex)
 </details>
 
 <details>
-  <summary>Inheritance to freeze fault type</summary>
-
-```csharp
-class StringFaultResult<TValue> : Result<string, TValue>
-{
-  private readonly Result<string, TValue> result;
-
-  public StringFaultResult(string fault) => result = fault;
-  public StringFaultResult(TValue value) => result = value;
-
-  public override TResult Match<TResult>(Func<string, TResult> onFailure, Func<TValue, TResult> onSuccess)
-    => result.Match(onFailure, onSuccess);
-}
-
-public StringFaultResult<int> GenerateInt()
-{
-  int randomValue = new Random().Next(0, 10);
-  if (randomValue > 0)
-  {
-    return new StringFaultResult<int>(randomValue);
-  }
-
-  return new StringFaultResult<int>("Failed to generate a positive number");
-}
-```
-</details>
-
-<details>
   <summary>Working with data without extracting values from instances</summary>
 
 ```csharp
 abstract Task<Optional<string>> GetFormLogin();
-abstract Optional<Guid> GetUser(string login);
-abstract ValueTask<Optional<Guid>> CreateUser(string login);
+abstract Optional<Guid> GetUser(LoginModel login);
+abstract ValueTask<Optional<Guid>> CreateUser(LoginModel login);
 
 Task<Optional<Guid>> userId =
    GetFormLogin()
+   .MapValue(str => new LoginModel(str))
   .Then(login => GetUser(login).OrElse(() => CreateUser(login)))
 ```
 </details>
@@ -245,6 +218,34 @@ Result<Exception, NaturalNumber> result =
   from int2 in TryParseString(Console.ReadLine())
   from natural2 in NaturalNumber.TryParse(int2).OrElse(Result.Fail(new Exception(int2 + " is not positive")))
   select natural1 + natural2;
+```
+</details>
+
+<details>
+  <summary>Inheritance to freeze fault type</summary>
+
+```csharp
+class StringFaultResult<TValue> : Result<string, TValue>
+{
+  private readonly Result<string, TValue> result;
+
+  public StringFaultResult(string fault) => result = fault;
+  public StringFaultResult(TValue value) => result = value;
+
+  public override TResult Match<TResult>(Func<string, TResult> onFailure, Func<TValue, TResult> onSuccess)
+    => result.Match(onFailure, onSuccess);
+}
+
+public StringFaultResult<int> GenerateInt()
+{
+  int randomValue = new Random().Next(0, 10);
+  if (randomValue > 0)
+  {
+    return new StringFaultResult<int>(randomValue);
+  }
+
+  return new StringFaultResult<int>("Failed to generate a positive number");
+}
 ```
 </details>
 
