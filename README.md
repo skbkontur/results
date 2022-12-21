@@ -158,7 +158,7 @@ abstract ValueTask<Optional<Guid>> CreateUser(LoginModel login);
 
 Task<Optional<Guid>> userId =
    GetFormLogin()
-   .MapValue(str => new LoginModel(str))
+  .MapValue(str => new LoginModel(str))
   .Then(login => GetUser(login).OrElse(() => CreateUser(login)))
 ```
 </details>
