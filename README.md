@@ -257,7 +257,7 @@ public StringFaultResult<int> GenerateInt()
 * [Then](#then) (`And`, `ContinueWith`, `ContinueOnSome`, `Bind`) and [OrElse](#orelse) (`Or`, `Else`, `Catch`, `ContinueOnNone`) async extensions that allow chaining.
 
 * Great interface that allows checking and extracting of data with a single method. See [TryGetValue](#trygetvalue) and [Match](#match).
-* Explicit behavior of methods. See [GetValueOrThrow](#getvalueorthrow) and [GetValueOrDefault](#getvalueordefault). There is no `.Result` or `.Value` or `.Data` properties that have undefined or unexpected behaviour if there are no succesful result.
+* Explicit behavior of methods. See [GetValueOrThrow](#getvalueorthrow) and [GetValueOrDefault](#getvalueordefault). There is no `.Result` or `.Value` or `.Data` properties that have undefined or unexpected behavior if there are no succesful result.
 
 * `TValue` and `TFault` generic parameters are not restricted in any way.
 * There is no specific handling of null values. So you can store `nulls` as `TValue` or `TFault`. Use C# 8 nullable reference types to handle nulls.
