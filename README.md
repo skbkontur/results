@@ -100,23 +100,25 @@ Execute the following command in your cement module instead if you are willing f
 ## Examples
 
 <details>
-  <summary>Basic example</summary>
+  <summary>Checking Result status and extracting data with single method</summary>
 
 ```csharp
 using Kontur.Results;
 
-Result<Exception, string> result = "success!"; // implicit conversion
+Result<int, string> result = "success!"; // implicit conversion
 
-if (result.TryGetValue(out string value)) {
-   return value.ToString() // OK. Value is not null here. The compiler allows this.
+if (result.TryGetValue(out string value, out var faultCode))
+{
+   Console.WriteLine(value.ToString()) // OK. Value is not null here. The compiler allows this.
 }
 
-return value.ToString() // warning CS8602: Dereference of a possibly null reference.
+Console.WriteLine("Error code: " + faultCode);
+Console.WriteLine(value.ToString()) // warning CS8602: Dereference of a possibly null reference.
 ```
 </details>
 
 <details>
-  <summary>Working with exceptions</summary>
+  <summary>Converting Result-way error handling to exception-way error handling</summary>
 
 ```csharp
 using Kontur.Results;
@@ -139,17 +141,17 @@ Result<DraftError, Draft> createDraftResult = await new DraftClient().CreateDraf
 try
 {
   Draft draft = createDraftResult.GetValueOrThrow();
-  return draft.Id;
+  Console.WriteLine(draft.Id);
 }
 catch (ResultFailedException<DraftError> ex)
 {
-  log.Warn("Error code: " + ex.Fault.Code);
+  Console.WriteLine("Error code: " + ex.Fault.Code));
 }
 ```
 </details>
 
 <details>
-  <summary>Working with data without extracting values from instances</summary>
+  <summary>Working with values without extracting it from Result instances</summary>
 
 ```csharp
 abstract Task<Optional<string>> GetFormLogin();
@@ -255,7 +257,7 @@ public StringFaultResult<int> GenerateInt()
 * [Then](#then) (`And`, `ContinueWith`, `ContinueOnSome`, `Bind`) and [OrElse](#orelse) (`Or`, `Else`, `Catch`, `ContinueOnNone`) async extensions that allow chaining.
 
 * Great interface that allows checking and extracting of data with a single method. See [TryGetValue](#trygetvalue) and [Match](#match).
-* Explicit behavior of methods. See [GetValueOrThrow](#getvalueorthrow) and [GetValueOrDefault](#getvalueordefault). There is no `.Result` or `.Value` or `.Data` property with undefined behaviour if there are no data.
+* Explicit behavior of methods. See [GetValueOrThrow](#getvalueorthrow) and [GetValueOrDefault](#getvalueordefault). There is no `.Result` or `.Value` or `.Data` properties that have undefined or unexpected behaviour if there are no succesful result.
 
 * `TValue` and `TFault` generic parameters are not restricted in any way.
 * There is no specific handling of null values. So you can store `nulls` as `TValue` or `TFault`. Use C# 8 nullable reference types to handle nulls.
@@ -703,8 +705,8 @@ string result = optional
   .Switch(
     onNone: () => Console.WriteLine("There is no value"),
     onSome: value => Console.WriteLine($"Value is {value}"))
-  .OnSome(value => log.Info($"Value is {value}"))
-  .OnNone(() => log.Info("There is no value"))
+  .OnSome(value => Console.WriteLine($"Value is {value}"))
+  .OnNone(() => Console.WriteLine("There is no value"))
   .Match(onNoneValue: "valueOnNone", onSome: value => value.ToString());
 ```
 
