@@ -2392,7 +2392,7 @@ Where:
 
 ## Inheritance
 
-You can create your own `Result` or `Option` type by inheriting provided types.
+You can create your own `Result` type by inheriting provided types.
 
 ```csharp
 class StringFaultResult<TValue> : Result<string, TValue>
