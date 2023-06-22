@@ -17,11 +17,6 @@ namespace Kontur.Results
 
         public bool IsNone => !this.HasSome;
 
-        public static implicit operator bool(Optional<TValue> optional)
-        {
-            return optional.HasSome;
-        }
-
         public static implicit operator Optional<TValue>(NoneMarker none)
         {
             _ = none;
