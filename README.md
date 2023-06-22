@@ -45,7 +45,6 @@ This library consists of three `Result` types with some tempting [features](#fea
     * [IsNone](#isnone)
     * [Success](#success)
     * [Failure](#failure)
-    * [Implicit conversion to bool](#implicit-conversion-to-bool)
     * [LINQ method syntax (GetValues, GetFaults)](#linq-method-syntax-getvalues-getfaults)
     * [LINQ query syntax](#linq-query-syntax)
     * [foreach](#foreach)
@@ -1269,52 +1268,6 @@ bool extracted = result.Failure; // false
 Result<Exception> result = new Exception();
 
 bool extracted = result.Failure; // true
-```
-
-### Implicit conversion to bool
-```csharp
-Optional<string> optional = ...;
-
-if (optional)
-{
-  // On some
-}
-else
-{
-  // On none
-}
-
-bool extracted = optional;
-```
-
-```csharp
-Result<Exception, string> result = ...;
-
-if (result)
-{
-  // On success
-}
-else
-{
-  // On failure
-}
-
-bool extracted = result;
-```
-
-```csharp
-Result<Exception> result = ...;
-
-if (result)
-{
-  // On success
-}
-else
-{
-  // On failure
-}
-
-bool extracted = result;
 ```
 
 ### LINQ method syntax (GetValues, GetFaults)

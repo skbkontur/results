@@ -31,4 +31,4 @@ full-build > monad:
     configuration: Release
 
   artifacts:
-    - Kontur.Tests.Results\bin\Release\net5.0\Kontur.Tests.Results.dll
+    - Kontur.Tests.Results\bin\Release\net6.0\Kontur.Tests.Results.dll

@@ -14,11 +14,6 @@ namespace Kontur.Results
 
         public bool Failure => !this.Success;
 
-        public static implicit operator bool(Result<TFault, TValue> result)
-        {
-            return result.Success;
-        }
-
         public static implicit operator Result<TFault>(Result<TFault, TValue> result)
         {
             return result.Match(Result<TFault>.Fail, () => Result<TFault>.Succeed());
