@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\msbuild-binary-output\output-directory.props" />
   <Import Project="..\vostok.devtools\git-commit-to-assembly-title\Vostok.Tools.GitCommit2AssemblyTitle.props" />
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
-    <PackageVersion>3.0.0</PackageVersion>
+    <PackageVersion>3.1.0</PackageVersion>
     <Title>Kontur.Results.Monad</Title>
     <Description>A library with monad-like extensions for Kontur.Results, such as Then and do-notation.</Description>
     <PackageProjectUrl>https://github.com/skbkontur/results</PackageProjectUrl>
