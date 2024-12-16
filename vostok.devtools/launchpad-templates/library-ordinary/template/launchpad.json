@@ -1,0 +1,24 @@
+{
+  "Variables": [
+    {
+      "Name": "ProjectName",
+      "Description": "A name of solution, main project and namespace. Example: 'Vostok.Logging.Abstractions'."
+    },
+    {
+      "Name": "RepositoryUrl",
+      "Description": "URL of library's repository on GitHub (needed for packaging metadata)."
+    },
+    {
+      "Name": "RepositoryName",
+      "Description": "Name of library's repository on GitHub (needed for repo badges, do not include 'vostok' prefix)."
+    },
+    {
+      "Name": "OneLineDescription",
+      "Description": "Short one-line description of what this library does in its essence."
+    },
+    {
+      "Name": "AdditionalTags",
+      "Description": "Additional tags for NuGet package delimited by spaces (such as vostok.logging). 'vostok' tag is included by default."
+    }
+  ]
+}

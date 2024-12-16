@@ -1,0 +1,26 @@
+<Project TreatAsLocalProperty="TaskAssembly">
+
+  <PropertyGroup>
+    <TaskAssembly>$(MSBuildThisFileDirectory)Vostok.Tools.GitCommit2AssemblyTitle.dll</TaskAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+  </PropertyGroup>
+
+  <UsingTask TaskName="Vostok.Tools.GitCommit2AssemblyTitle.GitCommit2AssemblyTitle" AssemblyFile="$(TaskAssembly)" />
+
+  <Target Name="GenerateAssemblyTitle" BeforeTargets="BeforeBuild">
+    <PropertyGroup Condition="'$(Version)' == ''">
+      <Version>1.0.0.0</Version>
+    </PropertyGroup>
+    <GitCommit2AssemblyTitle AssemblyVersion="$(Version)"/>
+  </Target>
+
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyTitle.cs" />
+    <Compile Include="Properties\AssemblyTitle.cs" />
+  </ItemGroup>
+
+</Project>

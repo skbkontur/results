@@ -1,0 +1,22 @@
+src:
+  build:
+    target: None
+    configuration: None
+
+notests *default:
+  build:
+    target: {{ProjectName}}.sln
+    configuration: NoTests
+    tool:
+      name: dotnet
+
+  install:
+    - {{ProjectName}}/bin/Release/netstandard2.0/{{ProjectName}}.dll
+
+  deps:
+    - vostok.devtools
+
+full-build > notests:
+  build:
+    target: {{ProjectName}}.sln
+    configuration: Release
