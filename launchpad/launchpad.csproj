@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\git-commit-to-assembly-title\Vostok.Tools.GitCommit2AssemblyTitle.props" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>Latest</LangVersion>
+    <DebugType>embedded</DebugType>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <Authors>Vostok team</Authors>
+    <Product>Vostok</Product>
+    <Title>Vostok repository bootstap tool.</Title>
+    <Copyright>Copyright (c) 2017-2018 SKB Kontur</Copyright>
+    <Description>Vostok repository bootstap tool.</Description>
+
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <PackageId>Vostok.Launchpad</PackageId>
+    <PackageOutputPath>$(SolutionDir)\nupkg</PackageOutputPath>
+    
+    <NoWarn>NETSDK1138</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>0.0.13</Version>
+    <FileVersion>$(Version)</FileVersion>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <PackageVersion>$(Version)</PackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageProjectUrl>https://github.com/vostok/devtools</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/vostok/devtools/master/assets/Vostok-icon.png</PackageIconUrl>
+    <PackageTags>vostok vostok.launchpad</PackageTags>
+    <RepositoryUrl>https://github.com/vostok/logging.devtools</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="launchpad-config.json" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="launchpad-help.txt" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="launchpad-logo.txt" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NuGet.Common" Version="6.4.0" />
+    <PackageReference Include="NuGet.Configuration" Version="6.4.0" />
+    <PackageReference Include="NuGet.Frameworks" Version="6.4.0" />
+    <PackageReference Include="NuGet.LibraryModel" Version="6.4.0" />
+    <PackageReference Include="NuGet.Packaging" Version="6.4.0" />
+    <PackageReference Include="NuGet.Packaging.Core" Version="6.4.0" />
+    <PackageReference Include="NuGet.ProjectModel" Version="6.4.0" />
+    <PackageReference Include="Stubble.Core" Version="1.10.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3-beta1" />
+  </ItemGroup>
+
+</Project>

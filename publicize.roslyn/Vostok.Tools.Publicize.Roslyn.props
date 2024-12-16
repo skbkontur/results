@@ -1,0 +1,31 @@
+<Project TreatAsLocalProperty="PublicizeRoslynTaskAssembly;PublicizeCs">
+
+  <PropertyGroup>
+    <PublicizeRoslynTaskAssembly>$(MSBuildThisFileDirectory)Vostok.Tools.Publicize.Roslyn.v1.dll</PublicizeRoslynTaskAssembly>
+  </PropertyGroup>
+
+  <UsingTask TaskName="Vostok.Tools.Publicize.Roslyn.PublicizeRoslyn" AssemblyFile="$(PublicizeRoslynTaskAssembly)" />
+
+  <Target Name="PublicizeRoslynTarget" BeforeTargets="BeforeBuild">
+    
+    <ItemGroup>
+      <PublicizeCs Include="**\*.cs" />
+      <PublicizeCs Remove="bin\**\*.cs" />
+      <PublicizeCs Remove="obj\**\*.cs" />
+      <PublicizeCs Remove="Properties\**\*.cs" />
+    </ItemGroup>
+
+    <PublicizeRoslyn
+        ProjectDirectory="$(ProjectDir)"
+        SourceFiles="@(PublicizeCs)"
+        DestinationDirectory="$(ProjectDir)obj\$(Configuration)\$(TargetFramework)\"
+        PublicApiAttributes="PublicAPI"/>
+    
+    <ItemGroup>
+      <Compile Remove="%(PublicizeCs.RelativeDir)%(PublicizeCs.FileName)%(PublicizeCs.Extension)" />
+      <Compile Include="$(ProjectDir)obj\$(Configuration)\$(TargetFramework)\%(PublicizeCs.RelativeDir)%(PublicizeCs.FileName)%(PublicizeCs.Extension)" />
+    </ItemGroup>
+    
+  </Target>
+  
+</Project>

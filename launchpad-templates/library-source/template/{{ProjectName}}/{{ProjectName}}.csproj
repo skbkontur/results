@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <Import Project="..\..\vostok.devtools\library-common-props\Main-Project.props" />
+  <Import Project="..\..\vostok.devtools\git-commit-to-assembly-title\Vostok.Tools.GitCommit2AssemblyTitle.props" />
+  <Import Project="..\..\vostok.devtools\publicize.roslyn\Vostok.Tools.Publicize.Roslyn.props" Condition="'$(Configuration)'=='Release'" />
+
+  <PropertyGroup>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>0.0.1</VersionPrefix>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>{{ProjectName}}</Title>
+    <Description>{{OneLineDescription}}</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageProjectUrl>{{RepositoryUrl}}</PackageProjectUrl>
+    <PackageLicenseUrl>{{RepositoryUrl}}/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>vostok {{AdditionalTags}}</PackageTags>
+    <PackageReleaseNotes>{{RepositoryUrl}}/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <RepositoryUrl>{{RepositoryUrl}}</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <Import Project="..\..\..\vostok.devtools\library-common-props\Main-Project.props" />
+  <Import Project="..\..\..\vostok.devtools\git-commit-to-assembly-title\Vostok.Tools.GitCommit2AssemblyTitle.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Configurations>Debug;Release;Publish</Configurations>
+    <LangVersion>7.2</LangVersion>
+    <NoWarn>NETSDK1138</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageReleaseNotes>TODO</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Vostok.Tools.Publicize.Roslyn</Title>
+    <Description>Vostok.Tools.Publicize.Roslyn</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageProjectUrl>https://github.com/vostok/devtools</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/vostok/devtools/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>vostok</PackageTags>
+    <RepositoryUrl>https://github.com/vostok/devtools</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="15.8.166" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.8.166" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.9.0" />
+    <PackageReference Update="@(PackageReference)">
+      <PrivateAssets>All</PrivateAssets>
+      <Publish Condition=" '%(PackageReference.Publish)' != 'false' ">true</Publish>
+    </PackageReference>
+  </ItemGroup>
+  
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <ILRepackExecutable>"$(MSBuildThisFileDirectory)..\..\..\vostok.devtools.ilrepack.bin\net40\ILRepack.exe"</ILRepackExecutable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+    <ILRepackExecutable>dotnet "$(MSBuildThisFileDirectory)../../../vostok.devtools.ilrepack.bin/netcoreapp2.1/ILRepack.Core.dll"</ILRepackExecutable>
+  </PropertyGroup>
+  
+  <Target Name="Publishing" BeforeTargets="RepackAssemblies" Condition="'$(Configuration)' == 'Release' Or '$(Configuration)' == 'NoTests'">
+    <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet publish -c Publish" />
+  </Target>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release' Or '$(Configuration)' == 'NoTests'">
+    <PubDirWithoutSlash>$(ProjectDir)bin\Publish\$(TargetFramework)\publish</PubDirWithoutSlash>
+    <PubDir>$(PubDirWithoutSlash)\</PubDir>
+  </PropertyGroup>
+
+  <Target Name="RepackAssemblies" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' Or '$(Configuration)' == 'NoTests'">
+    <ItemGroup>
+      <MergeAssemblies Include="$(ProjectDir)$(OutputPath)$(AssemblyName).dll" />
+      <MergeAssemblies Include="$(PubDir)System.*.dll" />
+      <MergeAssemblies Include="$(PubDir)Microsoft.CodeAnalysis*.dll" />
+    </ItemGroup>
+    <Exec Command="$(ILRepackExecutable) /internalize /log:&quot;$(ProjectDir)$(OutputPath)ilrepack.log&quot; /lib:&quot;$(PubDirWithoutSlash)&quot; /out:&quot;$(ProjectDir)../$(AssemblyName).v1.dll&quot; @(MergeAssemblies->'&quot;%(RelativeDir)%(FileName)%(Extension)&quot;', ' ')" />
+  </Target>
+
+</Project>

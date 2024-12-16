@@ -1,0 +1,36 @@
+Commands:
+
+launchpad new <template-name> [--source <nuget-source>]
+	Bootstraps a project from given template in current directory.
+	Prompts user interactively for variable values.
+	There are several ways to specify template:
+		1. Short name. Use 'list' command to view all templates with short names configured.
+		2. Nuget package id. Example: 'nuget::Vostok.Launchpad.Templates.Library'.
+    Options:
+        --source <nuget-source> - allow user to specify nuget sources for command execution.
+
+launchpad process
+	Processes all files in current directory assuming that it contains an unpacked template.
+	It's primary use case is template development and testing.
+
+launchpad list
+	Prints the list of all available template names.
+
+launchpad version
+	Prints installed tool version.
+
+launchpad config
+	Prints current configuration.
+
+launchpad set-config <config-source>
+	Instructs launchpad to read its config from given source. It can be one of the following:
+		1. Absolute path to a local file (like 'C:\launchpad\launchpad-config.json')
+		2. Absolute HTTP URL to a remote file (like 'https://github.com/...')
+	This command sets a LAUNCHPAD_CONFIG_PATH environment variable for current user.
+	You might need to restart your console/terminal for changes to take effect.
+
+launchpad reset-config
+	Instructs launchpad to read its config from default bundled file.
+	Use this command to revert changes made by 'set-config' command.
+	This command removes a LAUNCHPAD_CONFIG_PATH environment variable for current user.
+	You might need to restart your console/terminal for changes to take effect.

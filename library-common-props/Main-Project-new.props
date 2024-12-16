@@ -1,0 +1,15 @@
+<Project>
+
+  <Import Project="Main-Project.props" />
+
+  <PropertyGroup>
+      <Nullable>enable</Nullable>
+      <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="$(MSBuildThisFileDirectory)..\jetbrains-annotations\JetBrainsAnnotations.cs" Link="Annotations\JetBrainsAnnotations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\jetbrains-annotations\JetBrainsAnnotationsLangVersion8.cs" Link="Annotations\JetBrainsAnnotations.cs" />
+  </ItemGroup>
+  
+</Project>

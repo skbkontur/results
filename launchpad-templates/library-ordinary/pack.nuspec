@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Vostok.Launchpad.Templates.Library</id>
+    <version>0.0.13</version>
+    <title>A launchpad template for generating ordinary Vostok libraries.</title>
+    <authors>Vostok team</authors>
+    <owners>Vostok team</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <iconUrl>https://raw.githubusercontent.com/vostok/devtools/master/assets/Vostok-icon.png</iconUrl>
+    <description>A launchpad template for generating ordinary Vostok libraries.</description>
+    <copyright>Copyright (c) 2017-2018 SKB Kontur</copyright>
+    <tags>vostok vostok.launchpad</tags>
+    <repository type="git" url="https://github.com/vostok/devtools" />
+  </metadata>
+
+  <files>
+    <file src="template\**" target="contentFiles" />
+  </files>
+  
+</package>

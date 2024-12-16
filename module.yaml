@@ -1,0 +1,24 @@
+src:
+  build:
+    target: None
+    configuration: None
+
+full-build:
+  deps:
+    - vostok.devtools.ilrepack.bin
+  build:
+    target: None
+    configuration: None
+
+dotnetcementrefs:
+  build:
+    - name: Build
+      tool: dotnet
+      parameters: build
+      target: dotnetcementrefs\dotnetcementrefs.sln
+      configuration: Release
+    - name: Install global tool
+      tool: dotnet
+      parameters: tool update --add-source dotnetcementrefs\nupkg -g dotnetcementrefs --
+      target: plz_fix_none
+      configuration: None

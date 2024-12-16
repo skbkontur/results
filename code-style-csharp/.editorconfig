@@ -1,0 +1,12 @@
+; 4-column space indentation
+[*]
+indent_style = space
+
+[*.{cs,tt}]
+indent_size = 4
+
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
+indent_size = 2
+
+[*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
+indent_size = 2

@@ -1,0 +1,69 @@
+<Project>
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net6.0;netstandard2.0</TargetFrameworks>
+    <ReferencesFramework>netstandard2.0</ReferencesFramework>
+    <ReferencesFramework Condition="'$(TargetFramework)' == 'net8.0'">net8.0</ReferencesFramework>
+    <ReferencesFramework Condition="'$(TargetFramework)' == 'net6.0'">net6.0</ReferencesFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('PublicAPI.Shipped.txt') OR Exists('PublicAPI\netstandard2.0\PublicAPI.Shipped.txt') OR Exists('PublicAPI\net6.0\PublicAPI.Shipped.txt') OR Exists('PublicAPI\net8.0\PublicAPI.Shipped.txt')">
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <FileVersion>$(Version)</FileVersion>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <PackageVersion>$(Version)</PackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Vostok team</Authors>
+    <Company>SKB Kontur</Company>
+    <Product>Vostok</Product>
+    <Copyright>Copyright (c) 2017-2020 SKB Kontur</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageIconUrl>https://raw.githubusercontent.com/vostok/devtools/master/assets/Vostok-icon.png</PackageIconUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>1701;1702;1591;1573;NETSDK1138;NU5125;NU5048</NoWarn>
+    <WarningsAsErrors>RS0016,RS0017,RS0024,RS0025,RS0048,RS0050</WarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)..\jetbrains-annotations\JetBrainsAnnotations.cs" Link="Annotations\JetBrainsAnnotations.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\module.yaml" Link = "Auxiliary\module.yaml"/>
+    <None Include="..\CHANGELOG.md" Link = "Auxiliary\changelog.md"/>
+    <None Include="..\README.md" Link = "Auxiliary\readme.md" Pack="true" PackagePath="\"/>
+    <None Include="..\.gitlab-ci.yml" Link = "Auxiliary\.gitlab-ci.yml" Condition="Exists('..\.gitlab-ci.yml')"/>
+  </ItemGroup>
+
+  <PropertyGroup>    
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+</Project>
