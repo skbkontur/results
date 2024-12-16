@@ -1,6 +1,4 @@
-cd ..
-call cm get vostok.devtools
-cd vostok.devtools\dotnetcementrefs
+cd ..\vostok.devtools\dotnetcementrefs
 dotnet build -c Release
 dotnet tool update --add-source nupkg -g dotnetcementrefs
 cd %~dp0

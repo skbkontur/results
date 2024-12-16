@@ -6,7 +6,6 @@ default:
 lib *default:
   deps:
     - msbuild-binary-output
-    - vostok.devtools
 
   build:
     configuration: Lib
