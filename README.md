@@ -12,8 +12,6 @@ This library consists of three `Result` types with some tempting [features](#fea
 
 * [License](#license)
 * [Installation](#installation)
-    * [Nuget](#nuget)
-    * [Cement](#cement)
 * [Examples](#examples)
 * [Features](#features)
 * [Drawbacks](#drawbacks)
@@ -74,27 +72,13 @@ MIT
 
 ## Installation
 
-### Nuget
-
 Execute that command in Package Manager console to install [Kontur.Results](https://www.nuget.org/packages/Kontur.Results/):
 
-`Install-Package Kontur.Results -Version 1.0.1`
+`Install-Package Kontur.Results -Version 3.0.0`
 
 Execute the following command instead to install [Kontur.Results.Monad](https://www.nuget.org/packages/Kontur.Results.Monad/) if you are willing for [monadic extensions](#result-combining) (implemented separately). It consists of [Then](#then), [OrElse](#orelse), [Select](#select) and [do notation](#do-notation-with-async-extensions):
 
-`Install-Package Kontur.Results.Monad -Version 1.0.1`
-
-### Cement
-
-Use [cement](https://github.com/skbkontur/cement#get-started) to add a reference to `Kontur.Results` assembly.
-
-Execute that command in your cement module:
-
-`cm ref add results your-csproj.csproj`
-
-Execute the following command in your cement module instead if you are willing for [monadic extensions](#result-combining) (implemented separately). It consists of [Then](#then), [OrElse](#orelse), [Select](#select) and [do notation](#do-notation-with-async-extensions):
-
-`cm ref add results/monad your-csproj.csproj`
+`Install-Package Kontur.Results.Monad -Version 3.0.0`
 
 ## Examples
 

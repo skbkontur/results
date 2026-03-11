@@ -8,7 +8,6 @@
     <Description>A library with Result types, such as Result and Optional.</Description>
     <PackageProjectUrl>https://github.com/skbkontur/results</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageLicenseUrl>https://github.com/skbkontur/results/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>kontur kontur.results result results optional either</PackageTags>
     <RepositoryUrl>https://github.com/skbkontur/results</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -24,7 +23,10 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-    <PackageReference Include="Nullable" Version="1.3.0">
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PolySharp" Version="1.15.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

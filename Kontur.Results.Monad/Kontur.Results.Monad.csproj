@@ -8,7 +8,6 @@
     <Description>A library with monad-like extensions for Kontur.Results, such as Then and do-notation.</Description>
     <PackageProjectUrl>https://github.com/skbkontur/results</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageLicenseUrl>https://github.com/skbkontur/results/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>kontur kontur.results result results optional either do</PackageTags>
     <RepositoryUrl>https://github.com/skbkontur/results</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
