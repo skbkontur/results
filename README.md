@@ -108,11 +108,11 @@ Result<int, string> result = "success!"; // implicit conversion
 
 if (result.TryGetValue(out string value, out var faultCode))
 {
-   Console.WriteLine(value.ToString()) // OK. Value is not null here. The compiler allows this.
+   Console.WriteLine(value.ToString()); // OK. Value is not null here. The compiler allows this.
 }
 
 Console.WriteLine("Error code: " + faultCode);
-Console.WriteLine(value.ToString()) // warning CS8602: Dereference of a possibly null reference.
+Console.WriteLine(value.ToString()); // warning CS8602: Dereference of a possibly null reference.
 ```
 </details>
 
@@ -144,7 +144,7 @@ try
 }
 catch (ResultFailedException<DraftError> ex)
 {
-  Console.WriteLine("Error code: " + ex.Fault.Code));
+  Console.WriteLine("Error code: " + ex.Fault.Code);
 }
 ```
 </details>
@@ -550,7 +550,7 @@ object upcasted = result.Match(onFailureValue: "valueOnNone", onSuccessValue: ne
 
 object upcasted = result.Match<object>(onFailure: ex => ex.Message, onSuccess: i => $"Number {i}");
 object upcasted = result.Match<object>(onFailure: ex => ex.Message, onSuccess: () => "Number is present");
-object upcasted = result.Match<object>(onFailure: ex => ex.Message), onSuccessValue: "Number is present");
+object upcasted = result.Match<object>(onFailure: ex => ex.Message, onSuccessValue: "Number is present");
 object upcasted = result.Match<object>(onFailure: () => new Exception("There is no value"), onSuccess: i => $"Number {i}");
 object upcasted = result.Match<object>(onFailure: () => new Exception("There is no value"), onSuccess: () => "Number is present");
 object upcasted = result.Match<object>(onFailure: () => new Exception("There is no value"), onSuccessValue: "Number is present");
@@ -590,7 +590,7 @@ object upcasted = result.Match(onFailureValue: "valueOnNone", onSuccess: () => n
 object upcasted = result.Match(onFailureValue: "valueOnNone", onSuccessValue: new object());
 
 object upcasted = result.Match<object>(onFailure: ex => ex.Message, onSuccess: () => "Fault is not present");
-object upcasted = result.Match<object>(onFailure: ex => ex.Message), onSuccessValue: "Fault is not present");
+object upcasted = result.Match<object>(onFailure: ex => ex.Message, onSuccessValue: "Fault is not present");
 object upcasted = result.Match<object>(onFailure: () => new Exception(), onSuccess: () => "Fault is not present");
 object upcasted = result.Match<object>(onFailure: () => new Exception(), onSuccessValue: "Fault is not present");
 object upcasted = result.Match<object>(onFailureValue: new Exception(), onSuccess: () => "Fault is not present");
@@ -644,7 +644,7 @@ Result<Exception> result = ...;
 result.Switch(
   onFailure: fault => Console.WriteLine("Fault is {fault.Message}"),
   onSuccess: () => Console.WriteLine($"There is no fault")
-); =
+);
 
 result.Switch(
   onFailure: () => Console.WriteLine("Fault is present"),
@@ -1057,7 +1057,7 @@ namespace Custom
   {
     static void EnsureHasValue(this Optional<CustomValue> optional)
     {
-      return optional.EnsureHasValue(new Exception("Overridden!"));
+      optional.EnsureHasValue(new Exception("Overridden!"));
     }
   }
 }
@@ -1089,7 +1089,7 @@ namespace Custom
   {
     static void EnsureNone(this Optional<CustomValue> optional)
     {
-      return optional.EnsureNone(new Exception("Overridden!"));
+      optional.EnsureNone(new Exception("Overridden!"));
     }
   }
 }
@@ -1134,11 +1134,11 @@ namespace CustomTypes
   {
     static void EnsureSuccess<TFault>(this Result<TFault, CustomValue> result)
     {
-      return result.EnsureSuccess(new Exception("Overridden!"));
+      result.EnsureSuccess(new Exception("Overridden!"));
     }
     static void EnsureSuccess(this Result<CustomFault> result)
     {
-      return result.EnsureSuccess(new Exception("Overridden!"));
+      result.EnsureSuccess(new Exception("Overridden!"));
     }
   }
 }
@@ -1182,11 +1182,11 @@ namespace CustomTypes
   {
     static void EnsureFailure<TFault>(this Result<TFault, CustomValue> result)
     {
-      return result.EnsureFailure(new Exception("Overridden!"));
+      result.EnsureFailure(new Exception("Overridden!"));
     }
     static void EnsureFailure(this Result<CustomFault> result)
     {
-      return result.EnsureFailure(new Exception("Overridden!"));
+      result.EnsureFailure(new Exception("Overridden!"));
     }
   }
 }
@@ -1754,7 +1754,7 @@ All synchronous methods support upcasts of `TFault` and `TValue`.
 Async extensions make use of methods returning `Task<T>`, `ValueTask<T>` and inline async lambdas. For example:
 ```csharp
 async Task<int> Get1(int number) => number + 1;
-async ValueTask<int> Get2(number) => number - 1;
+async ValueTask<int> Get2(int number) => number - 1;
 
 Task<Optional<int>> Get(Task<Optional<int>> optional)
 {
@@ -2043,7 +2043,7 @@ Result<Exception, string> result2 = ...;
 // Otherwise option2 is returned.
 Result<Exception, string> result = result1.Then(result2);
 Result<Exception, string> result = result1.Then(() => result2);
-Result<Exception, string> result = result1.Then(i => i > 10 ? Result<Exception, string>.Success(i.ToString()) : Result<Exception, string>.Failure());
+Result<Exception, string> result = result1.Then(i => i > 10 ? Result<Exception, string>.Succeed(i.ToString()) : Result<Exception, string>.Fail(new Exception()));
 ```
 
 <details>
@@ -2138,8 +2138,8 @@ ValueTask<Result<Exception, string>> result = result1.OrElse(async fault => awai
 ValueTask<Result<Exception, string>> result = result1.OrElse(fault => new ValueTask(result2));
 Task<Result<Exception, string>> result = result1.OrElse(fault => Task.FromResult(result2));
 
-ValueTask<Result<sException, tring>> result = new ValueTask(result1).OrElse(fault => result2);
-ValueTask<Result<sException, tring>> result = new ValueTask(result1).OrElse(async fault => await Task.FromResult(result2));
+ValueTask<Result<Exception, string>> result = new ValueTask(result1).OrElse(fault => result2);
+ValueTask<Result<Exception, string>> result = new ValueTask(result1).OrElse(async fault => await Task.FromResult(result2));
 ValueTask<Result<Exception, string>> result = new ValueTask(result1).OrElse(fault => new ValueTask(result2));
 Task<Result<Exception, string>> result = new ValueTask(result1).OrElse(fault => Task.FromResult(result2));
 
@@ -2174,11 +2174,11 @@ abstract Task<Result<TicksError, Guid>> CreateUser(string login);
 abstract Result<TicksError, DateTime> GetCreationDate(Guid userId);
 abstract Result<TicksError> EnsureTicksIsValid(long ticks);
 
-Task<Result<GetTicksError>> userCreationDateTicksValid =
+Task<Result<TicksError>> userCreationDateTicksValid =
    GetFormLogin()
   .Then(login => GetUser(login).OrElse(() => CreateUser(login)))
   .Then(userId => GetCreationDate(userId))
-  .MapValue(date => date.Ticks);
+  .MapValue(date => date.Ticks)
   .Then(ticks => EnsureTicksIsValid(ticks))
 ```
 
@@ -2227,19 +2227,19 @@ Result<Exception, string> extracted = result.Select(str => str.Length > 5 ? Resu
 Result<Exception, string> extracted = result.Select(str => str + "suffix");
 Result<Exception, int> extracted = result.Select(str => int.Parse(str));
 
-ValueTask<Optional<int>> extracted = result.Select(async str => await Task.FromResult(int.Parse(str)));
-ValueTask<Optional<int>> extracted = result.Select(str => new ValueTask(int.Parse(str)));
-Task<Optional<int>> extracted = result.Select(str => Task.FromResult(int.Parse(str)));
+ValueTask<Result<Exception, int>> extracted = result.Select(async str => await Task.FromResult(int.Parse(str)));
+ValueTask<Result<Exception, int>> extracted = result.Select(str => new ValueTask(int.Parse(str)));
+Task<Result<Exception, int>> extracted = result.Select(str => Task.FromResult(int.Parse(str)));
 
-ValueTask<Optional<int>> extracted = new ValueTask(result).Select(str => int.Parse(str));
-ValueTask<Optional<int>> extracted = new ValueTask(result).Select(async str => await Task.FromResult(int.Parse(str)));
-ValueTask<Optional<int>> extracted = new ValueTask(result).Select(str => new ValueTask(int.Parse(str)));
-Task<Optional<int>> extracted = new ValueTask(result).Select(str => Task.FromResult(int.Parse(str)));
+ValueTask<Result<Exception, int>> extracted = new ValueTask(result).Select(str => int.Parse(str));
+ValueTask<Result<Exception, int>> extracted = new ValueTask(result).Select(async str => await Task.FromResult(int.Parse(str)));
+ValueTask<Result<Exception, int>> extracted = new ValueTask(result).Select(str => new ValueTask(int.Parse(str)));
+Task<Result<Exception, int>> extracted = new ValueTask(result).Select(str => Task.FromResult(int.Parse(str)));
 
-Task<Optional<int>> extracted = Task.FromResult(result).Select(str => int.Parse(str));
-Task<Optional<int>> extracted = Task.FromResult(result).Select(async str => await Task.FromResult(int.Parse(str)));
-Task<Optional<int>> extracted = Task.FromResult(result).Select(str => new ValueTask(int.Parse(str)));
-Task<Optional<int>> extracted = Task.FromResult(result).Select(str => Task.FromResult(int.Parse(str)));
+Task<Result<Exception, int>> extracted = Task.FromResult(result).Select(str => int.Parse(str));
+Task<Result<Exception, int>> extracted = Task.FromResult(result).Select(async str => await Task.FromResult(int.Parse(str)));
+Task<Result<Exception, int>> extracted = Task.FromResult(result).Select(str => new ValueTask(int.Parse(str)));
+Task<Result<Exception, int>> extracted = Task.FromResult(result).Select(str => Task.FromResult(int.Parse(str)));
 ```
 </details>
 
