@@ -856,10 +856,10 @@ string extracted = result.GetValueOrThrow(new Exception("There is no value"));
 string extracted = result.GetValueOrThrow(() => new Exception("There is no value"));
 string extracted = result.GetValueOrThrow(fault => new Exception(fault.Message));
 
-object upcasted = result.GetValueOrThrow<object>();
-object upcasted = result.GetValueOrThrow<object>(new Exception("There is no value"));
-object upcasted = result.GetValueOrThrow<object>(() => new Exception("There is no value"));
-object upcasted = result.GetValueOrThrow<object>(fault => new Exception(fault.Message));
+object upcasted = result.GetValueOrThrow<object, object>();
+object upcasted = result.GetValueOrThrow<object, object>(new Exception("There is no value"));
+object upcasted = result.GetValueOrThrow<object, object>(() => new Exception("There is no value"));
+object upcasted = result.GetValueOrThrow<object, object>(fault => new Exception(fault.Message));
 ```
 
 To override exception thrown by default for a specific `TValue` you can implement an extension method with the specific `TValue` in your namespace. You can also use [inheritance](#inheritance) to override exception thrown by default for `TValue` in any namespace.
@@ -897,10 +897,10 @@ Exception extracted = result.GetFaultOrThrow(new Exception("There is no fault"))
 Exception extracted = result.GetFaultOrThrow(() => new Exception("There is no fault"));
 Exception extracted = result.GetFaultOrThrow(value => new Exception(value));
 
-object upcasted = result.GetFaultOrThrow<object>();
-object upcasted = result.GetFaultOrThrow<object>(new Exception("There is no fault"));
-object upcasted = result.GetFaultOrThrow<object>(() => new Exception("There is no fault"));
-object upcasted = result.GetFaultOrThrow<object>(value => new Exception(value));
+object upcasted = result.GetFaultOrThrow<object, object>();
+object upcasted = result.GetFaultOrThrow<object, object>(new Exception("There is no fault"));
+object upcasted = result.GetFaultOrThrow<object, object>(() => new Exception("There is no fault"));
+object upcasted = result.GetFaultOrThrow<object, object>(value => new Exception(value?.ToString()));
 ```
 
 ```csharp
