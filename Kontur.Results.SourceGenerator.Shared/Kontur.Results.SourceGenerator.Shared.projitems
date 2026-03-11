@@ -48,6 +48,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodType3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodType2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodTypeGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodDocumentation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\PublicMethodDescriptionFactories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\PublicMethodsDescription.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\ReturnTypeCalculator.cs" />

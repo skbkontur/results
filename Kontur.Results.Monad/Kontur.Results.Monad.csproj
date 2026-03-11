@@ -7,10 +7,17 @@
     <Title>Kontur.Results.Monad</Title>
     <Description>A library with monad-like extensions for Kontur.Results, such as Then and do-notation.</Description>
     <PackageProjectUrl>https://github.com/skbkontur/results</PackageProjectUrl>
-    <NoWarn>NU5125</NoWarn>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageLicenseUrl>https://github.com/skbkontur/results/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>kontur kontur.results result results optional either do</PackageTags>
     <RepositoryUrl>https://github.com/skbkontur/results</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>NU5125</NoWarn>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
     <RootNamespace>Kontur.Results</RootNamespace>
@@ -24,4 +31,5 @@
     <ProjectReference Include="..\Kontur.Results\Kontur.Results.csproj" />
     <ProjectReference Include="..\Kontur.Results.SourceGenerator.Monad\Kontur.Results.SourceGenerator.Monad.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
+
 </Project>

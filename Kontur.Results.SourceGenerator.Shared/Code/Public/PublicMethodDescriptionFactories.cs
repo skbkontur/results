@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -23,6 +23,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         internal PublicMethodsDescription Create2(
            GenericNameSyntax returnType,
            SyntaxToken methodName,
+           MethodDocumentation documentation,
            IReadOnlyCollection<SyntaxToken> genericParameters,
            GenericNameSyntax parameterSelfTypeUpperBound,
            GenericNameSyntax[] parameterSelfTypeTasks,
@@ -39,6 +40,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 .Select(method => this.CreateValue(
                         method,
                         methodName,
+                        documentation,
                         genericParameters,
                         IsFirstParameterIsTaskLike(parameterSelfTypeUpperBound, method),
                         parametersName.Self,
@@ -50,6 +52,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 method => this.CreateFactory(
                         method,
                         methodName,
+                        documentation,
                         genericParameters,
                         IsFirstParameterIsTaskLike(parameterSelfTypeUpperBound, method),
                         parametersName.Self,
@@ -64,6 +67,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         internal PublicMethodsDescription Create3(
             GenericNameSyntax returnType,
             SyntaxToken methodName,
+            MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             GenericNameSyntax parameterSelfTypeUpperBound,
             GenericNameSyntax[] parameterSelfTypeTasks,
@@ -81,6 +85,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 .Select(method => this.CreateValue(
                         method,
                         methodName,
+                        documentation,
                         genericParameters,
                         IsFirstParameterIsTaskLike(parameterSelfTypeUpperBound, method),
                         parametersName.Self,
@@ -92,6 +97,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 method => this.CreateFactory(
                         method,
                         methodName,
+                        documentation,
                         genericParameters,
                         IsFirstParameterIsTaskLike(parameterSelfTypeUpperBound, method),
                         parametersName.Self,
@@ -103,6 +109,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 method => this.CreatePass(
                         method,
                         methodName,
+                        documentation,
                         genericParameters,
                         IsFirstParameterIsTaskLike(parameterSelfTypeUpperBound, method),
                         parametersName.Self,
@@ -120,6 +127,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         internal PublicMethodsDescription CreateSelect(
             GenericNameSyntax returnType,
             SyntaxToken methodName,
+            MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             GenericNameSyntax parameterSelfTypeUpperBound,
             GenericNameSyntax[] parameterSelfTypeTasks,
@@ -138,6 +146,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 method => this.CreatePass(
                         method,
                         methodName,
+                        documentation,
                         genericParameters,
                         IsFirstParameterIsTaskLike(parameterSelfTypeUpperBound, method),
                         parametersName.Self,
@@ -151,6 +160,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         internal PublicMethodsDescription CreateSelectMany(
             GenericNameSyntax returnType,
             SyntaxToken methodName,
+            MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             GenericNameSyntax parameterSelfTypeUpperBound,
             GenericNameSyntax[] parameterSelfTypeTasks,
@@ -177,6 +187,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 .Select(method => this.CreatePass(
                         method,
                         methodName,
+                        documentation,
                         genericParameters,
                         IsFirstParameterIsTaskLike(parameterSelfTypeUpperBound, method),
                         parametersName.Self,
@@ -205,6 +216,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         private MethodDeclarationSyntax CreatePass(
             MethodType3 methodType,
             SyntaxToken methodName,
+            MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             bool firstParameterIsTask,
             SelfParameter parameterSelf,
@@ -218,6 +230,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 Enumerable.Empty<AttributeSyntax>(),
                 methodType,
                 methodName,
+                documentation,
                 genericParameters,
                 firstParameterIsTask,
                 parameterSelf,
@@ -231,6 +244,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         private MethodDeclarationSyntax CreatePass(
            MethodType2 methodType,
            SyntaxToken methodName,
+           MethodDocumentation documentation,
            IReadOnlyCollection<SyntaxToken> genericParameters,
            bool firstParameterIsTask,
            SelfParameter parameterSelf,
@@ -242,6 +256,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 Enumerable.Empty<AttributeSyntax>(),
                 methodType,
                 methodName,
+                documentation,
                 genericParameters,
                 firstParameterIsTask,
                 parameterSelf,
@@ -253,6 +268,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         private MethodDeclarationSyntax CreateFactory(
             MethodType2 methodType,
             SyntaxToken methodName,
+            MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             bool firstParameterIsTask,
             SelfParameter parameterSelf,
@@ -263,6 +279,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 Enumerable.Empty<AttributeSyntax>(),
                 methodType,
                 methodName,
+                documentation,
                 genericParameters,
                 firstParameterIsTask,
                 parameterSelf,
@@ -274,6 +291,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         private MethodDeclarationSyntax CreateValue(
             MethodType2 methodType,
             SyntaxToken methodName,
+            MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             bool firstParameterIsTask,
             SelfParameter parameterSelf,
@@ -284,6 +302,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 new[] { Attributes.Pure },
                 methodType,
                 methodName,
+                documentation,
                 genericParameters,
                 firstParameterIsTask,
                 parameterSelf,
@@ -296,6 +315,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             IEnumerable<AttributeSyntax> attributes,
             MethodType2 methodType,
             SyntaxToken methodName,
+            MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             bool firstParameterIsTask,
             SelfParameter parameterSelf,
@@ -317,24 +337,27 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                     SyntaxFactory.IdentifierName(parameterOther),
                 }.Select(SyntaxFactory.Argument));
 
-            return this.methodDeclarationFactory.Create(
-                attributes,
-                AccessModifierFactory.Create(SyntaxKind.PublicKeyword, SyntaxKind.StaticKeyword),
-                methodType.ReturnType,
-                methodName,
-                genericParameters,
-                new[]
-                {
-                    SyntaxFactory.Parameter(selfParameterName).WithType(methodType.Parameter1).AddModifiers(SyntaxFactory.Token(SyntaxKind.ThisKeyword)),
-                    SyntaxFactory.Parameter(parameterOther).WithType(parameterType),
-                },
-                body);
+            var method = this.methodDeclarationFactory.Create(
+                    attributes,
+                    AccessModifierFactory.Create(SyntaxKind.PublicKeyword, SyntaxKind.StaticKeyword),
+                    methodType.ReturnType,
+                    methodName,
+                    genericParameters,
+                    new[]
+                    {
+                        SyntaxFactory.Parameter(selfParameterName).WithType(methodType.Parameter1).AddModifiers(SyntaxFactory.Token(SyntaxKind.ThisKeyword)),
+                        SyntaxFactory.Parameter(parameterOther).WithType(parameterType),
+                    },
+                    body);
+
+            return method.WithLeadingTrivia(documentation.Trivia.AddRange(method.GetLeadingTrivia()));
         }
 
         private MethodDeclarationSyntax CreateFull(
             IEnumerable<AttributeSyntax> attributes,
             MethodType3 methodType,
             SyntaxToken methodName,
+            MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             bool firstParameterIsTask,
             SelfParameter parameterSelf,
@@ -359,19 +382,21 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                     SyntaxFactory.IdentifierName(parameterOther),
                 }.Select(SyntaxFactory.Argument));
 
-            return this.methodDeclarationFactory.Create(
-                attributes,
-                AccessModifierFactory.Create(SyntaxKind.PublicKeyword, SyntaxKind.StaticKeyword),
-                methodType.ReturnType,
-                methodName,
-                genericParameters,
-                new[]
-                {
-                    SyntaxFactory.Parameter(selfParameterName).WithType(methodType.Parameter1).AddModifiers(SyntaxFactory.Token(SyntaxKind.ThisKeyword)),
-                    SyntaxFactory.Parameter(nextParameterOther).WithType(nextParameterType),
-                    SyntaxFactory.Parameter(parameterOther).WithType(parameterType),
-                },
-                body);
+            var method = this.methodDeclarationFactory.Create(
+                    attributes,
+                    AccessModifierFactory.Create(SyntaxKind.PublicKeyword, SyntaxKind.StaticKeyword),
+                    methodType.ReturnType,
+                    methodName,
+                    genericParameters,
+                    new[]
+                    {
+                        SyntaxFactory.Parameter(selfParameterName).WithType(methodType.Parameter1).AddModifiers(SyntaxFactory.Token(SyntaxKind.ThisKeyword)),
+                        SyntaxFactory.Parameter(nextParameterOther).WithType(nextParameterType),
+                        SyntaxFactory.Parameter(parameterOther).WithType(parameterType),
+                    },
+                    body);
+
+            return method.WithLeadingTrivia(documentation.Trivia.AddRange(method.GetLeadingTrivia()));
         }
     }
 }

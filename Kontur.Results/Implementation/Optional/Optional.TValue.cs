@@ -1,10 +1,12 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using Kontur.Results.Containers.Plain;
 
 namespace Kontur.Results
 {
+    /// <summary>Represents an optional value: either Some(value) or None.</summary>
+    /// <typeparam name="TValue">The type of the contained value.</typeparam>
     public abstract class Optional<TValue> : IOptional<TValue>
     {
         private static readonly Type TypeArgument = typeof(TValue);
@@ -42,6 +44,8 @@ namespace Kontur.Results
 
         TResult IOptional<TValue>.Match<TResult>(Func<TResult> onNone, Func<TValue, TResult> onSome) => this.Match(onNone, onSome);
 
+        /// <summary>Attempts to extract the value.</summary>
+        /// <returns><c>true</c> if the optional contains a value and <paramref name="value"/> is set; <c>false</c> if None.</returns>
         [Pure]
         public bool TryGetValue([MaybeNullWhen(false)] out TValue value)
         {
@@ -51,32 +55,38 @@ namespace Kontur.Results
                 .TryGet(out value);
         }
 
+        /// <inheritdoc cref="IOptional{TValue}.Match{TResult}(Func{TResult}, Func{TValue, TResult})"/>
         [Pure]
         public TResult Match<TResult>(TResult onNoneValue, TResult onSomeValue)
         {
             return this.Match(() => onNoneValue, onSomeValue);
         }
 
+        /// <inheritdoc cref="IOptional{TValue}.Match{TResult}(Func{TResult}, Func{TValue, TResult})"/>
         public TResult Match<TResult>(TResult onNoneValue, Func<TResult> onSome)
         {
             return this.Match(() => onNoneValue, onSome);
         }
 
+        /// <inheritdoc cref="IOptional{TValue}.Match{TResult}(Func{TResult}, Func{TValue, TResult})"/>
         public TResult Match<TResult>(TResult onNoneValue, Func<TValue, TResult> onSome)
         {
             return this.Match(() => onNoneValue, onSome);
         }
 
+        /// <inheritdoc cref="IOptional{TValue}.Match{TResult}(Func{TResult}, Func{TValue, TResult})"/>
         public TResult Match<TResult>(Func<TResult> onNone, TResult onSomeValue)
         {
             return this.Match(onNone, () => onSomeValue);
         }
 
+        /// <inheritdoc cref="IOptional{TValue}.Match{TResult}(Func{TResult}, Func{TValue, TResult})"/>
         public TResult Match<TResult>(Func<TResult> onNone, Func<TResult> onSome)
         {
             return this.Match(onNone, _ => onSome());
         }
 
+        /// <inheritdoc cref="IOptional{TValue}.Match{TResult}(Func{TResult}, Func{TValue, TResult})"/>
         public abstract TResult Match<TResult>(Func<TResult> onNone, Func<TValue, TResult> onSome);
 
         public sealed override string ToString()

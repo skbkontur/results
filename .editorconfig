@@ -15,15 +15,13 @@ dotnet_diagnostic.CA1815.severity = none
 
 dotnet_diagnostic.CA2237.severity = none
 
-dotnet_diagnostic.SA0001.severity = none
-
 dotnet_diagnostic.SA1101.severity = none
 
-dotnet_diagnostic.SA1200.severity = none
+; SA1627: Exception type names (e.g. ResultSucceedException) already convey the throwing condition — text would duplicate the type name.
+dotnet_diagnostic.SA1627.severity = none
 
-dotnet_diagnostic.SA1600.severity = none
-
-dotnet_diagnostic.SA1633.severity = none
+; SA1648 doesn't distinguish <inheritdoc/> (invalid on static) from <inheritdoc cref="..."/> (valid Roslyn cross-reference).
+dotnet_diagnostic.SA1648.severity = none
 
 dotnet_diagnostic.S1128.severity = error
 

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Kontur.Results.SourceGenerator.Code.Internal;
 using Kontur.Results.SourceGenerator.Code.Methods;
@@ -23,7 +23,7 @@ namespace Kontur.Results.SourceGenerator.Code
         internal MethodsDescription CreateFactory(
             string parameterTypes,
             GenericNameSyntax returnType,
-            string methodName,
+            MethodName method,
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
             GenericNameSyntax[] parameterSelfTypeTasks,
@@ -31,8 +31,8 @@ namespace Kontur.Results.SourceGenerator.Code
             GenericNameSyntax[] parameterOtherTypeTasks,
             ParameterNames parametersName)
         {
-            ClassNamesFactory classNames = new(methodName, parameterTypes);
-            var methodNameSyntax = SyntaxFactory.Identifier(methodName);
+            ClassNamesFactory classNames = new(method.Name, parameterTypes);
+            var methodNameSyntax = SyntaxFactory.Identifier(method.Name);
             var internalMethodsDescriptions = this.CreateInternal2(
                 classNames,
                 returnType,
@@ -47,6 +47,7 @@ namespace Kontur.Results.SourceGenerator.Code
             var publicMethodsDescriptions = this.publicMethodDescriptionFactories.Create2(
                 returnType,
                 methodNameSyntax,
+                method.Documentation,
                 genericParameters,
                 parameterSelfType,
                 parameterSelfTypeTasks,
@@ -63,7 +64,7 @@ namespace Kontur.Results.SourceGenerator.Code
         internal MethodsDescription CreatePass(
             string parameterTypes,
             GenericNameSyntax returnType,
-            string methodName,
+            MethodName method,
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
             GenericNameSyntax[] parameterSelfTypeTasks,
@@ -72,8 +73,8 @@ namespace Kontur.Results.SourceGenerator.Code
             GenericNameSyntax[] parameterOtherTypeTasks,
             ParameterNames parametersName)
         {
-            ClassNamesPass classNames = new(methodName, parameterTypes);
-            var methodNameSyntax = SyntaxFactory.Identifier(methodName);
+            ClassNamesPass classNames = new(method.Name, parameterTypes);
+            var methodNameSyntax = SyntaxFactory.Identifier(method.Name);
             var internalMethodsDescriptions = this.CreateInternal3(
                 classNames,
                 returnType,
@@ -89,6 +90,7 @@ namespace Kontur.Results.SourceGenerator.Code
             var publicMethodsDescriptions = this.publicMethodDescriptionFactories.Create3(
                 returnType,
                 methodNameSyntax,
+                method.Documentation,
                 genericParameters,
                 parameterSelfType,
                 parameterSelfTypeTasks,
@@ -106,7 +108,7 @@ namespace Kontur.Results.SourceGenerator.Code
         internal MethodsDescription CreateSelect(
             string parameterTypes,
             GenericNameSyntax returnType,
-            string methodName,
+            MethodName method,
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
             GenericNameSyntax[] parameterSelfTypeTasks,
@@ -115,8 +117,8 @@ namespace Kontur.Results.SourceGenerator.Code
             GenericNameSyntax[] parameterOtherTypeTasks,
             ParameterNames parametersName)
         {
-            ClassNamesPass classNames = new(methodName, parameterTypes);
-            var methodNameSyntax = SyntaxFactory.Identifier(methodName);
+            ClassNamesPass classNames = new(method.Name, parameterTypes);
+            var methodNameSyntax = SyntaxFactory.Identifier(method.Name);
             var internalMethodsDescriptions = this.internalMethodDescriptionFactories.CreateSelect(
                 classNames,
                 returnType,
@@ -130,6 +132,7 @@ namespace Kontur.Results.SourceGenerator.Code
             var publicMethodsDescriptions = this.publicMethodDescriptionFactories.CreateSelect(
                 returnType,
                 methodNameSyntax,
+                method.Documentation,
                 genericParameters,
                 parameterSelfType,
                 parameterSelfTypeTasks,
@@ -147,7 +150,7 @@ namespace Kontur.Results.SourceGenerator.Code
         internal MethodsDescription CreateSelectMany(
             string parameterTypes,
             GenericNameSyntax returnType,
-            string methodName,
+            MethodName method,
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
             GenericNameSyntax[] parameterSelfTypeTasks,
@@ -160,8 +163,8 @@ namespace Kontur.Results.SourceGenerator.Code
             ParameterNames3 parametersName,
             bool local)
         {
-            ClassNamesPass classNames = new(methodName, parameterTypes);
-            var methodNameSyntax = SyntaxFactory.Identifier(methodName);
+            ClassNamesPass classNames = new(method.Name, parameterTypes);
+            var methodNameSyntax = SyntaxFactory.Identifier(method.Name);
             var internalMethodsDescriptions = this.internalMethodDescriptionFactories.CreateSelectMany(
                 classNames,
                 returnType,
@@ -177,6 +180,7 @@ namespace Kontur.Results.SourceGenerator.Code
             var publicMethodsDescriptions = this.publicMethodDescriptionFactories.CreateSelectMany(
                 returnType,
                 methodNameSyntax,
+                method.Documentation,
                 genericParameters,
                 parameterSelfType,
                 parameterSelfTypeTasks,

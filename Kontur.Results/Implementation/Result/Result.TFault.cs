@@ -1,10 +1,12 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using Kontur.Results.Containers.Plain;
 
 namespace Kontur.Results
 {
+    /// <summary>Represents a result without a value: either Success or Failure(fault).</summary>
+    /// <typeparam name="TFault">The type of the fault.</typeparam>
     public abstract class Result<TFault> : IResult<TFault>
     {
         private static readonly Type TypeArgument = typeof(TFault);
@@ -28,6 +30,7 @@ namespace Kontur.Results
             return Fail(fault);
         }
 
+        /// <summary>Creates a successful <see cref="Result{TFault, TValue}"/> with the given value.</summary>
         [Pure]
         public static Result<TFault, TValue> Succeed<TValue>(TValue value)
         {
@@ -48,6 +51,8 @@ namespace Kontur.Results
 
         TResult IResult<TFault>.Match<TResult>(Func<TFault, TResult> onFailure, Func<TResult> onSuccess) => this.Match(onFailure, onSuccess);
 
+        /// <summary>Attempts to extract the fault.</summary>
+        /// <returns><c>true</c> if the result is a failure and <paramref name="fault"/> is set; <c>false</c> if successful.</returns>
         [Pure]
         public bool TryGetFault([MaybeNullWhen(false)] out TFault fault)
         {
@@ -55,32 +60,38 @@ namespace Kontur.Results
                 .TryGet(out fault);
         }
 
+        /// <inheritdoc cref="IResult{TFault}.Match{TResult}(Func{TFault, TResult}, Func{TResult})"/>
         [Pure]
         public TResult Match<TResult>(TResult onFailureValue, TResult onSuccessValue)
         {
             return this.Match(onFailureValue, () => onSuccessValue);
         }
 
+        /// <inheritdoc cref="IResult{TFault}.Match{TResult}(Func{TFault, TResult}, Func{TResult})"/>
         public TResult Match<TResult>(Func<TResult> onFailure, TResult onSuccessValue)
         {
             return this.Match(onFailure, () => onSuccessValue);
         }
 
+        /// <inheritdoc cref="IResult{TFault}.Match{TResult}(Func{TFault, TResult}, Func{TResult})"/>
         public TResult Match<TResult>(Func<TFault, TResult> onFailure, TResult onSuccessValue)
         {
             return this.Match(onFailure, () => onSuccessValue);
         }
 
+        /// <inheritdoc cref="IResult{TFault}.Match{TResult}(Func{TFault, TResult}, Func{TResult})"/>
         public TResult Match<TResult>(TResult onFailureValue, Func<TResult> onSuccess)
         {
             return this.Match(() => onFailureValue, onSuccess);
         }
 
+        /// <inheritdoc cref="IResult{TFault}.Match{TResult}(Func{TFault, TResult}, Func{TResult})"/>
         public TResult Match<TResult>(Func<TResult> onFailure, Func<TResult> onSuccess)
         {
             return this.Match(_ => onFailure(), onSuccess);
         }
 
+        /// <inheritdoc cref="IResult{TFault}.Match{TResult}(Func{TFault, TResult}, Func{TResult})"/>
         public abstract TResult Match<TResult>(Func<TFault, TResult> onFailure, Func<TResult> onSuccess);
 
         public sealed override string ToString()

@@ -2,6 +2,7 @@
 using System.Linq;
 using Kontur.Results.SourceGenerator.Code.Internal;
 using Kontur.Results.SourceGenerator.Code.Methods;
+using Kontur.Results.SourceGenerator.Code.Public;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -105,6 +106,8 @@ namespace Kontur.Results.SourceGenerator.Code
         private CompilationFile CreateGlobalExtensionCompilationFile(IEnumerable<MemberDeclarationSyntax> methods)
         {
             var className = this.compilationFileProviderSettings.GlobalExtensionsFileName;
+            var classDoc = MethodDocumentation.CreateTrivia(
+                MethodDocumentation.SummaryElement("Extension methods in the global namespace. Placed here to prioritize these overloads over extensions in the Kontur.Results namespace."));
             var classSyntax = SyntaxFactory.ClassDeclaration(className)
                 .AddAttributeLists(EditorBrowsableAttributeList)
                 .AddModifiers(ExtensionMethodAccessModifiers)
@@ -113,7 +116,7 @@ namespace Kontur.Results.SourceGenerator.Code
             return new(
                 className,
                 new[] { Using.System, Using.ComponentModel, Using.Contracts, Using.Tasks, Using.Results },
-                classSyntax.WithLeadingTrivia(SyntaxFactory.Comment("// ReSharper disable once CheckNamespace")));
+                classSyntax.WithLeadingTrivia(classDoc.AddRange(classSyntax.GetLeadingTrivia())));
         }
 
         private CompilationFile CreateLocalExtensionCompilationFile(IEnumerable<MemberDeclarationSyntax> methods)
