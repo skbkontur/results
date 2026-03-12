@@ -1,7 +1,5 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
-using Kontur.Results.Containers.Plain;
 
 namespace Kontur.Results
 {
@@ -50,15 +48,6 @@ namespace Kontur.Results
         }
 
         TResult IResult<TFault>.Match<TResult>(Func<TFault, TResult> onFailure, Func<TResult> onSuccess) => this.Match(onFailure, onSuccess);
-
-        /// <summary>Attempts to extract the fault.</summary>
-        /// <returns><c>true</c> if the result is a failure and <paramref name="fault"/> is set; <c>false</c> if successful.</returns>
-        [Pure]
-        public bool TryGetFault([MaybeNullWhen(false)] out TFault fault)
-        {
-            return this.Match(f => new FilledContainer<TFault>(f), () => EmptyContainer<TFault>.Instance)
-                .TryGet(out fault);
-        }
 
         /// <inheritdoc cref="IResult{TFault}.Match{TResult}(Func{TFault, TResult}, Func{TResult})"/>
         [Pure]

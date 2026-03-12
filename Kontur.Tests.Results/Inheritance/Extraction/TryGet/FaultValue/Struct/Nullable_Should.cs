@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Kontur.Results;
 using NUnit.Framework;
 
 namespace Kontur.Tests.Results.Inheritance.Extraction.TryGet.FaultValue.Struct

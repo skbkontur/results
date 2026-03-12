@@ -1,7 +1,5 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
-using Kontur.Results.Containers.ResultValue;
 
 namespace Kontur.Results
 {
@@ -60,45 +58,6 @@ namespace Kontur.Results
         TResult IResult<TFault, TValue>.Match<TResult>(Func<TResult> onFailure, Func<TValue, TResult> onSuccess) => this.Match(onFailure, onSuccess);
 
         TResult IResult<TFault, TValue>.Match<TResult>(Func<TFault, TResult> onFailure, Func<TValue, TResult> onSuccess) => this.Match(onFailure, onSuccess);
-
-        /// <summary>Attempts to extract the fault.</summary>
-        /// <returns><c>true</c> if the result is a failure and <paramref name="fault"/> is set; <c>false</c> if successful.</returns>
-        [Pure]
-        public bool TryGetFault([MaybeNullWhen(false)] out TFault fault)
-        {
-            return !this.TryGetValue(out _, out fault);
-        }
-
-        /// <summary>Attempts to extract the fault, providing both fault and value.</summary>
-        /// <returns><c>true</c> if the result is a failure and <paramref name="fault"/> is set; <c>false</c> if successful and <paramref name="value"/> is set.</returns>
-        [Pure]
-        public bool TryGetFault(
-            [MaybeNullWhen(false)] out TFault fault,
-            [MaybeNullWhen(true)] out TValue value)
-        {
-            return !this.TryGetValue(out value, out fault);
-        }
-
-        /// <summary>Attempts to extract the value.</summary>
-        /// <returns><c>true</c> if successful and <paramref name="value"/> is set; <c>false</c> if the result is a failure.</returns>
-        [Pure]
-        public bool TryGetValue([MaybeNullWhen(false)] out TValue value)
-        {
-            return this.TryGetValue(out value, out _);
-        }
-
-        /// <summary>Attempts to extract the value, providing both value and fault.</summary>
-        /// <returns><c>true</c> if successful and <paramref name="value"/> is set; <c>false</c> if failed and <paramref name="fault"/> is set.</returns>
-        [Pure]
-        public bool TryGetValue(
-            [MaybeNullWhen(false)] out TValue value,
-            [MaybeNullWhen(true)] out TFault fault)
-        {
-            return this.Match<IContainer<TFault, TValue>>(
-                    f => new FailureContainer<TFault, TValue>(f),
-                    val => new SuccessContainer<TFault, TValue>(val))
-                .TryGet(out value, out fault);
-        }
 
         /// <inheritdoc cref="IResult{TFault, TValue}.Match{TResult}(Func{TFault, TResult}, Func{TValue, TResult})"/>
         [Pure]

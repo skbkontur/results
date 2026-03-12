@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Kontur.Results;
 using NUnit.Framework;
 
 namespace Kontur.Tests.Results.Inheritance.Extraction.TryGet.ValueFault.Class

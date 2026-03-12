@@ -1,7 +1,5 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
-using Kontur.Results.Containers.Plain;
 
 namespace Kontur.Results
 {
@@ -43,17 +41,6 @@ namespace Kontur.Results
         }
 
         TResult IOptional<TValue>.Match<TResult>(Func<TResult> onNone, Func<TValue, TResult> onSome) => this.Match(onNone, onSome);
-
-        /// <summary>Attempts to extract the value.</summary>
-        /// <returns><c>true</c> if the optional contains a value and <paramref name="value"/> is set; <c>false</c> if None.</returns>
-        [Pure]
-        public bool TryGetValue([MaybeNullWhen(false)] out TValue value)
-        {
-            return this.Match(
-                    () => EmptyContainer<TValue>.Instance,
-                    val => new FilledContainer<TValue>(val))
-                .TryGet(out value);
-        }
 
         /// <inheritdoc cref="IOptional{TValue}.Match{TResult}(Func{TResult}, Func{TValue, TResult})"/>
         [Pure]

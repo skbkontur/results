@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Kontur.Results;
+using NUnit.Framework;
 
 namespace Kontur.Tests.Results.Inheritance.Extraction.TryGet.Fault.Class
 {
