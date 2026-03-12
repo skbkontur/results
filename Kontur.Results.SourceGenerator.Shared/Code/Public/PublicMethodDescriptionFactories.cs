@@ -21,13 +21,13 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         }
 
         internal PublicMethodsDescription Create2(
-           GenericNameSyntax returnType,
+           TypeSyntax returnType,
            SyntaxToken methodName,
            MethodDocumentation documentation,
            IReadOnlyCollection<SyntaxToken> genericParameters,
            GenericNameSyntax parameterSelfTypeUpperBound,
            GenericNameSyntax[] parameterSelfTypeTasks,
-           GenericNameSyntax parameterOtherTypeUpperBound,
+           SimpleNameSyntax parameterOtherTypeUpperBound,
            GenericNameSyntax[] parameterOtherTypeTasks,
            ParameterNames parametersName,
            ClassNamesFactory classNames)
@@ -65,7 +65,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         }
 
         internal PublicMethodsDescription Create3(
-            GenericNameSyntax returnType,
+            TypeSyntax returnType,
             SyntaxToken methodName,
             MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,
@@ -125,7 +125,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         }
 
         internal PublicMethodsDescription CreateSelect(
-            GenericNameSyntax returnType,
+            TypeSyntax returnType,
             SyntaxToken methodName,
             MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,
@@ -158,7 +158,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         }
 
         internal PublicMethodsDescription CreateSelectMany(
-            GenericNameSyntax returnType,
+            TypeSyntax returnType,
             SyntaxToken methodName,
             MethodDocumentation documentation,
             IReadOnlyCollection<SyntaxToken> genericParameters,

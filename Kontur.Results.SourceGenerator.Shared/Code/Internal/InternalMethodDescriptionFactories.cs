@@ -25,7 +25,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
 
         internal InternalMethodsDescription Create2(
             ClassNamesFactory classNames,
-            GenericNameSyntax returnType,
+            TypeSyntax returnType,
             SyntaxToken methodName,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             MethodTypeGeneratorParameter parameterSelfType,

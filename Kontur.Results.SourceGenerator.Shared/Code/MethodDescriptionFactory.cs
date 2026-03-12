@@ -22,12 +22,12 @@ namespace Kontur.Results.SourceGenerator.Code
 
         internal MethodsDescription CreateFactory(
             string parameterTypes,
-            GenericNameSyntax returnType,
+            TypeSyntax returnType,
             MethodName method,
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
             GenericNameSyntax[] parameterSelfTypeTasks,
-            GenericNameSyntax parameterOtherType,
+            SimpleNameSyntax parameterOtherType,
             GenericNameSyntax[] parameterOtherTypeTasks,
             ParameterNames parametersName)
         {
@@ -63,7 +63,7 @@ namespace Kontur.Results.SourceGenerator.Code
 
         internal MethodsDescription CreatePass(
             string parameterTypes,
-            GenericNameSyntax returnType,
+            TypeSyntax returnType,
             MethodName method,
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
@@ -107,7 +107,7 @@ namespace Kontur.Results.SourceGenerator.Code
 
         internal MethodsDescription CreateSelect(
             string parameterTypes,
-            GenericNameSyntax returnType,
+            TypeSyntax returnType,
             MethodName method,
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
@@ -149,7 +149,7 @@ namespace Kontur.Results.SourceGenerator.Code
 
         internal MethodsDescription CreateSelectMany(
             string parameterTypes,
-            GenericNameSyntax returnType,
+            TypeSyntax returnType,
             MethodName method,
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
@@ -208,12 +208,12 @@ namespace Kontur.Results.SourceGenerator.Code
 
         private InternalMethodsDescription CreateInternal2(
             ClassNamesFactory classNames,
-            GenericNameSyntax returnType,
+            TypeSyntax returnType,
             SyntaxToken methodNameSyntax,
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
             GenericNameSyntax[] parameterSelfTypeTasks,
-            GenericNameSyntax parameterOtherType,
+            SimpleNameSyntax parameterOtherType,
             GenericNameSyntax[] parameterOtherTypeTasks,
             ParameterNames parametersName)
         {
@@ -229,7 +229,7 @@ namespace Kontur.Results.SourceGenerator.Code
 
         private InternalMethodsDescription CreateInternal3(
             ClassNamesPass classNames,
-            GenericNameSyntax returnType,
+            TypeSyntax returnType,
             SyntaxToken methodNameSyntax,
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
