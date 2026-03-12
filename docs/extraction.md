@@ -235,12 +235,33 @@ object upcasted = result.Match<object>(onFailureValue: new Exception(), onSucces
 
 
 ## GetValueOrElse
+
+`GetValueOrElse` and `GetFaultOrElse` support async extensions for every listed synchronous scenario. Async extensions accept `Task`- or `ValueTask`-wrapped source and async factory lambdas. If there is at least one `Task` in a chain, the result is `Task<T>`. Otherwise, the result is `ValueTask<T>`.
+
 ```csharp
 Optional<string> optional = ...;
 
 string extracted = optional.GetValueOrElse(() => "defaultValue");
 string extracted = optional.GetValueOrElse("defaultValue");
 ```
+
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Optional<string>> optional = ...;
+
+Task<string> extracted = optional.GetValueOrElse(() => "defaultValue");
+Task<string> extracted = optional.GetValueOrElse("defaultValue");
+```
+
+```csharp
+ValueTask<Optional<string>> optional = ...;
+
+ValueTask<string> extracted = optional.GetValueOrElse(() => "defaultValue");
+ValueTask<string> extracted = optional.GetValueOrElse("defaultValue");
+```
+</details>
 
 <details>
   <summary>Examples with upcast</summary>
@@ -266,6 +287,26 @@ string extracted = result.GetValueOrElse(fault => $"Converted to success fault: 
 string extracted = result.GetValueOrElse(() => "defaultValue");
 string extracted = result.GetValueOrElse("defaultValue");
 ```
+
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception, string>> result = ...;
+
+Task<string> extracted = result.GetValueOrElse(fault => $"Converted: {fault.Message}");
+Task<string> extracted = result.GetValueOrElse(() => "defaultValue");
+Task<string> extracted = result.GetValueOrElse("defaultValue");
+```
+
+```csharp
+ValueTask<Result<Exception, string>> result = ...;
+
+ValueTask<string> extracted = result.GetValueOrElse(fault => $"Converted: {fault.Message}");
+ValueTask<string> extracted = result.GetValueOrElse(() => "defaultValue");
+ValueTask<string> extracted = result.GetValueOrElse("defaultValue");
+```
+</details>
 
 <details>
   <summary>Examples with upcast</summary>
@@ -295,6 +336,27 @@ Exception extracted = result.GetFaultOrElse(value => new Exception(value));
 Exception extracted = result.GetFaultOrElse(() => new Exception());
 Exception extracted = result.GetFaultOrElse(new Exception());
 ```
+
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception, string>> result = ...;
+
+Task<Exception> extracted = result.GetFaultOrElse(value => new Exception(value));
+Task<Exception> extracted = result.GetFaultOrElse(() => new Exception());
+Task<Exception> extracted = result.GetFaultOrElse(new Exception());
+```
+
+```csharp
+ValueTask<Result<Exception, string>> result = ...;
+
+ValueTask<Exception> extracted = result.GetFaultOrElse(value => new Exception(value));
+ValueTask<Exception> extracted = result.GetFaultOrElse(() => new Exception());
+ValueTask<Exception> extracted = result.GetFaultOrElse(new Exception());
+```
+</details>
+
 <details>
   <summary>Examples with upcast</summary>
 
@@ -320,6 +382,25 @@ Result<Exception> result = ...;
 Exception extracted = result.GetFaultOrElse(() => new Exception());
 Exception extracted = result.GetFaultOrElse(new Exception());
 ```
+
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception>> result = ...;
+
+Task<Exception> extracted = result.GetFaultOrElse(() => new Exception());
+Task<Exception> extracted = result.GetFaultOrElse(new Exception());
+```
+
+```csharp
+ValueTask<Result<Exception>> result = ...;
+
+ValueTask<Exception> extracted = result.GetFaultOrElse(() => new Exception());
+ValueTask<Exception> extracted = result.GetFaultOrElse(new Exception());
+```
+</details>
+
 <details>
   <summary>Examples with upcast</summary>
 

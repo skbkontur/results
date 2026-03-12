@@ -199,7 +199,7 @@ public StringFaultResult<int> GenerateInt()
 | Category | Methods | Docs |
 |---|---|---|
 | **Create** | `Optional.Some`, `Optional.None`, `Result.Succeed`, `Result.Fail`, implicit conversions | [Instantiation](docs/instantiation.md) |
-| **Extract** | `TryGetValue`, `TryGetFault`, `Match`, `GetValueOrElse`, `GetValueOrThrow`, `GetValueOrDefault` | [Extraction](docs/extraction.md) |
+| **Extract** | `TryGetValue`, `TryGetFault`, `Match`, `GetValueOrElse` (with async), `GetValueOrThrow`, `GetValueOrDefault` | [Extraction](docs/extraction.md) |
 | **Side effects** | `Switch`, `OnSuccess`, `OnFailure` (chainable) | [Side Effects](docs/side-effects.md) |
 | **Assert** | `EnsureSuccess`, `EnsureFailure` | [Side Effects](docs/side-effects.md) |
 | **Status** | `Success`, `Failure` | [Extraction](docs/extraction.md) |
@@ -235,7 +235,7 @@ See [full documentation](docs/readme.md) for all overloads and detailed examples
 
 * [Full Documentation Index](docs/readme.md) — brief API reference with links to detailed pages
 * [Instantiation](docs/instantiation.md) — creating Optional and Result instances
-* [Extraction](docs/extraction.md) — TryGetValue, Match, GetValueOrElse/OrThrow/OrDefault, status properties
+* [Extraction](docs/extraction.md) — TryGetValue, Match, GetValueOrElse/OrThrow/OrDefault (with async), status properties
 * [Side Effects](docs/side-effects.md) — Switch, OnSome/OnNone, OnSuccess/OnFailure, Ensure*
 * [Conversion](docs/conversion.md) — MapValue, MapFault, Upcast (with async support)
 * [Combining](docs/combining.md) — Then, OrElse, Select, do-notation with async
@@ -245,7 +245,7 @@ See [full documentation](docs/readme.md) for all overloads and detailed examples
 
 ## Roadmap
 
-* Async extensions for data extraction methods (`TryGetValue`, `Switch`, `GetOrThrow`, etc.)
+* Async extensions for remaining data extraction methods (`TryGetValue`, `Switch`, `GetOrThrow`, etc.)
 * Upcast support for synchronous monadic extensions (`Select`, `Then`, `OrElse`, do-notation)
 * Do-notations (LINQ query syntax) for collections
 * Source generator for async extensions and implicit conversions on custom inherited types
@@ -263,6 +263,9 @@ MIT
 
 
 ## Changelog
+
+### 4.0.0 (2026-03-12)
+- Added async (`Task`/`ValueTask`) extensions for `GetValueOrElse` and `GetFaultOrElse`
 
 ### 3.2.0 (2026-03-12)
 - Added XML documentation to public API

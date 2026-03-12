@@ -8,7 +8,7 @@ Full documentation for `Optional<TValue>`, `Result<TFault>`, and `Result<TFault,
 | Document | Description |
 |---|---|
 | [Instantiation](instantiation.md) | Creating `Optional` and `Result` instances (explicit, implicit, ternary, conversions) |
-| [Extraction](extraction.md) | Getting data out: `TryGetValue`, `Match`, `GetValueOrElse`, `GetValueOrThrow`, status properties, collections |
+| [Extraction](extraction.md) | Getting data out: `TryGetValue`, `Match`, `GetValueOrElse` (with async), `GetValueOrThrow`, status properties, collections |
 | [Side Effects](side-effects.md) | Performing actions: `Switch`, `OnSome`/`OnNone`, `OnSuccess`/`OnFailure`, `Ensure*`, chaining |
 | [Conversion](conversion.md) | Transforming containers: `MapValue`, `MapFault`, `Upcast` (all with async support) |
 | [Combining](combining.md) | Monadic extensions: `Then`, `OrElse`, `Select`, do-notation (sync + async) |
@@ -41,8 +41,9 @@ if (result.TryGetValue(out string value, out Exception fault))
 // Match — exhaustive handling, returns a value
 string msg = optional.Match(onNone: () => "empty", onSome: v => $"got {v}");
 
-// GetValueOrElse — extract with fallback
+// GetValueOrElse — extract with fallback (sync, Task, ValueTask)
 string safe = optional.GetValueOrElse("default");
+Task<string> asyncSafe = taskOptional.GetValueOrElse("default");
 
 // GetValueOrThrow — extract or throw
 string val = result.GetValueOrThrow(); // throws ResultFailedException<Exception> on Failure
