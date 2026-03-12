@@ -2,6 +2,21 @@
 
 Methods for performing actions based on state without extracting the contained value.
 
+## Content
+
+* [Switch](#switch)
+* [OnSome](#onsome)
+* [OnNone](#onnone)
+* [OnSuccess](#onsuccess)
+* [OnFailure](#onfailure)
+* [Method chaining](#method-chaining)
+* [Return value upcasting](#return-value-upcasting)
+* [EnsureHasValue](#ensurehasvalue)
+* [EnsureNone](#ensurenone)
+* [EnsureSuccess](#ensuresuccess)
+* [EnsureFailure](#ensurefailure)
+
+
 ## Switch
 ```csharp
 Optional<int> optional = ...;

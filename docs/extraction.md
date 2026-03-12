@@ -2,6 +2,29 @@
 
 Methods for getting data out of `Optional` and `Result` instances.
 
+## Content
+
+* [TryGetValue](#trygetvalue)
+* [TryGetFault](#trygetfault)
+* [Match](#match)
+* [GetValueOrElse](#getvalueorelse)
+* [GetFaultOrElse](#getfaultorelse)
+* [GetValueOrThrow](#getvalueorthrow)
+* [GetFaultOrThrow](#getfaultorthrow)
+* [GetValueOrDefault](#getvalueordefault)
+* [GetFaultOrDefault](#getfaultordefault)
+* [GetValueOrNull](#getvalueornull)
+* [GetFaultOrNull](#getfaultornull)
+* [HasSome](#hassome)
+* [IsNone](#isnone)
+* [Success](#success)
+* [Failure](#failure)
+* [GetValues / GetFaults](#getvalues--getfaults)
+* [foreach](#foreach)
+* [ToString](#tostring)
+* [Upcasts](#upcasts)
+
+
 ## TryGetValue
 ```csharp
 Optional<string> optional = ...;

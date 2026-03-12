@@ -9,6 +9,20 @@ Three `Result` types for C# with first-class async support and LINQ do-notation:
 * `Result<TFault, TValue>` — value or typed fault
 
 
+## Content
+
+* [Why Kontur.Results?](#why-kontur-results)
+* [Quick Start](#quick-start)
+* [API at a Glance](#api-at-a-glance)
+* [Comparison with Alternatives](#comparison-with-alternatives)
+* [Design Decisions](#design-decisions)
+* [Documentation](#documentation)
+* [Roadmap](#roadmap)
+* [Contributing](#contributing)
+* [License](#license)
+* [Changelog](#changelog)
+
+
 ## Why Kontur.Results?
 
 **No third state, no exceptions, no surprises.** Each Result is always in exactly one of two states. There is no `null`, no `Bottom`, no hidden default. The compiler enforces exhaustive handling via `Match`.

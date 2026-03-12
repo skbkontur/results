@@ -6,6 +6,15 @@ All `Optional`/`Result` combining methods support async extensions for every lis
 
 Currently synchronous `Optional`/`Result` combining methods do not support upcasts of `TFault` and `TValue`.
 
+## Content
+
+* [Then](#then)
+* [OrElse](#orelse)
+* [Then/OrElse method chaining](#thenorelse-method-chaining)
+* [Select](#select)
+* [Do notation](#do-notation)
+* [Do notation with async extensions](#do-notation-with-async-extensions)
+
 
 ## Then
 
