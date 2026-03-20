@@ -19,9 +19,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Build" Version="15.7.179" />
-    <PackageReference Include="NuGet.Common" Version="4.7.0" />
+    <PackageReference Include="NuGet.Common" Version="5.11.5" />
     <PackageReference Include="NuGet.Configuration" Version="4.7.0" />
-    <PackageReference Include="NuGet.Frameworks" Version="4.7.0" />
+    <PackageReference Include="NuGet.Frameworks" Version="5.11.5" />
     <PackageReference Include="NuGet.LibraryModel" Version="4.7.0" />
     <PackageReference Include="NuGet.Packaging" Version="4.7.0" />
     <PackageReference Include="NuGet.Packaging.Core" Version="4.7.0" />
