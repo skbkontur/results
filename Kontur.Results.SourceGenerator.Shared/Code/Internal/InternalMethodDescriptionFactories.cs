@@ -23,6 +23,33 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             this.typeParameterGenericMethodSyntaxGenerator = typeParameterGenericMethodSyntaxGenerator;
         }
 
+        internal InternalMethodsDescription Create1(
+            string className,
+            TypeSyntax returnType,
+            SyntaxToken methodName,
+            IReadOnlyCollection<SyntaxToken> genericParameters,
+            MethodTypeGeneratorParameter parameterSelfType,
+            SelfParameter parametersName)
+        {
+            var methodTypes = MethodTypeInternalGenerator
+                .Create1Parameter(returnType, parameterSelfType)
+                .ToArray();
+
+            var methods = methodTypes
+                .Where(method => method.Parameter1.IsTaskLike)
+                .Select(method => this.CreatePartial(
+                    method,
+                    methodName,
+                    genericParameters,
+                    parametersName));
+
+            InternalPartialMethodDescription partialDescription = new(
+                className,
+                methods);
+
+            return new(Enumerable.Empty<InternalStandardMethodsDescription>(), partialDescription);
+        }
+
         internal InternalMethodsDescription Create2(
             ClassNamesFactory classNames,
             TypeSyntax returnType,
@@ -547,6 +574,57 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 SyntaxFactory.Parameter(parameterSelf.TaskName).WithType(methodType.Parameter1.Type),
                 SyntaxFactory.Parameter(parameterNext).WithType(parameterTypeNext),
                 SyntaxFactory.Parameter(parameterOther).WithType(parameterType),
+            };
+            var methodDeclarationSyntax = this.methodDeclarationFactory.Create(
+                AccessModifierFactory.Create(SyntaxKind.InternalKeyword, SyntaxKind.StaticKeyword, SyntaxKind.AsyncKeyword),
+                methodType.ReturnType,
+                methodName,
+                genericParameterNames
+                    .Concat(genericParameterTypes.Select(genericParameter => genericParameter.Identifier)),
+                parameterSyntaxes,
+                body);
+
+            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
+        }
+
+        private MethodDeclarationSyntax CreatePartial(
+            MethodTypeInternal1 methodType,
+            SyntaxToken methodName,
+            IReadOnlyCollection<SyntaxToken> genericParameterNames,
+            SelfParameter parameterSelf)
+        {
+            var genericArguments = genericParameterNames
+                .Select(SyntaxFactory.IdentifierName);
+
+            var awaitCall = WrapIntoAwait(SyntaxFactory.IdentifierName(parameterSelf.TaskName));
+
+            StatementSyntax awaitAndStore = SyntaxFactory.LocalDeclarationStatement(
+                SyntaxFactory.VariableDeclaration(
+                    SyntaxFactory.IdentifierName(SyntaxFactory.Identifier("var")),
+                    SyntaxFactory.SingletonSeparatedList(
+                        SyntaxFactory.VariableDeclarator(parameterSelf.Name)
+                            .WithInitializer(SyntaxFactory.EqualsValueClause(awaitCall)))));
+
+            var methodCallExpression = SyntaxFactory.InvocationExpression(
+                    SyntaxFactory.GenericName(
+                        methodName,
+                        SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(genericArguments.Select(name => (TypeSyntax)name)))))
+                .WithArgumentList(SyntaxFactory.ArgumentList(
+                    SyntaxFactory.SingletonSeparatedList(
+                        SyntaxFactory.Argument(SyntaxFactory.IdentifierName(parameterSelf.Name)))));
+
+            var body = SyntaxFactory.Block()
+                .WithStatements(SyntaxFactory.List(new[]
+                {
+                    awaitAndStore,
+                    SyntaxFactory.ReturnStatement(methodCallExpression),
+                }));
+
+            var genericParameterTypes = GetGenericParameters(methodType.Parameter1).ToArray();
+
+            var parameterSyntaxes = new[]
+            {
+                SyntaxFactory.Parameter(parameterSelf.TaskName).WithType(methodType.Parameter1.Type),
             };
             var methodDeclarationSyntax = this.methodDeclarationFactory.Create(
                 AccessModifierFactory.Create(SyntaxKind.InternalKeyword, SyntaxKind.StaticKeyword, SyntaxKind.AsyncKeyword),

@@ -4,10 +4,10 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Kontur.Results.SourceGenerator.Code.Public
 {
     internal record MethodType3(
-        SimpleNameSyntax Parameter1,
-        SimpleNameSyntax ParameterNext,
+        NameSyntax Parameter1,
+        NameSyntax ParameterNext,
         bool ParameterNextIsTask,
-        SimpleNameSyntax Parameter2,
+        NameSyntax Parameter2,
         IEnumerable<TypeSyntax> GenericArguments,
         TypeSyntax ReturnType);
 }

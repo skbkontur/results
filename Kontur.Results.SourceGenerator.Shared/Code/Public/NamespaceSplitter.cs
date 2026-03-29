@@ -24,7 +24,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
 
         private static bool IsGlobal(MethodType2 method)
         {
-            return method.Parameter2.Identifier.IsValueTask();
+            return method.Parameter2IsValueTask;
         }
     }
 }

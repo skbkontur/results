@@ -3,6 +3,6 @@
 namespace Kontur.Results.SourceGenerator.Code.Internal
 {
     internal record MethodTypeGeneratorParameter(
-        SimpleNameSyntax UpperBound,
+        NameSyntax UpperBound,
         bool Sealed);
 }

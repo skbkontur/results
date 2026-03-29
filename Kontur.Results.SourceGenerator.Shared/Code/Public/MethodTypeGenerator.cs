@@ -8,11 +8,11 @@ namespace Kontur.Results.SourceGenerator.Code.Public
     {
         internal static IEnumerable<MethodType3> Create3Parameters(
             TypeSyntax returnType,
-            SimpleNameSyntax selfUpperBound,
+            NameSyntax selfUpperBound,
             IReadOnlyCollection<TypeSyntax> selfTaskArguments,
-            SimpleNameSyntax nextParameterUpperBound,
+            NameSyntax nextParameterUpperBound,
             IReadOnlyCollection<TypeSyntax> nextParameterTaskArguments,
-            SimpleNameSyntax parameterUpperBound,
+            NameSyntax parameterUpperBound,
             IReadOnlyCollection<TypeSyntax> parameterTaskArguments)
         {
             var parameters1 = CreateParameter(selfUpperBound, selfTaskArguments);
@@ -30,14 +30,29 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                     parameterNext.TaskLike,
                     parameter2.ProposedType,
                     allParameters.Select(arg => arg.GenericArgument).WhereNotNull(),
-                    ReturnTypeCalculator.Get(returnType, allParameters.Select(arg => arg.ProposedType)));
+                    ReturnTypeCalculator.Get(returnType, allParameters.Any(p => p.IsTask), allParameters.Any(p => p.IsValueTask)));
+        }
+
+        internal static IEnumerable<MethodType1> Create1Parameter(
+            TypeSyntax returnType,
+            NameSyntax selfUpperBound,
+            IReadOnlyCollection<TypeSyntax> selfTaskArguments)
+        {
+            var parameters1 = CreateParameter(selfUpperBound, selfTaskArguments);
+
+            return
+                from parameter1 in parameters1
+                select new MethodType1(
+                    parameter1.ProposedType,
+                    new[] { parameter1.GenericArgument }.WhereNotNull(),
+                    ReturnTypeCalculator.Get(returnType, parameter1.IsTask, parameter1.IsValueTask));
         }
 
         internal static IEnumerable<MethodType2> Create2Parameters(
             TypeSyntax returnType,
-            SimpleNameSyntax selfUpperBound,
+            NameSyntax selfUpperBound,
             IReadOnlyCollection<TypeSyntax> selfTaskArguments,
-            SimpleNameSyntax parameterUpperBound,
+            NameSyntax parameterUpperBound,
             IReadOnlyCollection<TypeSyntax> parameterTaskArguments)
         {
             var parameters1 = CreateParameter(selfUpperBound, selfTaskArguments);
@@ -50,12 +65,13 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 select new MethodType2(
                     parameter1.ProposedType,
                     parameter2.ProposedType,
+                    parameter2.IsValueTask,
                     allParameters.Select(arg => arg.GenericArgument).WhereNotNull(),
-                    ReturnTypeCalculator.Get(returnType, allParameters.Select(arg => arg.ProposedType)));
+                    ReturnTypeCalculator.Get(returnType, allParameters.Any(p => p.IsTask), allParameters.Any(p => p.IsValueTask)));
         }
 
         private static IEnumerable<ParameterInfo> CreateParameter(
-            SimpleNameSyntax parameterUpperBound,
+            NameSyntax parameterUpperBound,
             IReadOnlyCollection<TypeSyntax> taskArguments)
         {
             if (taskArguments.Any())
@@ -64,16 +80,19 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                     .Append(parameterUpperBound)
                     .SelectMany(
                         TaskLikeTypeSyntaxFactory.Create,
-                        (original, wrapped) => new ParameterInfo(wrapped, original, true))
-                    .Append(new(parameterUpperBound, null, false));
+                        (original, item) => new ParameterInfo(item.Syntax, original, item.IsTask, item.IsValueTask))
+                    .Append(new(parameterUpperBound, null, false, false));
             }
 
             return TaskLikeTypeSyntaxFactory
                 .Create(parameterUpperBound)
-                .Select(type => new ParameterInfo(type, null, true))
-                .Append(new(parameterUpperBound, null, false));
+                .Select(item => new ParameterInfo(item.Syntax, null, item.IsTask, item.IsValueTask))
+                .Append(new(parameterUpperBound, null, false, false));
         }
 
-        private sealed record ParameterInfo(SimpleNameSyntax ProposedType, TypeSyntax? GenericArgument, bool TaskLike);
+        private sealed record ParameterInfo(NameSyntax ProposedType, TypeSyntax? GenericArgument, bool IsTask, bool IsValueTask)
+        {
+            internal bool TaskLike => IsTask || IsValueTask;
+        }
     }
 }

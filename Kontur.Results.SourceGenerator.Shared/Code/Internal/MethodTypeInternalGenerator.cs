@@ -21,11 +21,25 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 from parameter1 in parameters1
                 from parameterNext in parametersNext
                 from parameter2 in parameters2
+                let allParameters = new[] { parameter1, parameterNext, parameter2 }
                 select new MethodTypeInternal3(
                     parameter1,
                     parameterNext,
                     parameter2,
-                    ReturnTypeCalculator.Get(returnType, new[] { parameter1, parameterNext, parameter2 }.Select(arg => arg.Type)));
+                    ReturnTypeCalculator.Get(returnType, allParameters.Any(p => p.IsTask), allParameters.Any(p => p.IsValueTask)));
+        }
+
+        internal static IEnumerable<MethodTypeInternal1> Create1Parameter(
+            TypeSyntax returnType,
+            MethodTypeGeneratorParameter selfParameter)
+        {
+            var parameters1 = CreateParameters(selfParameter, 1);
+
+            return
+                from parameter1 in parameters1
+                select new MethodTypeInternal1(
+                    parameter1,
+                    ReturnTypeCalculator.Get(returnType, parameter1.IsTask, parameter1.IsValueTask));
         }
 
         internal static IEnumerable<MethodTypeInternal2> Create2Parameters(
@@ -39,10 +53,11 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             return
                 from parameter1 in parameters1
                 from parameter2 in parameters2
+                let allParameters = new[] { parameter1, parameter2 }
                 select new MethodTypeInternal2(
                     parameter1,
                     parameter2,
-                    ReturnTypeCalculator.Get(returnType, new[] { parameter1, parameter2 }.Select(arg => arg.Type)));
+                    ReturnTypeCalculator.Get(returnType, allParameters.Any(p => p.IsTask), allParameters.Any(p => p.IsValueTask)));
         }
 
         private static IEnumerable<InternalTypeParameter> CreateParameters(MethodTypeGeneratorParameter parameter, int argumentNumber)
@@ -53,19 +68,19 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 : CreateUpperBoundParameter(upperBound, argumentNumber);
         }
 
-        private static IEnumerable<InternalTypeParameter> CreateUpperBoundParameter(SimpleNameSyntax upperBound, int argumentNumber)
+        private static IEnumerable<InternalTypeParameter> CreateUpperBoundParameter(NameSyntax upperBound, int argumentNumber)
         {
             var genericParameter = SyntaxFactory.Identifier("TInstance" + argumentNumber);
             return TaskLikeTypeSyntaxFactory.Create(SyntaxFactory.IdentifierName(genericParameter))
-                .Select(wrapped => new InternalTypeParameter(wrapped, true, new(genericParameter, upperBound)))
-                .Append(new(upperBound, false, null));
+                .Select(item => new InternalTypeParameter(item.Syntax, item.IsTask, item.IsValueTask, new(genericParameter, upperBound)))
+                .Append(new(upperBound, false, false, null));
         }
 
-        private static IEnumerable<InternalTypeParameter> CreateSealedParameter(SimpleNameSyntax type)
+        private static IEnumerable<InternalTypeParameter> CreateSealedParameter(NameSyntax type)
         {
             return TaskLikeTypeSyntaxFactory.Create(type)
-                .Select(wrapped => new InternalTypeParameter(wrapped, true, null))
-                .Append(new(type, false, null));
+                .Select(item => new InternalTypeParameter(item.Syntax, item.IsTask, item.IsValueTask, null))
+                .Append(new(type, false, false, null));
         }
     }
 }

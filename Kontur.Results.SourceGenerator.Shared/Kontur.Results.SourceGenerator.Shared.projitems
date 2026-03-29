@@ -32,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\MethodTypeGenericParameter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\MethodTypeInternal3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\MethodTypeInternal2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\MethodTypeInternal1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Internal\MethodTypeInternalGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\ITypeParameterGenericMethodSyntaxGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\MethodBodyFactory.cs" />
@@ -47,6 +48,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\NamespaceSplitter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodType3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodType2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodType1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodTypeGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodDocumentation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\MethodName.cs" />

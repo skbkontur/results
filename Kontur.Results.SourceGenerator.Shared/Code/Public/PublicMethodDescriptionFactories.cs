@@ -27,7 +27,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
            IReadOnlyCollection<SyntaxToken> genericParameters,
            GenericNameSyntax parameterSelfTypeUpperBound,
            GenericNameSyntax[] parameterSelfTypeTasks,
-           SimpleNameSyntax parameterOtherTypeUpperBound,
+           NameSyntax parameterOtherTypeUpperBound,
            GenericNameSyntax[] parameterOtherTypeTasks,
            ParameterNames parametersName,
            ClassNamesFactory classNames)
@@ -71,7 +71,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             IReadOnlyCollection<SyntaxToken> genericParameters,
             GenericNameSyntax parameterSelfTypeUpperBound,
             GenericNameSyntax[] parameterSelfTypeTasks,
-            SimpleNameSyntax parameterOtherTypeUpperBound,
+            NameSyntax parameterOtherTypeUpperBound,
             GenericNameSyntax[] parameterOtherTypeTasks,
             IdentifierNameSyntax parameterOtherTypeFuncInput,
             ParameterNames parametersName,
@@ -131,7 +131,7 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             IReadOnlyCollection<SyntaxToken> genericParameters,
             GenericNameSyntax parameterSelfTypeUpperBound,
             GenericNameSyntax[] parameterSelfTypeTasks,
-            SimpleNameSyntax parameterOtherTypeUpperBound,
+            NameSyntax parameterOtherTypeUpperBound,
             GenericNameSyntax[] parameterOtherTypeTasks,
             IdentifierNameSyntax parameterOtherTypeFuncInput,
             ParameterNames parametersName,
@@ -164,9 +164,9 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             IReadOnlyCollection<SyntaxToken> genericParameters,
             GenericNameSyntax parameterSelfTypeUpperBound,
             GenericNameSyntax[] parameterSelfTypeTasks,
-            SimpleNameSyntax nextParameterOtherTypeUpperBound,
+            NameSyntax nextParameterOtherTypeUpperBound,
             GenericNameSyntax[] nextParameterOtherTypeTasks,
-            SimpleNameSyntax parameterOtherTypeUpperBound,
+            NameSyntax parameterOtherTypeUpperBound,
             GenericNameSyntax[] parameterOtherTypeTasks,
             IdentifierNameSyntax nextParameterOtherTypeFuncInput,
             IdentifierNameSyntax parameterOtherTypeFuncInput,
@@ -203,14 +203,78 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                 : new(Array.Empty<MethodDeclarationSyntax>(), methodTypes);
         }
 
-        private static bool IsFirstParameterIsTaskLike(SimpleNameSyntax parameterSelfType, MethodType2 method)
+        internal PublicMethodsDescription Create1(
+            TypeSyntax returnType,
+            SyntaxToken methodName,
+            MethodDocumentation documentation,
+            IReadOnlyCollection<SyntaxToken> genericParameters,
+            GenericNameSyntax parameterSelfTypeUpperBound,
+            GenericNameSyntax[] parameterSelfTypeTasks,
+            SelfParameter parametersName,
+            string defaultClassName)
+        {
+            var methodTypes = MethodTypeGenerator
+                .Create1Parameter(returnType, parameterSelfTypeUpperBound, parameterSelfTypeTasks)
+                .ToArray();
+
+            var methods = methodTypes
+                .Select(method => this.CreateSelf(
+                        method,
+                        methodName,
+                        documentation,
+                        genericParameters,
+                        !method.Parameter1.Equals(parameterSelfTypeUpperBound),
+                        parametersName,
+                        SyntaxFactory.IdentifierName(defaultClassName)));
+
+            return new(methods, Array.Empty<MethodDeclarationSyntax>());
+        }
+
+        private static bool IsFirstParameterIsTaskLike(NameSyntax parameterSelfType, MethodType2 method)
         {
             return !method.Parameter1.Equals(parameterSelfType);
         }
 
-        private static bool IsFirstParameterIsTaskLike(SimpleNameSyntax parameterSelfType, MethodType3 method)
+        private static bool IsFirstParameterIsTaskLike(NameSyntax parameterSelfType, MethodType3 method)
         {
             return !method.Parameter1.Equals(parameterSelfType);
+        }
+
+        private MethodDeclarationSyntax CreateSelf(
+            MethodType1 methodType,
+            SyntaxToken methodName,
+            MethodDocumentation documentation,
+            IReadOnlyCollection<SyntaxToken> genericParameters,
+            bool firstParameterIsTask,
+            SelfParameter parameterSelf,
+            SimpleNameSyntax delegateClassName)
+        {
+            var selfParameterName = firstParameterIsTask ? parameterSelf.TaskName : parameterSelf.Name;
+
+            var body = this.bodyFactory.CreateDelegateToOtherClass(
+                methodName,
+                delegateClassName,
+                genericParameters
+                    .Select(SyntaxFactory.IdentifierName)
+                    .Concat(methodType.GenericArguments),
+                new[]
+                {
+                    SyntaxFactory.Argument(SyntaxFactory.IdentifierName(selfParameterName)),
+                });
+
+            var method = this.methodDeclarationFactory.Create(
+                    new[] { Attributes.Pure },
+                    AccessModifierFactory.Create(SyntaxKind.PublicKeyword, SyntaxKind.StaticKeyword),
+                    methodType.ReturnType,
+                    methodName,
+                    genericParameters,
+                    new[]
+                    {
+                        SyntaxFactory.Parameter(selfParameterName).WithType(methodType.Parameter1).AddModifiers(SyntaxFactory.Token(SyntaxKind.ThisKeyword)),
+                    },
+                    body);
+
+            return method.WithLeadingTrivia(documentation.Trivia.AddRange(method.GetLeadingTrivia()));
         }
 
         private MethodDeclarationSyntax CreatePass(

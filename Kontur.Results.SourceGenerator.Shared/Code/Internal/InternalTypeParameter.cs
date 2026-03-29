@@ -3,7 +3,11 @@
 namespace Kontur.Results.SourceGenerator.Code.Internal
 {
     internal record InternalTypeParameter(
-        SimpleNameSyntax Type,
-        bool IsTaskLike,
-        MethodTypeGenericParameter? Generic);
+        NameSyntax Type,
+        bool IsTask,
+        bool IsValueTask,
+        MethodTypeGenericParameter? Generic)
+    {
+        internal bool IsTaskLike => IsTask || IsValueTask;
+    }
 }
