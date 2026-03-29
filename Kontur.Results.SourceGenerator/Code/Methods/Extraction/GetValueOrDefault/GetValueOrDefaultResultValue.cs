@@ -1,4 +1,6 @@
+using System;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Kontur.Results.SourceGenerator.Code.Methods.Extraction.GetValueOrDefault
 {
@@ -26,7 +28,8 @@ namespace Kontur.Results.SourceGenerator.Code.Methods.Extraction.GetValueOrDefau
                 new[] { fault, value },
                 TypeFactory.CreateInterfaceResult(faultType, valueType),
                 new[] { TypeFactory.CreateResult(faultType, valueType) },
-                Parameters.SelfResultIdentifier);
+                Parameters.SelfResultIdentifier,
+                Array.Empty<TypeParameterConstraintClauseSyntax>());
         }
     }
 }

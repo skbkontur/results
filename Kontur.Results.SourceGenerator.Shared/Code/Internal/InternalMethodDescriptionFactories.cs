@@ -29,7 +29,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             SyntaxToken methodName,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             MethodTypeGeneratorParameter parameterSelfType,
-            SelfParameter parametersName)
+            SelfParameter parametersName,
+            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints)
         {
             var methodTypes = MethodTypeInternalGenerator
                 .Create1Parameter(returnType, parameterSelfType)
@@ -41,7 +42,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                     method,
                     methodName,
                     genericParameters,
-                    parametersName));
+                    parametersName,
+                    additionalConstraints));
 
             InternalPartialMethodDescription partialDescription = new(
                 className,
@@ -490,16 +492,19 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 parameterSyntaxes,
                 blockSyntax);
 
-            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
+            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax, Enumerable.Empty<TypeParameterConstraintClauseSyntax>());
         }
 
         private MethodDeclarationSyntax AddTypeConstraints(
             IEnumerable<MethodTypeGenericParameter> genericParameterTypes,
-            MethodDeclarationSyntax methodDeclarationSyntax)
+            MethodDeclarationSyntax methodDeclarationSyntax,
+            IEnumerable<TypeParameterConstraintClauseSyntax> additionalConstraints)
         {
             var typeParameterConstraints = this.typeParameterGenericMethodSyntaxGenerator
-                .CreateTypeParameterConstraints(genericParameterTypes
-                    .Select(param => new MethodGenericParameterDescription(param.Identifier, param.UpperBound)))
+                .CreateTypeParameterConstraints(
+                    genericParameterTypes
+                        .Select(param => new MethodGenericParameterDescription(param.Identifier, param.UpperBound)),
+                    additionalConstraints)
                 .ToArray();
 
             return methodDeclarationSyntax.AddConstraintClauses(typeParameterConstraints);
@@ -540,7 +545,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 parameterSyntaxes,
                 body);
 
-            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
+            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax, Enumerable.Empty<TypeParameterConstraintClauseSyntax>());
         }
 
         private MethodDeclarationSyntax CreatePartial(
@@ -584,14 +589,15 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 parameterSyntaxes,
                 body);
 
-            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
+            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax, Enumerable.Empty<TypeParameterConstraintClauseSyntax>());
         }
 
         private MethodDeclarationSyntax CreatePartial(
             MethodTypeInternal1 methodType,
             SyntaxToken methodName,
             IReadOnlyCollection<SyntaxToken> genericParameterNames,
-            SelfParameter parameterSelf)
+            SelfParameter parameterSelf,
+            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints)
         {
             var genericArguments = genericParameterNames
                 .Select(SyntaxFactory.IdentifierName);
@@ -635,7 +641,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 parameterSyntaxes,
                 body);
 
-            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax);
+            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax, additionalConstraints);
         }
     }
 }

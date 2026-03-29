@@ -11,13 +11,16 @@ namespace Kontur.Results.SourceGenerator.Code.Public
     {
         private readonly IMethodDeclarationFactory methodDeclarationFactory;
         private readonly IMethodBodyFactory bodyFactory;
+        private readonly ITypeParameterGenericMethodSyntaxGenerator typeParameterGenericMethodSyntaxGenerator;
 
         public PublicMethodDescriptionFactories(
             IMethodDeclarationFactory methodDeclarationFactory,
-            IMethodBodyFactory bodyFactory)
+            IMethodBodyFactory bodyFactory,
+            ITypeParameterGenericMethodSyntaxGenerator typeParameterGenericMethodSyntaxGenerator)
         {
             this.methodDeclarationFactory = methodDeclarationFactory;
             this.bodyFactory = bodyFactory;
+            this.typeParameterGenericMethodSyntaxGenerator = typeParameterGenericMethodSyntaxGenerator;
         }
 
         internal PublicMethodsDescription Create2(
@@ -211,7 +214,8 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             GenericNameSyntax parameterSelfTypeUpperBound,
             GenericNameSyntax[] parameterSelfTypeTasks,
             SelfParameter parametersName,
-            string defaultClassName)
+            string defaultClassName,
+            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints)
         {
             var methodTypes = MethodTypeGenerator
                 .Create1Parameter(returnType, parameterSelfTypeUpperBound, parameterSelfTypeTasks)
@@ -225,7 +229,8 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                         genericParameters,
                         !method.Parameter1.Equals(parameterSelfTypeUpperBound),
                         parametersName,
-                        SyntaxFactory.IdentifierName(defaultClassName)));
+                        SyntaxFactory.IdentifierName(defaultClassName),
+                        additionalConstraints));
 
             return new(methods, Array.Empty<MethodDeclarationSyntax>());
         }
@@ -247,7 +252,8 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             IReadOnlyCollection<SyntaxToken> genericParameters,
             bool firstParameterIsTask,
             SelfParameter parameterSelf,
-            SimpleNameSyntax delegateClassName)
+            SimpleNameSyntax delegateClassName,
+            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints)
         {
             var selfParameterName = firstParameterIsTask ? parameterSelf.TaskName : parameterSelf.Name;
 
@@ -273,6 +279,13 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                         SyntaxFactory.Parameter(selfParameterName).WithType(methodType.Parameter1).AddModifiers(SyntaxFactory.Token(SyntaxKind.ThisKeyword)),
                     },
                     body);
+
+            var annotatedConstraints = this.typeParameterGenericMethodSyntaxGenerator
+                .CreateTypeParameterConstraints(
+                    Enumerable.Empty<MethodGenericParameterDescription>(),
+                    additionalConstraints)
+                .ToArray();
+            method = method.AddConstraintClauses(annotatedConstraints);
 
             return method.WithLeadingTrivia(documentation.Trivia.AddRange(method.GetLeadingTrivia()));
         }

@@ -112,7 +112,8 @@ namespace Kontur.Results.SourceGenerator.Code
             SyntaxToken[] genericParameters,
             GenericNameSyntax parameterSelfType,
             GenericNameSyntax[] parameterSelfTypeTasks,
-            SelfParameter parametersName)
+            SelfParameter parametersName,
+            TypeParameterConstraintClauseSyntax[] additionalConstraints)
         {
             var defaultClassName = $"{method.Name}{parameterTypes}DefaultInternal";
             var methodNameSyntax = SyntaxFactory.Identifier(method.Name);
@@ -123,7 +124,8 @@ namespace Kontur.Results.SourceGenerator.Code
                 methodNameSyntax,
                 genericParameters,
                 CreateParameterSelfType(parameterSelfType, parameterSelfTypeTasks),
-                parametersName);
+                parametersName,
+                additionalConstraints);
 
             var publicMethodsDescriptions = this.publicMethodDescriptionFactories.Create1(
                 returnType,
@@ -133,7 +135,8 @@ namespace Kontur.Results.SourceGenerator.Code
                 parameterSelfType,
                 parameterSelfTypeTasks,
                 parametersName,
-                defaultClassName);
+                defaultClassName,
+                additionalConstraints);
 
             return new(
                 internalMethodsDescriptions,

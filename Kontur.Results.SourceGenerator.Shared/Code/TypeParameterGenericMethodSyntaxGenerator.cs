@@ -11,7 +11,9 @@ namespace Kontur.Results.SourceGenerator.Code
         private static readonly SyntaxAnnotation FirstWhere = new("where-first");
         private static readonly SyntaxAnnotation OtherWhere = new("where-other");
 
-        public IEnumerable<TypeParameterConstraintClauseSyntax> CreateTypeParameterConstraints(IEnumerable<MethodGenericParameterDescription> genericParameters)
+        public IEnumerable<TypeParameterConstraintClauseSyntax> CreateTypeParameterConstraints(
+            IEnumerable<MethodGenericParameterDescription> genericParameters,
+            IEnumerable<TypeParameterConstraintClauseSyntax> additionalConstraints)
         {
             return genericParameters
                 .Select(param => param.UpperBound == null ? null : new { param.Identifier, param.UpperBound })
@@ -22,6 +24,7 @@ namespace Kontur.Results.SourceGenerator.Code
                     {
                         SyntaxFactory.TypeConstraint(param.UpperBound),
                     })))
+                .Concat(additionalConstraints)
                 .Select((clause, i) => i == 0
                     ? clause.WithAdditionalAnnotations(FirstWhere)
                     : clause.WithAdditionalAnnotations(OtherWhere));
