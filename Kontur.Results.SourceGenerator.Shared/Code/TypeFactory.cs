@@ -7,9 +7,9 @@ namespace Kontur.Results.SourceGenerator.Code
 {
     internal static class TypeFactory
     {
-        internal const string Optional = "Optional";
-        internal const string Result = "Result";
-        internal const string ResultFailure = "ResultFailure";
+        private const string Optional = "Optional";
+        private const string Result = "Result";
+        private const string ResultFailure = "ResultFailure";
         private const string InterfaceOptional = "IOptional";
         private const string InterfaceResult = "IResult";
 

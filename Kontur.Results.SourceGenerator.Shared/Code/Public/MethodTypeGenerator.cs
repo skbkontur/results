@@ -6,33 +6,6 @@ namespace Kontur.Results.SourceGenerator.Code.Public
 {
     internal static class MethodTypeGenerator
     {
-        internal static IEnumerable<MethodType3> Create3Parameters(
-            TypeSyntax returnType,
-            NameSyntax selfUpperBound,
-            IReadOnlyCollection<TypeSyntax> selfTaskArguments,
-            NameSyntax nextParameterUpperBound,
-            IReadOnlyCollection<TypeSyntax> nextParameterTaskArguments,
-            NameSyntax parameterUpperBound,
-            IReadOnlyCollection<TypeSyntax> parameterTaskArguments)
-        {
-            var parameters1 = CreateParameter(selfUpperBound, selfTaskArguments);
-            var parametersNext = CreateParameter(nextParameterUpperBound, nextParameterTaskArguments);
-            var parameters2 = CreateParameter(parameterUpperBound, parameterTaskArguments);
-
-            return
-                from parameter1 in parameters1
-                from parameterNext in parametersNext
-                from parameter2 in parameters2
-                let allParameters = new[] { parameter1, parameterNext, parameter2 }
-                select new MethodType3(
-                    parameter1.ProposedType,
-                    parameterNext.ProposedType,
-                    parameterNext.TaskLike,
-                    parameter2.ProposedType,
-                    allParameters.Select(arg => arg.GenericArgument).WhereNotNull(),
-                    ReturnTypeCalculator.Get(returnType, allParameters.Any(p => p.IsTask), allParameters.Any(p => p.IsValueTask)));
-        }
-
         internal static IEnumerable<MethodType1> Create1Parameter(
             TypeSyntax returnType,
             NameSyntax selfUpperBound,
@@ -66,6 +39,33 @@ namespace Kontur.Results.SourceGenerator.Code.Public
                     parameter1.ProposedType,
                     parameter2.ProposedType,
                     parameter2.IsValueTask,
+                    allParameters.Select(arg => arg.GenericArgument).WhereNotNull(),
+                    ReturnTypeCalculator.Get(returnType, allParameters.Any(p => p.IsTask), allParameters.Any(p => p.IsValueTask)));
+        }
+
+        internal static IEnumerable<MethodType3> Create3Parameters(
+            TypeSyntax returnType,
+            NameSyntax selfUpperBound,
+            IReadOnlyCollection<TypeSyntax> selfTaskArguments,
+            NameSyntax nextParameterUpperBound,
+            IReadOnlyCollection<TypeSyntax> nextParameterTaskArguments,
+            NameSyntax parameterUpperBound,
+            IReadOnlyCollection<TypeSyntax> parameterTaskArguments)
+        {
+            var parameters1 = CreateParameter(selfUpperBound, selfTaskArguments);
+            var parametersNext = CreateParameter(nextParameterUpperBound, nextParameterTaskArguments);
+            var parameters2 = CreateParameter(parameterUpperBound, parameterTaskArguments);
+
+            return
+                from parameter1 in parameters1
+                from parameterNext in parametersNext
+                from parameter2 in parameters2
+                let allParameters = new[] { parameter1, parameterNext, parameter2 }
+                select new MethodType3(
+                    parameter1.ProposedType,
+                    parameterNext.ProposedType,
+                    parameterNext.TaskLike,
+                    parameter2.ProposedType,
                     allParameters.Select(arg => arg.GenericArgument).WhereNotNull(),
                     ReturnTypeCalculator.Get(returnType, allParameters.Any(p => p.IsTask), allParameters.Any(p => p.IsValueTask)));
         }

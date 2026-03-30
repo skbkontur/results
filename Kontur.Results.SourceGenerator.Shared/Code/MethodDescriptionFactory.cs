@@ -33,15 +33,13 @@ namespace Kontur.Results.SourceGenerator.Code
         {
             ClassNamesFactory classNames = new(method.Name, parameterTypes);
             var methodNameSyntax = SyntaxFactory.Identifier(method.Name);
-            var internalMethodsDescriptions = this.CreateInternal2(
+            var internalMethodsDescriptions = this.internalMethodDescriptionFactories.Create2(
                 classNames,
                 returnType,
                 methodNameSyntax,
                 genericParameters,
-                parameterSelfType,
-                parameterSelfTypeTasks,
-                parameterOtherType,
-                parameterOtherTypeTasks,
+                CreateParameterSelfType(parameterSelfType, parameterSelfTypeTasks),
+                CreateParameterSelfType(parameterOtherType, parameterOtherTypeTasks),
                 parametersName);
 
             var publicMethodsDescriptions = this.publicMethodDescriptionFactories.Create2(
@@ -75,16 +73,14 @@ namespace Kontur.Results.SourceGenerator.Code
         {
             ClassNamesPass classNames = new(method.Name, parameterTypes);
             var methodNameSyntax = SyntaxFactory.Identifier(method.Name);
-            var internalMethodsDescriptions = this.CreateInternal3(
+            var internalMethodsDescriptions = this.internalMethodDescriptionFactories.Create3(
                 classNames,
                 returnType,
                 methodNameSyntax,
                 genericParameters,
-                parameterSelfType,
-                parameterSelfTypeTasks,
-                parameterOtherType,
+                CreateParameterSelfType(parameterSelfType, parameterSelfTypeTasks),
+                CreateParameterSelfType(parameterOtherType, parameterOtherTypeTasks),
                 passType,
-                parameterOtherTypeTasks,
                 parametersName);
 
             var publicMethodsDescriptions = this.publicMethodDescriptionFactories.Create3(
@@ -242,50 +238,6 @@ namespace Kontur.Results.SourceGenerator.Code
             IEnumerable<GenericNameSyntax> taskTypes)
         {
             return new(upperBound, !taskTypes.Any());
-        }
-
-        private InternalMethodsDescription CreateInternal2(
-            ClassNamesFactory classNames,
-            TypeSyntax returnType,
-            SyntaxToken methodNameSyntax,
-            SyntaxToken[] genericParameters,
-            GenericNameSyntax parameterSelfType,
-            GenericNameSyntax[] parameterSelfTypeTasks,
-            NameSyntax parameterOtherType,
-            GenericNameSyntax[] parameterOtherTypeTasks,
-            ParameterNames parametersName)
-        {
-            return this.internalMethodDescriptionFactories.Create2(
-                classNames,
-                returnType,
-                methodNameSyntax,
-                genericParameters,
-                CreateParameterSelfType(parameterSelfType, parameterSelfTypeTasks),
-                CreateParameterSelfType(parameterOtherType, parameterOtherTypeTasks),
-                parametersName);
-        }
-
-        private InternalMethodsDescription CreateInternal3(
-            ClassNamesPass classNames,
-            TypeSyntax returnType,
-            SyntaxToken methodNameSyntax,
-            SyntaxToken[] genericParameters,
-            GenericNameSyntax parameterSelfType,
-            GenericNameSyntax[] parameterSelfTypeTasks,
-            NameSyntax parameterOtherType,
-            IdentifierNameSyntax passType,
-            GenericNameSyntax[] parameterOtherTypeTasks,
-            ParameterNames parametersName)
-        {
-            return this.internalMethodDescriptionFactories.Create3(
-                classNames,
-                returnType,
-                methodNameSyntax,
-                genericParameters,
-                CreateParameterSelfType(parameterSelfType, parameterSelfTypeTasks),
-                CreateParameterSelfType(parameterOtherType, parameterOtherTypeTasks),
-                passType,
-                parametersName);
         }
     }
 }

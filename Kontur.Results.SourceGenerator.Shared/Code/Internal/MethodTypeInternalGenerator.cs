@@ -7,28 +7,6 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
 {
     internal static class MethodTypeInternalGenerator
     {
-        internal static IEnumerable<MethodTypeInternal3> Create3Parameters(
-            TypeSyntax returnType,
-            MethodTypeGeneratorParameter selfParameter,
-            MethodTypeGeneratorParameter nextParameter,
-            MethodTypeGeneratorParameter otherParameter)
-        {
-            var parameters1 = CreateParameters(selfParameter, 1);
-            var parametersNext = CreateParameters(nextParameter, 2);
-            var parameters2 = CreateParameters(otherParameter, 3);
-
-            return
-                from parameter1 in parameters1
-                from parameterNext in parametersNext
-                from parameter2 in parameters2
-                let allParameters = new[] { parameter1, parameterNext, parameter2 }
-                select new MethodTypeInternal3(
-                    parameter1,
-                    parameterNext,
-                    parameter2,
-                    ReturnTypeCalculator.Get(returnType, allParameters.Any(p => p.IsTask), allParameters.Any(p => p.IsValueTask)));
-        }
-
         internal static IEnumerable<MethodTypeInternal1> Create1Parameter(
             TypeSyntax returnType,
             MethodTypeGeneratorParameter selfParameter)
@@ -56,6 +34,28 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 let allParameters = new[] { parameter1, parameter2 }
                 select new MethodTypeInternal2(
                     parameter1,
+                    parameter2,
+                    ReturnTypeCalculator.Get(returnType, allParameters.Any(p => p.IsTask), allParameters.Any(p => p.IsValueTask)));
+        }
+
+        internal static IEnumerable<MethodTypeInternal3> Create3Parameters(
+            TypeSyntax returnType,
+            MethodTypeGeneratorParameter selfParameter,
+            MethodTypeGeneratorParameter nextParameter,
+            MethodTypeGeneratorParameter otherParameter)
+        {
+            var parameters1 = CreateParameters(selfParameter, 1);
+            var parametersNext = CreateParameters(nextParameter, 2);
+            var parameters2 = CreateParameters(otherParameter, 3);
+
+            return
+                from parameter1 in parameters1
+                from parameterNext in parametersNext
+                from parameter2 in parameters2
+                let allParameters = new[] { parameter1, parameterNext, parameter2 }
+                select new MethodTypeInternal3(
+                    parameter1,
+                    parameterNext,
                     parameter2,
                     ReturnTypeCalculator.Get(returnType, allParameters.Any(p => p.IsTask), allParameters.Any(p => p.IsValueTask)));
         }
