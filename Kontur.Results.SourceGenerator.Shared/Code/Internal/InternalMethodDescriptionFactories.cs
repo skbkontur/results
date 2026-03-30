@@ -511,6 +511,58 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
         }
 
         private MethodDeclarationSyntax CreatePartial(
+            MethodTypeInternal1 methodType,
+            SyntaxToken methodName,
+            IReadOnlyCollection<SyntaxToken> genericParameterNames,
+            SelfParameter parameterSelf,
+            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints)
+        {
+            var genericArguments = genericParameterNames
+                .Select(SyntaxFactory.IdentifierName);
+
+            var awaitCall = WrapIntoAwait(SyntaxFactory.IdentifierName(parameterSelf.TaskName));
+
+            StatementSyntax awaitAndStore = SyntaxFactory.LocalDeclarationStatement(
+                SyntaxFactory.VariableDeclaration(
+                    SyntaxFactory.IdentifierName(SyntaxFactory.Identifier("var")),
+                    SyntaxFactory.SingletonSeparatedList(
+                        SyntaxFactory.VariableDeclarator(parameterSelf.Name)
+                            .WithInitializer(SyntaxFactory.EqualsValueClause(awaitCall)))));
+
+            var methodCallExpression = SyntaxFactory.InvocationExpression(
+                    SyntaxFactory.GenericName(
+                        methodName,
+                        SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(genericArguments.Select(name => (TypeSyntax)name)))))
+                .WithArgumentList(SyntaxFactory.ArgumentList(
+                    SyntaxFactory.SingletonSeparatedList(
+                        SyntaxFactory.Argument(SyntaxFactory.IdentifierName(parameterSelf.Name)))));
+
+            var body = SyntaxFactory.Block()
+                .WithStatements(SyntaxFactory.List(new[]
+                {
+                    awaitAndStore,
+                    SyntaxFactory.ReturnStatement(methodCallExpression),
+                }));
+
+            var genericParameterTypes = GetGenericParameters(methodType.Parameter1).ToArray();
+
+            var parameterSyntaxes = new[]
+            {
+                SyntaxFactory.Parameter(parameterSelf.TaskName).WithType(methodType.Parameter1.Type),
+            };
+            var methodDeclarationSyntax = this.methodDeclarationFactory.Create(
+                AccessModifierFactory.Create(SyntaxKind.InternalKeyword, SyntaxKind.StaticKeyword, SyntaxKind.AsyncKeyword),
+                methodType.ReturnType,
+                methodName,
+                genericParameterNames
+                    .Concat(genericParameterTypes.Select(genericParameter => genericParameter.Identifier)),
+                parameterSyntaxes,
+                body);
+
+            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax, additionalConstraints);
+        }
+
+        private MethodDeclarationSyntax CreatePartial(
             MethodTypeInternal2 methodType,
             SyntaxToken methodName,
             IReadOnlyCollection<SyntaxToken> genericParameterNames,
@@ -590,58 +642,6 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 body);
 
             return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax, Enumerable.Empty<TypeParameterConstraintClauseSyntax>());
-        }
-
-        private MethodDeclarationSyntax CreatePartial(
-            MethodTypeInternal1 methodType,
-            SyntaxToken methodName,
-            IReadOnlyCollection<SyntaxToken> genericParameterNames,
-            SelfParameter parameterSelf,
-            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints)
-        {
-            var genericArguments = genericParameterNames
-                .Select(SyntaxFactory.IdentifierName);
-
-            var awaitCall = WrapIntoAwait(SyntaxFactory.IdentifierName(parameterSelf.TaskName));
-
-            StatementSyntax awaitAndStore = SyntaxFactory.LocalDeclarationStatement(
-                SyntaxFactory.VariableDeclaration(
-                    SyntaxFactory.IdentifierName(SyntaxFactory.Identifier("var")),
-                    SyntaxFactory.SingletonSeparatedList(
-                        SyntaxFactory.VariableDeclarator(parameterSelf.Name)
-                            .WithInitializer(SyntaxFactory.EqualsValueClause(awaitCall)))));
-
-            var methodCallExpression = SyntaxFactory.InvocationExpression(
-                    SyntaxFactory.GenericName(
-                        methodName,
-                        SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(genericArguments.Select(name => (TypeSyntax)name)))))
-                .WithArgumentList(SyntaxFactory.ArgumentList(
-                    SyntaxFactory.SingletonSeparatedList(
-                        SyntaxFactory.Argument(SyntaxFactory.IdentifierName(parameterSelf.Name)))));
-
-            var body = SyntaxFactory.Block()
-                .WithStatements(SyntaxFactory.List(new[]
-                {
-                    awaitAndStore,
-                    SyntaxFactory.ReturnStatement(methodCallExpression),
-                }));
-
-            var genericParameterTypes = GetGenericParameters(methodType.Parameter1).ToArray();
-
-            var parameterSyntaxes = new[]
-            {
-                SyntaxFactory.Parameter(parameterSelf.TaskName).WithType(methodType.Parameter1.Type),
-            };
-            var methodDeclarationSyntax = this.methodDeclarationFactory.Create(
-                AccessModifierFactory.Create(SyntaxKind.InternalKeyword, SyntaxKind.StaticKeyword, SyntaxKind.AsyncKeyword),
-                methodType.ReturnType,
-                methodName,
-                genericParameterNames
-                    .Concat(genericParameterTypes.Select(genericParameter => genericParameter.Identifier)),
-                parameterSyntaxes,
-                body);
-
-            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax, additionalConstraints);
         }
     }
 }

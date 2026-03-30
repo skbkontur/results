@@ -23,6 +23,35 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             this.typeParameterGenericMethodSyntaxGenerator = typeParameterGenericMethodSyntaxGenerator;
         }
 
+        internal PublicMethodsDescription Create1(
+            TypeSyntax returnType,
+            SyntaxToken methodName,
+            MethodDocumentation documentation,
+            IReadOnlyCollection<SyntaxToken> genericParameters,
+            GenericNameSyntax parameterSelfTypeUpperBound,
+            GenericNameSyntax[] parameterSelfTypeTasks,
+            SelfParameter parametersName,
+            string defaultClassName,
+            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints)
+        {
+            var methodTypes = MethodTypeGenerator
+                .Create1Parameter(returnType, parameterSelfTypeUpperBound, parameterSelfTypeTasks)
+                .ToArray();
+
+            var methods = methodTypes
+                .Select(method => this.CreateSelf(
+                    method,
+                    methodName,
+                    documentation,
+                    genericParameters,
+                    !method.Parameter1.Equals(parameterSelfTypeUpperBound),
+                    parametersName,
+                    SyntaxFactory.IdentifierName(defaultClassName),
+                    additionalConstraints));
+
+            return new(methods, Array.Empty<MethodDeclarationSyntax>());
+        }
+
         internal PublicMethodsDescription Create2(
            TypeSyntax returnType,
            SyntaxToken methodName,
@@ -204,35 +233,6 @@ namespace Kontur.Results.SourceGenerator.Code.Public
             return local
                 ? new(methodTypes, Array.Empty<MethodDeclarationSyntax>())
                 : new(Array.Empty<MethodDeclarationSyntax>(), methodTypes);
-        }
-
-        internal PublicMethodsDescription Create1(
-            TypeSyntax returnType,
-            SyntaxToken methodName,
-            MethodDocumentation documentation,
-            IReadOnlyCollection<SyntaxToken> genericParameters,
-            GenericNameSyntax parameterSelfTypeUpperBound,
-            GenericNameSyntax[] parameterSelfTypeTasks,
-            SelfParameter parametersName,
-            string defaultClassName,
-            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints)
-        {
-            var methodTypes = MethodTypeGenerator
-                .Create1Parameter(returnType, parameterSelfTypeUpperBound, parameterSelfTypeTasks)
-                .ToArray();
-
-            var methods = methodTypes
-                .Select(method => this.CreateSelf(
-                        method,
-                        methodName,
-                        documentation,
-                        genericParameters,
-                        !method.Parameter1.Equals(parameterSelfTypeUpperBound),
-                        parametersName,
-                        SyntaxFactory.IdentifierName(defaultClassName),
-                        additionalConstraints));
-
-            return new(methods, Array.Empty<MethodDeclarationSyntax>());
         }
 
         private static bool IsFirstParameterIsTaskLike(NameSyntax parameterSelfType, MethodType2 method)
