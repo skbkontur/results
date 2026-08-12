@@ -264,7 +264,7 @@ MIT
 ## Changelog
 
 ### 4.0.0 (2026-03-12)
-- Added async (`Task`/`ValueTask`) extensions for `GetValueOrElse` and `GetFaultOrElse`
+- Added async (`Task`/`ValueTask`) extensions for `GetValueOrElse`, `GetFaultOrElse`, `Switch`, `EnsureSuccess` and other methods.
 
 ### 3.2.0 (2026-03-12)
 - Added XML documentation to public API
