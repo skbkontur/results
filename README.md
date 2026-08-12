@@ -245,7 +245,6 @@ See [full documentation](docs/readme.md) for all overloads and detailed examples
 
 ## Roadmap
 
-* Async extensions for remaining data extraction methods (`TryGetValue`)
 * Upcast support for synchronous monadic extensions (`Select`, `Then`, `OrElse`, do-notation)
 * Do-notation with heterogeneous `TFault` types (limited; currently use `MapFault`)
 * Source generator for async extensions and implicit conversions on custom inherited types
@@ -263,7 +262,7 @@ MIT
 
 ## Changelog
 
-### 4.0.0 (2026-03-12)
+### 4.0.0 (2026-08-12)
 - Added async (`Task`/`ValueTask`) extensions for `GetValueOrElse`, `GetFaultOrElse`, `Switch`, `EnsureSuccess` and other methods.
 
 ### 3.2.0 (2026-03-12)
