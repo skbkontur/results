@@ -236,7 +236,7 @@ object upcasted = result.Match<object>(onFailureValue: new Exception(), onSucces
 
 ## GetValueOrElse
 
-`GetValueOrElse` and `GetFaultOrElse` support async extensions for every listed synchronous scenario. Async extensions accept `Task`- or `ValueTask`-wrapped source and async factory lambdas. If there is at least one `Task` in a chain, the result is `Task<T>`. Otherwise, the result is `ValueTask<T>`.
+`GetValueOrElse`, `GetFaultOrElse`, `GetValueOrThrow`, `GetFaultOrThrow`, `GetValueOrDefault`, `GetFaultOrDefault`, `GetValueOrNull` and `GetFaultOrNull` support async extensions for every listed synchronous scenario except upcasts. Async extensions accept `Task`- or `ValueTask`-wrapped source and async factory lambdas. If there is at least one `Task` in a chain, the result is `Task<T>`. Otherwise, the result is `ValueTask<T>`.
 
 ```csharp
 Optional<string> optional = ...;
@@ -424,11 +424,38 @@ Optional<string> optional = ...;
 string extracted = optional.GetValueOrThrow(); // Throws `ValueMissingException` on None
 string extracted = optional.GetValueOrThrow(new Exception("There is no value"));
 string extracted = optional.GetValueOrThrow(() => new Exception("There is no value"));
+```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Optional<string>> optional = ...;
+
+Task<string> extracted = optional.GetValueOrThrow(); // Throws `ValueMissingException` on None
+Task<string> extracted = optional.GetValueOrThrow(new Exception("There is no value"));
+Task<string> extracted = optional.GetValueOrThrow(() => new Exception("There is no value"));
+```
+
+```csharp
+ValueTask<Optional<string>> optional = ...;
+
+ValueTask<string> extracted = optional.GetValueOrThrow(); // Throws `ValueMissingException` on None
+ValueTask<string> extracted = optional.GetValueOrThrow(new Exception("There is no value"));
+ValueTask<string> extracted = optional.GetValueOrThrow(() => new Exception("There is no value"));
+```
+</details>
+
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object upcasted = optional.GetValueOrThrow<object>();
 object upcasted = optional.GetValueOrThrow<object>(new Exception("There is no value"));
 object upcasted = optional.GetValueOrThrow<object>(() => new Exception("There is no value"));
 ```
+</details>
+
 
 ```csharp
 Result<Exception, string> result = ...;
@@ -437,12 +464,40 @@ string extracted = result.GetValueOrThrow(); // Throws `ResultFailedException<Ex
 string extracted = result.GetValueOrThrow(new Exception("There is no value"));
 string extracted = result.GetValueOrThrow(() => new Exception("There is no value"));
 string extracted = result.GetValueOrThrow(fault => new Exception(fault.Message));
+```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception, string>> result = ...;
+
+Task<string> extracted = result.GetValueOrThrow(); // Throws `ResultFailedException<Exception>` on Failure
+Task<string> extracted = result.GetValueOrThrow(new Exception("There is no value"));
+Task<string> extracted = result.GetValueOrThrow(() => new Exception("There is no value"));
+Task<string> extracted = result.GetValueOrThrow(fault => new Exception(fault.Message));
+```
+
+```csharp
+ValueTask<Result<Exception, string>> result = ...;
+
+ValueTask<string> extracted = result.GetValueOrThrow(); // Throws `ResultFailedException<Exception>` on Failure
+ValueTask<string> extracted = result.GetValueOrThrow(new Exception("There is no value"));
+ValueTask<string> extracted = result.GetValueOrThrow(() => new Exception("There is no value"));
+ValueTask<string> extracted = result.GetValueOrThrow(fault => new Exception(fault.Message));
+```
+</details>
+
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object upcasted = result.GetValueOrThrow<object, object>();
 object upcasted = result.GetValueOrThrow<object, object>(new Exception("There is no value"));
 object upcasted = result.GetValueOrThrow<object, object>(() => new Exception("There is no value"));
 object upcasted = result.GetValueOrThrow<object, object>(fault => new Exception(fault.Message));
 ```
+</details>
 
 To override exception thrown by default for a specific `TValue` you can implement an extension method with the specific `TValue` in your namespace. You can also use [inheritance](inheritance.md) to override exception thrown by default for `TValue` in any namespace.
 <details>
@@ -478,12 +533,41 @@ Exception extracted = result.GetFaultOrThrow(); // Throws `ResultSucceedExceptio
 Exception extracted = result.GetFaultOrThrow(new Exception("There is no fault"));
 Exception extracted = result.GetFaultOrThrow(() => new Exception("There is no fault"));
 Exception extracted = result.GetFaultOrThrow(value => new Exception(value));
+```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception, string>> result = ...;
+
+Task<Exception> extracted = result.GetFaultOrThrow(); // Throws `ResultSucceedException<string>` on Success
+Task<Exception> extracted = result.GetFaultOrThrow(new Exception("There is no fault"));
+Task<Exception> extracted = result.GetFaultOrThrow(() => new Exception("There is no fault"));
+Task<Exception> extracted = result.GetFaultOrThrow(value => new Exception(value));
+```
+
+```csharp
+ValueTask<Result<Exception, string>> result = ...;
+
+ValueTask<Exception> extracted = result.GetFaultOrThrow(); // Throws `ResultSucceedException<string>` on Success
+ValueTask<Exception> extracted = result.GetFaultOrThrow(new Exception("There is no fault"));
+ValueTask<Exception> extracted = result.GetFaultOrThrow(() => new Exception("There is no fault"));
+ValueTask<Exception> extracted = result.GetFaultOrThrow(value => new Exception(value));
+```
+</details>
+
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object upcasted = result.GetFaultOrThrow<object, object>();
 object upcasted = result.GetFaultOrThrow<object, object>(new Exception("There is no fault"));
 object upcasted = result.GetFaultOrThrow<object, object>(() => new Exception("There is no fault"));
 object upcasted = result.GetFaultOrThrow<object, object>(value => new Exception(value?.ToString()));
 ```
+</details>
+
 
 ```csharp
 Result<Exception> result = ...;
@@ -491,11 +575,37 @@ Result<Exception> result = ...;
 Exception extracted = result.GetFaultOrThrow(); // Throws `ResultSucceedException` on Success
 Exception extracted = result.GetFaultOrThrow(new Exception("There is no fault"));
 Exception extracted = result.GetFaultOrThrow(() => new Exception("There is no fault"));
+```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception>> result = ...;
+
+Task<Exception> extracted = result.GetFaultOrThrow(); // Throws `ResultSucceedException` on Success
+Task<Exception> extracted = result.GetFaultOrThrow(new Exception("There is no fault"));
+Task<Exception> extracted = result.GetFaultOrThrow(() => new Exception("There is no fault"));
+```
+
+```csharp
+ValueTask<Result<Exception>> result = ...;
+
+ValueTask<Exception> extracted = result.GetFaultOrThrow(); // Throws `ResultSucceedException` on Success
+ValueTask<Exception> extracted = result.GetFaultOrThrow(new Exception("There is no fault"));
+ValueTask<Exception> extracted = result.GetFaultOrThrow(() => new Exception("There is no fault"));
+```
+</details>
+
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object upcasted = result.GetFaultOrThrow<object>();
 object upcasted = result.GetFaultOrThrow<object>(new Exception("There is no fault"));
 object upcasted = result.GetFaultOrThrow<object>(() => new Exception("There is no fault"));
 ```
+</details>
 
 To override exception thrown by default exception for a specific `TFault` you can implement an extension method with the specific `TFault` in your namespace. You can also use [inheritance](inheritance.md) to override exception thrown by default for `TFault` in any namespace.
 <details>
@@ -528,9 +638,32 @@ namespace CustomFaults
 Optional<string> optional = ...;
 
 string? extracted = optional.GetValueOrDefault(); // null or actual value for reference types
+```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Optional<string>> optional = ...;
+
+Task<string?> extracted = optional.GetValueOrDefault(); // null or actual value for reference types
+```
+
+```csharp
+ValueTask<Optional<string>> optional = ...;
+
+ValueTask<string?> extracted = optional.GetValueOrDefault(); // null or actual value for reference types
+```
+</details>
+
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object? upcasted = optional.GetValueOrDefault<object>();
 ```
+</details>
+
 
 ```csharp
 Optional<int> optional = ...;
@@ -538,13 +671,53 @@ Optional<int> optional = ...;
 int extracted = optional.GetValueOrDefault();  // 0 or actual value for the value type
 ```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Optional<int>> optional = ...;
+
+Task<int> extracted = optional.GetValueOrDefault();  // 0 or actual value for the value type
+```
+
+```csharp
+ValueTask<Optional<int>> optional = ...;
+
+ValueTask<int> extracted = optional.GetValueOrDefault();  // 0 or actual value for the value type
+```
+</details>
+
+
 ```csharp
 Result<Exception, string> result = ...;
 
 string? extracted = result.GetValueOrDefault(); // null or actual value for reference types
+```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception, string>> result = ...;
+
+Task<string?> extracted = result.GetValueOrDefault(); // null or actual value for reference types
+```
+
+```csharp
+ValueTask<Result<Exception, string>> result = ...;
+
+ValueTask<string?> extracted = result.GetValueOrDefault(); // null or actual value for reference types
+```
+</details>
+
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object? upcasted = result.GetValueOrDefault<object>();
 ```
+</details>
+
 
 ```csharp
 Result<Exception, int> result = ...;
@@ -552,14 +725,53 @@ Result<Exception, int> result = ...;
 int extracted = result.GetValueOrDefault();  // 0 or actual value for the value type
 ```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception, int>> result = ...;
+
+Task<int> extracted = result.GetValueOrDefault();  // 0 or actual value for the value type
+```
+
+```csharp
+ValueTask<Result<Exception, int>> result = ...;
+
+ValueTask<int> extracted = result.GetValueOrDefault();  // 0 or actual value for the value type
+```
+</details>
+
 ## GetFaultOrDefault
 ```csharp
 Result<Exception, string> result = ...;
 
 Exception? extracted = result.GetFaultOrDefault(); // null or actual fault for reference types
+```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception, string>> result = ...;
+
+Task<Exception?> extracted = result.GetFaultOrDefault(); // null or actual fault for reference types
+```
+
+```csharp
+ValueTask<Result<Exception, string>> result = ...;
+
+ValueTask<Exception?> extracted = result.GetFaultOrDefault(); // null or actual fault for reference types
+```
+</details>
+
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object? upcasted = result.GetFaultOrDefault<object>();
 ```
+</details>
+
 
 ```csharp
 Result<int, string> result = ...;
@@ -567,19 +779,75 @@ Result<int, string> result = ...;
 int extracted = result.GetFaultOrDefault();  // 0 or actual fault for the value type
 ```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<int, string>> result = ...;
+
+Task<int> extracted = result.GetFaultOrDefault();  // 0 or actual fault for the value type
+```
+
+```csharp
+ValueTask<Result<int, string>> result = ...;
+
+ValueTask<int> extracted = result.GetFaultOrDefault();  // 0 or actual fault for the value type
+```
+</details>
+
+
 ```csharp
 Result<Exception> result = ...;
 
 Exception? extracted = result.GetFaultOrDefault(); // null or actual fault for reference types
+```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception>> result = ...;
+
+Task<Exception?> extracted = result.GetFaultOrDefault(); // null or actual fault for reference types
+```
+
+```csharp
+ValueTask<Result<Exception>> result = ...;
+
+ValueTask<Exception?> extracted = result.GetFaultOrDefault(); // null or actual fault for reference types
+```
+</details>
+
+<details>
+  <summary>Examples with upcast</summary>
+
+```csharp
 object? upcasted = result.GetFaultOrDefault<object>();
 ```
+</details>
+
 
 ```csharp
 Result<int> result = ...;
 
 int extracted = result.GetFaultOrDefault();  // 0 or actual fault for the value type
 ```
+
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<int>> result = ...;
+
+Task<int> extracted = result.GetFaultOrDefault();  // 0 or actual fault for the value type
+```
+
+```csharp
+ValueTask<Result<int>> result = ...;
+
+ValueTask<int> extracted = result.GetFaultOrDefault();  // 0 or actual fault for the value type
+```
+</details>
 
 ## GetValueOrNull
 This method can be applied to non-nullable value types (structs) only.
@@ -590,11 +858,44 @@ Optional<int> optional = ...;
 int? extracted = optional.GetValueOrNull(); // null or actual value
 ```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Optional<int>> optional = ...;
+
+Task<int?> extracted = optional.GetValueOrNull(); // null or actual value
+```
+
+```csharp
+ValueTask<Optional<int>> optional = ...;
+
+ValueTask<int?> extracted = optional.GetValueOrNull(); // null or actual value
+```
+</details>
+
+
 ```csharp
 Result<Exception, int> result = ...;
 
 int? extracted = result.GetValueOrNull(); // null or actual value
 ```
+
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<Exception, int>> result = ...;
+
+Task<int?> extracted = result.GetValueOrNull(); // null or actual value
+```
+
+```csharp
+ValueTask<Result<Exception, int>> result = ...;
+
+ValueTask<int?> extracted = result.GetValueOrNull(); // null or actual value
+```
+</details>
 
 Upcasts are not supported.
 
@@ -607,11 +908,44 @@ Result<int, string> result = ...;
 int? extracted = result.GetFaultOrNull(); // null or actual fault
 ```
 
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<int, string>> result = ...;
+
+Task<int?> extracted = result.GetFaultOrNull(); // null or actual fault
+```
+
+```csharp
+ValueTask<Result<int, string>> result = ...;
+
+ValueTask<int?> extracted = result.GetFaultOrNull(); // null or actual fault
+```
+</details>
+
+
 ```csharp
 Result<int> result = ...;
 
 int? extracted = result.GetFaultOrNull(); // null or actual fault
 ```
+
+<details>
+  <summary>Async examples</summary>
+
+```csharp
+Task<Result<int>> result = ...;
+
+Task<int?> extracted = result.GetFaultOrNull(); // null or actual fault
+```
+
+```csharp
+ValueTask<Result<int>> result = ...;
+
+ValueTask<int?> extracted = result.GetFaultOrNull(); // null or actual fault
+```
+</details>
 
 Upcasts are not supported.
 
