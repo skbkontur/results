@@ -10,7 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93DECE99-2915-41E7-A8E2-342012C6C8DC}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		module.yaml = module.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kontur.Results.SourceGenerator", "Kontur.Results.SourceGenerator\Kontur.Results.SourceGenerator.csproj", "{326EB675-DB26-462D-B3D3-2137695DDE61}"
