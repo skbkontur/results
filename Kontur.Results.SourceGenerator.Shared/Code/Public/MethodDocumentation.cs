@@ -15,6 +15,8 @@ namespace Kontur.Results.SourceGenerator.Code.Public
 
         internal static XmlNodeSyntax SummaryElement(string text) => SyntaxFactory.XmlSummaryElement(SyntaxFactory.XmlText(text));
 
+        internal static XmlNodeSyntax ReturnsElement(string text) => SyntaxFactory.XmlReturnsElement(SyntaxFactory.XmlText(text));
+
         internal static XmlNodeSyntax CodeExampleElement(params string[] lines)
         {
             var tokens = lines.SelectMany(line => new[]

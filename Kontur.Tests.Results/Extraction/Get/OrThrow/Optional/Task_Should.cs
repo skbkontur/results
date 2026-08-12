@@ -44,14 +44,14 @@ namespace Kontur.Tests.Results.Extraction.Get.OrThrow.Optional
                 .Concat(GenerateThrowCases(Optional<int>.None(), InterfaceMethods));
 
         [TestCaseSource(nameof(ThrowCases))]
-        public void Throw_MyException_If_None<TOptional>(TOptional optional, Func<Task<TOptional>, Task<int>> callGetOrThrow)
+        public async Task Throw_MyException_If_None<TOptional>(TOptional optional, Func<Task<TOptional>, Task<int>> callGetOrThrow)
             where TOptional : IOptional<int>
         {
             var task = Task.FromResult(optional);
 
             Func<Task> action = () => callGetOrThrow(task);
 
-            action.Should().ThrowAsync<MyException>();
+            await action.Should().ThrowAsync<MyException>().ConfigureAwait(false);
         }
 
         private static TestCaseData CreateReturnCase<TOptional>(

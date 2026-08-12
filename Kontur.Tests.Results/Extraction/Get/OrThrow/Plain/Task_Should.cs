@@ -44,14 +44,14 @@ namespace Kontur.Tests.Results.Extraction.Get.OrThrow.Plain
                 .Concat(GenerateThrowCases(Result<int>.Succeed(), InterfaceMethods));
 
         [TestCaseSource(nameof(ThrowCases))]
-        public void Throw_MyException_If_Success<TResult>(TResult result, Func<Task<TResult>, Task<int>> callGetOrThrow)
+        public async Task Throw_MyException_If_Success<TResult>(TResult result, Func<Task<TResult>, Task<int>> callGetOrThrow)
             where TResult : IResult<int>
         {
             var task = Task.FromResult(result);
 
             Func<Task> action = () => callGetOrThrow(task);
 
-            action.Should().ThrowAsync<MyException>();
+            await action.Should().ThrowAsync<MyException>().ConfigureAwait(false);
         }
 
         private static TestCaseData CreateReturnCase<TResult>(

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -23,17 +24,23 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             this.typeParameterGenericMethodSyntaxGenerator = typeParameterGenericMethodSyntaxGenerator;
         }
 
+        internal static GenericNameSyntax CreateFactoryParameter(MethodTypeInternal2 methodType)
+        {
+            return TypeFactory.CreateClosedGeneric(Identifiers.FuncIdentifier, methodType.Parameter2.Type);
+        }
+
         internal InternalMethodsDescription Create1(
             string className,
-            TypeSyntax returnType,
+            Func<bool, bool, TypeSyntax> computeReturnType,
             SyntaxToken methodName,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             MethodTypeGeneratorParameter parameterSelfType,
             SelfParameter parametersName,
-            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints)
+            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
             var methodTypes = MethodTypeInternalGenerator
-                .Create1Parameter(returnType, parameterSelfType)
+                .Create1Parameter(computeReturnType, parameterSelfType)
                 .ToArray();
 
             var methods = methodTypes
@@ -43,7 +50,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                     methodName,
                     genericParameters,
                     parametersName,
-                    additionalConstraints));
+                    additionalConstraints,
+                    wrapResult));
 
             InternalPartialMethodDescription partialDescription = new(
                 className,
@@ -54,81 +62,79 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
 
         internal InternalMethodsDescription Create2(
             ClassNamesFactory classNames,
-            TypeSyntax returnType,
+            Func<bool, bool, TypeSyntax> computeReturnType,
             SyntaxToken methodName,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             MethodTypeGeneratorParameter parameterSelfType,
             MethodTypeGeneratorParameter parameterOtherType,
-            ParameterNames parametersName)
+            ParameterNames parametersName,
+            IEnumerable<AttributeSyntax> attributes,
+            IEnumerable<UsingDirectiveSyntax> valueUsings,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
             var methodTypes = MethodTypeInternalGenerator
-                .Create2Parameters(returnType, parameterSelfType, parameterOtherType)
+                .Create2Parameters(computeReturnType, parameterSelfType, MethodTypeInternalGenerator.CreateParameters(parameterOtherType, 2))
                 .ToArray();
 
             var valueMethods = methodTypes
                 .Select(method => this.CreateValue(
+                    attributes,
                     method,
                     methodName,
                     genericParameters,
                     parametersName.Self,
                     parametersName.Value,
-                    classNames.FactoryNameSyntax()));
+                    classNames.FactoryNameSyntax(),
+                    ReturnTypeCalculator.GetWrapResult(wrapResult, HasAnyTaskParameter(method))));
 
             InternalStandardMethodsDescription valueMethodsDescription = new(
                 classNames.Value,
-                new[]
-                {
-                    Using.Contracts,
-                    Using.Tasks,
-                },
+                valueUsings,
                 valueMethods);
 
-            var factoryMethods = methodTypes
-                .Where(IsFirstParameterTask)
-                .Select(method => this.CreateFactoryPartial(
-                    method,
-                    methodName,
-                    genericParameters,
-                    parametersName.Self,
-                    parametersName.Factory));
-
-            InternalPartialMethodDescription factoryMethodsDescription = new(
+            return this.Assemble(
+                methodTypes,
+                new[] { valueMethodsDescription },
                 classNames.Factory,
-                factoryMethods);
-
-            return new(new[] { valueMethodsDescription }, factoryMethodsDescription);
+                methodName,
+                genericParameters,
+                parametersName.Self,
+                CreateFactoryParameter,
+                parametersName.Factory,
+                wrapResult);
         }
 
         internal InternalMethodsDescription Create3(
             ClassNamesPass classNames,
-            TypeSyntax returnType,
+            Func<bool, bool, TypeSyntax> computeReturnType,
             SyntaxToken methodName,
             IReadOnlyCollection<SyntaxToken> genericParameters,
             MethodTypeGeneratorParameter parameterSelfType,
             MethodTypeGeneratorParameter parameterOtherType,
             TypeSyntax passType,
-            ParameterNames parametersName)
+            ParameterNames parametersName,
+            IEnumerable<AttributeSyntax> attributes,
+            IEnumerable<UsingDirectiveSyntax> valueUsings,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
             var methodTypes = MethodTypeInternalGenerator
-                .Create2Parameters(returnType, parameterSelfType, parameterOtherType)
+                .Create2Parameters(computeReturnType, parameterSelfType, MethodTypeInternalGenerator.CreateParameters(parameterOtherType, 2))
                 .ToArray();
 
             var valueMethods = methodTypes
                 .Select(method => this.CreateValue(
+                    attributes,
                     method,
                     methodName,
                     genericParameters,
                     parametersName.Self,
                     parametersName.Value,
-                    classNames.FactoryNameSyntax()));
+                    classNames.FactoryNameSyntax(),
+                    ReturnTypeCalculator.GetWrapResult(wrapResult, HasAnyTaskParameter(method))));
 
             InternalStandardMethodsDescription valueMethodsDescription = new(
                 classNames.Value,
-                new[]
-                {
-                    Using.Contracts,
-                    Using.Tasks,
-                },
+                valueUsings,
                 valueMethods);
 
             var factoryMethods = methodTypes.Select(method => this.CreateFactory(
@@ -137,7 +143,9 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 genericParameters,
                 parametersName.Self,
                 parametersName.Factory,
-                classNames.PassNameSyntax()));
+                classNames.PassNameSyntax(),
+                CreateFactoryParameter,
+                ReturnTypeCalculator.GetWrapResult(wrapResult, HasAnyTaskParameter(method))));
 
             InternalStandardMethodsDescription factoryMethodsDescription = new(
                 classNames.Factory,
@@ -148,21 +156,135 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 },
                 factoryMethods);
 
-            var passMethods = methodTypes
-                .Where(IsFirstParameterTask)
-                .Select(method => this.CreatePassPartial(
-                    method,
-                    methodName,
-                    genericParameters,
-                    parametersName.Self,
-                    parametersName.Factory,
-                    passType));
-
-            InternalPartialMethodDescription passMethodsDescription = new(
+            return this.Assemble(
+                methodTypes,
+                new[] { valueMethodsDescription, factoryMethodsDescription },
                 classNames.Pass,
-                passMethods);
+                methodName,
+                genericParameters,
+                parametersName.Self,
+                method => TypeFactory.CreateClosedGeneric(Identifiers.FuncIdentifier, passType, method.Parameter2.Type),
+                parametersName.Factory,
+                wrapResult);
+        }
 
-            return new(new[] { valueMethodsDescription, factoryMethodsDescription }, passMethodsDescription);
+        internal InternalMethodsDescription CreateFactoryOnly(
+            string factoryClassName,
+            Func<bool, bool, TypeSyntax> computeReturnType,
+            SyntaxToken methodName,
+            IReadOnlyCollection<SyntaxToken> genericParameters,
+            MethodTypeGeneratorParameter parameterSelfType,
+            IEnumerable<InternalTypeParameter> otherParameters,
+            SelfParameter selfParameter,
+            SyntaxToken parameterName,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
+        {
+            var methodTypes = MethodTypeInternalGenerator
+                .Create2Parameters(computeReturnType, parameterSelfType, otherParameters)
+                .ToArray();
+
+            return this.Assemble(
+                methodTypes,
+                Enumerable.Empty<InternalStandardMethodsDescription>(),
+                factoryClassName,
+                methodName,
+                genericParameters,
+                selfParameter,
+                method => method.Parameter2.Type,
+                parameterName,
+                wrapResult);
+        }
+
+        internal InternalMethodsDescription CreatePassOnly(
+            ClassNamesPass classNames,
+            Func<bool, bool, TypeSyntax> computeReturnType,
+            SyntaxToken methodName,
+            IReadOnlyCollection<SyntaxToken> genericParameters,
+            MethodTypeGeneratorParameter parameterSelfType,
+            IEnumerable<InternalTypeParameter> factoryParameters,
+            IEnumerable<InternalTypeParameter> passParameters,
+            SelfParameter selfParameter,
+            SyntaxToken parameterName,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
+        {
+            var factoryMethodTypes = MethodTypeInternalGenerator
+                .Create2Parameters(computeReturnType, parameterSelfType, factoryParameters)
+                .ToArray();
+
+            var factoryMethods = factoryMethodTypes.Select(factoryMethod => this.CreateFactory(
+                factoryMethod,
+                methodName,
+                genericParameters,
+                selfParameter,
+                parameterName,
+                classNames.PassNameSyntax(),
+                method => method.Parameter2.Type));
+
+            InternalStandardMethodsDescription factoryMethodsDescription = new(
+                classNames.Factory,
+                new[]
+                {
+                    Using.System,
+                    Using.Tasks,
+                },
+                factoryMethods);
+
+            var passMethodTypes = MethodTypeInternalGenerator
+                .Create2Parameters(computeReturnType, parameterSelfType, passParameters)
+                .ToArray();
+
+            return this.Assemble(
+                passMethodTypes,
+                new[] { factoryMethodsDescription },
+                classNames.Pass,
+                methodName,
+                genericParameters,
+                selfParameter,
+                method => method.Parameter2.Type,
+                parameterName,
+                wrapResult);
+        }
+
+        internal InternalMethodsDescription CreateSwitch(
+            string passClassName,
+            IEnumerable<SwitchTier> tiers,
+            Func<bool, bool, TypeSyntax> computeReturnType,
+            SyntaxToken methodName,
+            IReadOnlyCollection<SyntaxToken> genericParameters,
+            MethodTypeGeneratorParameter parameterSelfType,
+            SelfParameter selfParameter,
+            SwitchParameterForm nextPassForm,
+            SwitchParameterForm otherPassForm)
+        {
+            var standardTiers = tiers
+                .Select(tier => new InternalStandardMethodsDescription(
+                    tier.ClassName,
+                    new[]
+                    {
+                        Using.System,
+                        Using.Tasks,
+                    },
+                    MethodTypeInternalGenerator
+                        .Create3Parameters(computeReturnType, parameterSelfType, tier.NextForm.InternalTypes, tier.OtherForm.InternalTypes)
+                        .Select(methodType => this.CreateSwitchFactory(methodType, methodName, genericParameters, selfParameter, tier))))
+                .ToArray();
+
+            var passMethodTypes = MethodTypeInternalGenerator
+                .Create3Parameters(computeReturnType, parameterSelfType, nextPassForm.InternalTypes, otherPassForm.InternalTypes)
+                .ToArray();
+
+            return this.Assemble(
+                passMethodTypes,
+                standardTiers,
+                passClassName,
+                methodName,
+                genericParameters,
+                selfParameter,
+                method => method.ParameterNext.Type,
+                nextPassForm.ParameterName,
+                method => method.Parameter2.Type,
+                otherPassForm.ParameterName,
+                SyntaxFactory.ReturnStatement);
         }
 
         internal InternalMethodsDescription CreateSelect(
@@ -245,7 +367,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 genericParameters,
                 parameterSelf,
                 TypeFactory.CreateClosedGeneric(Identifiers.FuncIdentifier, passType, methodType.Parameter2.Type),
-                parameterOther);
+                parameterOther,
+                SyntaxFactory.ReturnStatement);
         }
 
         internal MethodDeclarationSyntax CreatePassPartial(
@@ -266,23 +389,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 TypeFactory.CreateClosedGeneric(Identifiers.FuncIdentifier, nextPassType, methodType.ParameterNext.Type),
                 parameterNext,
                 TypeFactory.CreateClosedGeneric(Identifiers.FuncIdentifier, nextPassType, passType, methodType.Parameter2.Type),
-                parameterOther);
-        }
-
-        internal MethodDeclarationSyntax CreateFactoryPartial(
-            MethodTypeInternal2 methodType,
-            SyntaxToken methodName,
-            IReadOnlyCollection<SyntaxToken> genericParameters,
-            SelfParameter parameterSelf,
-            SyntaxToken parameterOther)
-        {
-            return this.CreatePartial(
-                methodType,
-                methodName,
-                genericParameters,
-                parameterSelf,
-                CreateFactoryParameter(methodType),
-                parameterOther);
+                parameterOther,
+                SyntaxFactory.ReturnStatement);
         }
 
         internal MethodDeclarationSyntax CreateFactory(
@@ -291,7 +399,29 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             IEnumerable<SyntaxToken> genericParameters,
             SelfParameter parameterSelf,
             SyntaxToken parameterOther,
-            SimpleNameSyntax delegateClassName)
+            SimpleNameSyntax delegateClassName,
+            Func<MethodTypeInternal2, TypeSyntax> parameterTypeSelector)
+        {
+            return this.CreateFactory(
+                methodType,
+                methodName,
+                genericParameters,
+                parameterSelf,
+                parameterOther,
+                delegateClassName,
+                parameterTypeSelector,
+                SyntaxFactory.ReturnStatement);
+        }
+
+        internal MethodDeclarationSyntax CreateFactory(
+            MethodTypeInternal2 methodType,
+            SyntaxToken methodName,
+            IEnumerable<SyntaxToken> genericParameters,
+            SelfParameter parameterSelf,
+            SyntaxToken parameterOther,
+            SimpleNameSyntax delegateClassName,
+            Func<MethodTypeInternal2, TypeSyntax> parameterTypeSelector,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
             return this.CreateDelegate(
                 Enumerable.Empty<AttributeSyntax>(),
@@ -299,24 +429,27 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 methodName,
                 genericParameters,
                 parameterSelf,
-                CreateFactoryParameter(methodType),
+                parameterTypeSelector(methodType),
                 parameterOther,
                 delegateClassName,
                 SyntaxFactory.SimpleLambdaExpression(
                     SyntaxFactory.Parameter(Identifiers.Discard),
-                    SyntaxFactory.InvocationExpression(SyntaxFactory.IdentifierName(parameterOther))));
+                    SyntaxFactory.InvocationExpression(SyntaxFactory.IdentifierName(parameterOther))),
+                wrapResult);
         }
 
         internal MethodDeclarationSyntax CreateValue(
+            IEnumerable<AttributeSyntax> attributes,
             MethodTypeInternal2 methodType,
             SyntaxToken methodName,
             IEnumerable<SyntaxToken> genericParameters,
             SelfParameter parameterSelf,
             SyntaxToken parameterOther,
-            SimpleNameSyntax delegateClassName)
+            SimpleNameSyntax delegateClassName,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
             return this.CreateDelegate(
-                new[] { Attributes.Pure },
+                attributes,
                 methodType,
                 methodName,
                 genericParameters,
@@ -326,7 +459,30 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 delegateClassName,
                 SyntaxFactory.ParenthesizedLambdaExpression(
                     SyntaxFactory.ParameterList(),
-                    SyntaxFactory.IdentifierName(parameterOther)));
+                    SyntaxFactory.IdentifierName(parameterOther)),
+                wrapResult);
+        }
+
+        internal MethodDeclarationSyntax CreateSwitchFactory(
+            MethodTypeInternal3 methodType,
+            SyntaxToken methodName,
+            IEnumerable<SyntaxToken> genericParameters,
+            SelfParameter parameterSelf,
+            SwitchTier tier)
+        {
+            return this.CreateDelegate(
+                methodType,
+                methodName,
+                genericParameters,
+                parameterSelf,
+                methodType.ParameterNext.Type,
+                tier.NextForm.ParameterName,
+                methodType.Parameter2.Type,
+                tier.OtherForm.ParameterName,
+                tier.DelegateTarget,
+                tier.NextArgument,
+                tier.OtherArgument,
+                SyntaxFactory.ReturnStatement);
         }
 
         private static bool IsFirstParameterTask(MethodTypeInternal2 method)
@@ -339,9 +495,9 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             return method.Parameter1.IsTaskLike;
         }
 
-        private static GenericNameSyntax CreateFactoryParameter(MethodTypeInternal2 methodType)
+        private static bool HasAnyTaskParameter(MethodTypeInternal2 method)
         {
-            return TypeFactory.CreateClosedGeneric(Identifiers.FuncIdentifier, methodType.Parameter2.Type);
+            return method.Parameter1.IsTaskLike || method.Parameter2.IsTaskLike;
         }
 
         private static IEnumerable<MethodTypeGenericParameter> GetGenericParameters(params InternalTypeParameter[] methodTypeGenericParameters)
@@ -364,7 +520,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
            IEnumerable<TypeSyntax> genericArguments,
            SelfParameter selfParameter,
            IdentifierNameSyntax argumentOther,
-           bool awaitDelegate)
+           bool awaitDelegate,
+           Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
             var awaitCall = WrapIntoAwait(SyntaxFactory.IdentifierName(selfParameter.TaskName));
 
@@ -392,7 +549,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 .WithStatements(SyntaxFactory.List(new[]
                 {
                     awaitAndStore,
-                    SyntaxFactory.ReturnStatement(awaitDelegate ? WrapIntoAwait(methodCallExpression) : methodCallExpression),
+                    wrapResult(awaitDelegate ? WrapIntoAwait(methodCallExpression) : methodCallExpression),
                 }));
         }
 
@@ -403,7 +560,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             IdentifierNameSyntax argumentOtherNext,
             bool awaitDelegateNext,
             IdentifierNameSyntax argumentOther,
-            bool awaitDelegate)
+            bool awaitDelegate,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
             var awaitCall = WrapIntoAwait(SyntaxFactory.IdentifierName(selfParameter.TaskName));
 
@@ -432,7 +590,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 .WithStatements(SyntaxFactory.List(new[]
                 {
                     awaitAndStore,
-                    SyntaxFactory.ReturnStatement(awaitDelegateNext || awaitDelegate ? WrapIntoAwait(methodCallExpression) : methodCallExpression),
+                    wrapResult(awaitDelegateNext || awaitDelegate ? WrapIntoAwait(methodCallExpression) : methodCallExpression),
                 }));
         }
 
@@ -451,6 +609,68 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                                     SyntaxKind.FalseLiteralExpression))))));
         }
 
+        private InternalMethodsDescription Assemble(
+            MethodTypeInternal2[] partialMethodTypes,
+            IEnumerable<InternalStandardMethodsDescription> standardTiers,
+            string partialClassName,
+            SyntaxToken methodName,
+            IReadOnlyCollection<SyntaxToken> genericParameters,
+            SelfParameter selfParameter,
+            Func<MethodTypeInternal2, TypeSyntax> partialParameterTypeSelector,
+            SyntaxToken partialParameterName,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
+        {
+            var partialMethods = partialMethodTypes
+                .Where(IsFirstParameterTask)
+                .Select(method => this.CreatePartial(
+                    method,
+                    methodName,
+                    genericParameters,
+                    selfParameter,
+                    partialParameterTypeSelector(method),
+                    partialParameterName,
+                    wrapResult));
+
+            InternalPartialMethodDescription partialMethodsDescription = new(
+                partialClassName,
+                partialMethods);
+
+            return new(standardTiers, partialMethodsDescription);
+        }
+
+        private InternalMethodsDescription Assemble(
+            MethodTypeInternal3[] partialMethodTypes,
+            IEnumerable<InternalStandardMethodsDescription> standardTiers,
+            string partialClassName,
+            SyntaxToken methodName,
+            IReadOnlyCollection<SyntaxToken> genericParameters,
+            SelfParameter selfParameter,
+            Func<MethodTypeInternal3, TypeSyntax> nextParameterTypeSelector,
+            SyntaxToken nextParameterName,
+            Func<MethodTypeInternal3, TypeSyntax> otherParameterTypeSelector,
+            SyntaxToken otherParameterName,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
+        {
+            var partialMethods = partialMethodTypes
+                .Where(IsFirstParameterTask)
+                .Select(method => this.CreatePartial(
+                    method,
+                    methodName,
+                    genericParameters,
+                    selfParameter,
+                    nextParameterTypeSelector(method),
+                    nextParameterName,
+                    otherParameterTypeSelector(method),
+                    otherParameterName,
+                    wrapResult));
+
+            InternalPartialMethodDescription partialMethodsDescription = new(
+                partialClassName,
+                partialMethods);
+
+            return new(standardTiers, partialMethodsDescription);
+        }
+
         private MethodDeclarationSyntax CreateDelegate(
             IEnumerable<AttributeSyntax> attributes,
             MethodTypeInternal2 methodType,
@@ -461,6 +681,31 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             SyntaxToken parameterOther,
             SimpleNameSyntax delegateClassName,
             ExpressionSyntax secondArgument)
+        {
+            return this.CreateDelegate(
+                attributes,
+                methodType,
+                methodName,
+                genericParameterNames,
+                parameterSelf,
+                parameterType,
+                parameterOther,
+                delegateClassName,
+                secondArgument,
+                SyntaxFactory.ReturnStatement);
+        }
+
+        private MethodDeclarationSyntax CreateDelegate(
+            IEnumerable<AttributeSyntax> attributes,
+            MethodTypeInternal2 methodType,
+            SyntaxToken methodName,
+            IEnumerable<SyntaxToken> genericParameterNames,
+            SelfParameter parameterSelf,
+            TypeSyntax parameterType,
+            SyntaxToken parameterOther,
+            SimpleNameSyntax delegateClassName,
+            ExpressionSyntax secondArgument,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
             var selfParameterName = methodType.Parameter1.IsTaskLike ? parameterSelf.TaskName : parameterSelf.Name;
             var genericParameterTypes = GetGenericParameters(methodType);
@@ -476,7 +721,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 {
                     SyntaxFactory.Argument(SyntaxFactory.IdentifierName(selfParameterName)),
                     SyntaxFactory.Argument(secondArgument),
-                });
+                },
+                wrapResult);
 
             var parameterSyntaxes = new[]
             {
@@ -485,6 +731,56 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             };
             var methodDeclarationSyntax = this.methodDeclarationFactory.Create(
                 attributes,
+                AccessModifierFactory.Create(SyntaxKind.InternalKeyword, SyntaxKind.StaticKeyword),
+                methodType.ReturnType,
+                methodName,
+                genericParameters,
+                parameterSyntaxes,
+                blockSyntax);
+
+            return this.AddTypeConstraints(genericParameterTypes, methodDeclarationSyntax, Enumerable.Empty<TypeParameterConstraintClauseSyntax>());
+        }
+
+        private MethodDeclarationSyntax CreateDelegate(
+            MethodTypeInternal3 methodType,
+            SyntaxToken methodName,
+            IEnumerable<SyntaxToken> genericParameterNames,
+            SelfParameter parameterSelf,
+            TypeSyntax parameterNextType,
+            SyntaxToken parameterNext,
+            TypeSyntax parameterOtherType,
+            SyntaxToken parameterOther,
+            SimpleNameSyntax delegateClassName,
+            ExpressionSyntax secondArgument,
+            ExpressionSyntax thirdArgument,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
+        {
+            var selfParameterName = methodType.Parameter1.IsTaskLike ? parameterSelf.TaskName : parameterSelf.Name;
+            var genericParameterTypes = GetGenericParameters(methodType);
+            var genericParameters = genericParameterNames
+                .Concat(genericParameterTypes.Select(genericParameter => genericParameter.Identifier))
+                .ToArray();
+
+            var blockSyntax = this.bodyFactory.CreateDelegateToOtherClass(
+                methodName,
+                delegateClassName,
+                genericParameters.Select(SyntaxFactory.IdentifierName),
+                new[]
+                {
+                    SyntaxFactory.Argument(SyntaxFactory.IdentifierName(selfParameterName)),
+                    SyntaxFactory.Argument(secondArgument),
+                    SyntaxFactory.Argument(thirdArgument),
+                },
+                wrapResult);
+
+            var parameterSyntaxes = new[]
+            {
+                SyntaxFactory.Parameter(selfParameterName).WithType(methodType.Parameter1.Type),
+                SyntaxFactory.Parameter(parameterNext).WithType(parameterNextType),
+                SyntaxFactory.Parameter(parameterOther).WithType(parameterOtherType),
+            };
+            var methodDeclarationSyntax = this.methodDeclarationFactory.Create(
+                Enumerable.Empty<AttributeSyntax>(),
                 AccessModifierFactory.Create(SyntaxKind.InternalKeyword, SyntaxKind.StaticKeyword),
                 methodType.ReturnType,
                 methodName,
@@ -517,6 +813,23 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             SelfParameter parameterSelf,
             IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints)
         {
+            return this.CreatePartial(
+                methodType,
+                methodName,
+                genericParameterNames,
+                parameterSelf,
+                additionalConstraints,
+                SyntaxFactory.ReturnStatement);
+        }
+
+        private MethodDeclarationSyntax CreatePartial(
+            MethodTypeInternal1 methodType,
+            SyntaxToken methodName,
+            IReadOnlyCollection<SyntaxToken> genericParameterNames,
+            SelfParameter parameterSelf,
+            IReadOnlyCollection<TypeParameterConstraintClauseSyntax> additionalConstraints,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
+        {
             var genericArguments = genericParameterNames
                 .Select(SyntaxFactory.IdentifierName);
 
@@ -541,7 +854,7 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 .WithStatements(SyntaxFactory.List(new[]
                 {
                     awaitAndStore,
-                    SyntaxFactory.ReturnStatement(methodCallExpression),
+                    wrapResult(methodCallExpression),
                 }));
 
             var genericParameterTypes = GetGenericParameters(methodType.Parameter1).ToArray();
@@ -568,7 +881,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             IReadOnlyCollection<SyntaxToken> genericParameterNames,
             SelfParameter parameterSelf,
             TypeSyntax parameterType,
-            SyntaxToken parameterOther)
+            SyntaxToken parameterOther,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
             var genericArguments = genericParameterNames
                 .Concat(GetGenericParameters(methodType.Parameter2).Select(genericParameter => genericParameter.Identifier))
@@ -579,7 +893,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 genericArguments,
                 parameterSelf,
                 SyntaxFactory.IdentifierName(parameterOther),
-                methodType.Parameter2.IsTaskLike);
+                methodType.Parameter2.IsTaskLike,
+                wrapResult);
 
             var genericParameterTypes = GetGenericParameters(methodType);
 
@@ -608,7 +923,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
             TypeSyntax parameterTypeNext,
             SyntaxToken parameterNext,
             TypeSyntax parameterType,
-            SyntaxToken parameterOther)
+            SyntaxToken parameterOther,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
             var genericArguments = genericParameterNames
                 .Concat(GetGenericParameters(methodType.ParameterNext).Select(genericParameter => genericParameter.Identifier))
@@ -622,7 +938,8 @@ namespace Kontur.Results.SourceGenerator.Code.Internal
                 SyntaxFactory.IdentifierName(parameterNext),
                 methodType.ParameterNext.IsTaskLike,
                 SyntaxFactory.IdentifierName(parameterOther),
-                methodType.Parameter2.IsTaskLike);
+                methodType.Parameter2.IsTaskLike,
+                wrapResult);
 
             var genericParameterTypes = GetGenericParameters(methodType);
 

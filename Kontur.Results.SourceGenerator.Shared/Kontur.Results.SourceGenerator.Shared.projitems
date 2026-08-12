@@ -15,6 +15,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Code\ClassNamesFactoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\ClassNamesPass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\ClassNamesPassExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\ClassNamesSwitch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\ClassNamesSwitchExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\CompilationFileProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\CompilationFileProviderSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\CompilationUnit.cs" />
@@ -56,6 +58,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Code\Public\PublicMethodsDescription.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\ReturnTypeCalculator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\SelfParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\SwitchParameterForm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\SwitchTier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Code\SwitchTierGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\TaskLikeTypeSyntaxFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\TypeFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Code\TypeParameterGenericMethodSyntaxGenerator.cs" />

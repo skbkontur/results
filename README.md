@@ -245,11 +245,10 @@ See [full documentation](docs/readme.md) for all overloads and detailed examples
 
 ## Roadmap
 
-* Async extensions for remaining data extraction methods (`TryGetValue`, `Switch`, `GetOrThrow`, etc.)
+* Async extensions for remaining data extraction methods (`TryGetValue`)
 * Upcast support for synchronous monadic extensions (`Select`, `Then`, `OrElse`, do-notation)
-* Do-notations (LINQ query syntax) for collections
-* Source generator for async extensions and implicit conversions on custom inherited types
 * Do-notation with heterogeneous `TFault` types (limited; currently use `MapFault`)
+* Source generator for async extensions and implicit conversions on custom inherited types
 
 
 ## Contributing

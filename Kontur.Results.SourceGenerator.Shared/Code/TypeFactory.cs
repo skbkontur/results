@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -60,7 +61,12 @@ namespace Kontur.Results.SourceGenerator.Code
 
         internal static GenericNameSyntax CreateClosedGeneric(SyntaxToken typeName, TypeSyntax argument, params TypeSyntax[] otherArguments)
         {
-            return SyntaxFactory.GenericName(typeName, SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(otherArguments.Prepend(argument))));
+            return CreateClosedGeneric(typeName, otherArguments.Prepend(argument));
+        }
+
+        internal static GenericNameSyntax CreateClosedGeneric(SyntaxToken typeName, IEnumerable<TypeSyntax> arguments)
+        {
+            return SyntaxFactory.GenericName(typeName, SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(arguments)));
         }
     }
 }

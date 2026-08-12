@@ -7,7 +7,9 @@ namespace Kontur.Results.SourceGenerator.Code.Public
         NameSyntax Parameter1,
         NameSyntax ParameterNext,
         bool ParameterNextIsTask,
+        bool ParameterNextIsValueTask,
         NameSyntax Parameter2,
+        bool Parameter2IsValueTask,
         IEnumerable<TypeSyntax> GenericArguments,
         TypeSyntax ReturnType);
 }

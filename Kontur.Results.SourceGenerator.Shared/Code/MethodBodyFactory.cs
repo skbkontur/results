@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,10 +12,10 @@ namespace Kontur.Results.SourceGenerator.Code
             SyntaxToken methodName,
             SimpleNameSyntax delegateClassName,
             IEnumerable<TypeSyntax> genericArguments,
-            IEnumerable<ArgumentSyntax> arguments)
+            IEnumerable<ArgumentSyntax> arguments,
+            Func<ExpressionSyntax, StatementSyntax> wrapResult)
         {
-            var returnStatement = SyntaxFactory.ReturnStatement(
-                SyntaxFactory.InvocationExpression(
+            var invocation = SyntaxFactory.InvocationExpression(
                         SyntaxFactory.MemberAccessExpression(
                                 SyntaxKind.SimpleMemberAccessExpression,
                                 delegateClassName,
@@ -23,12 +24,12 @@ namespace Kontur.Results.SourceGenerator.Code
                                     SyntaxFactory.TypeArgumentList(
                                         SyntaxFactory.SeparatedList(genericArguments))))
                             .WithOperatorToken(SyntaxFactory.Token(SyntaxKind.DotToken)))
-                    .WithArgumentList(SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(arguments))));
+                    .WithArgumentList(SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(arguments)));
 
             return SyntaxFactory.Block()
                 .WithStatements(SyntaxFactory.List<StatementSyntax>(new[]
                 {
-                    returnStatement,
+                    wrapResult(invocation),
                 }));
         }
     }

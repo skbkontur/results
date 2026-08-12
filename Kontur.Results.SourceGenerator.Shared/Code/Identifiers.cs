@@ -28,5 +28,7 @@ namespace Kontur.Results.SourceGenerator.Code
         internal static readonly SyntaxToken ValueTaskIdentifier = SyntaxFactory.Identifier(nameof(ValueTask));
 
         internal static readonly SyntaxToken FuncIdentifier = SyntaxFactory.Identifier(nameof(Func<object>));
+
+        internal static readonly SyntaxToken ActionIdentifier = SyntaxFactory.Identifier(nameof(Action));
     }
 }
