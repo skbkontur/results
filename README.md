@@ -200,12 +200,12 @@ public StringFaultResult<int> GenerateInt()
 |---|---|---|
 | **Create** | `Optional.Some`, `Optional.None`, `Result.Succeed`, `Result.Fail`, implicit conversions | [Instantiation](docs/instantiation.md) |
 | **Extract** | `TryGetValue`, `TryGetFault`, `Match`, `GetValueOrElse` (with async), `GetValueOrThrow`, `GetValueOrDefault` | [Extraction](docs/extraction.md) |
-| **Side effects** | `Switch`, `OnSuccess`, `OnFailure` (chainable) | [Side Effects](docs/side-effects.md) |
-| **Assert** | `EnsureSuccess`, `EnsureFailure` | [Side Effects](docs/side-effects.md) |
+| **Side effects** | `Switch`, `OnSuccess`, `OnFailure` (chainable, with async) | [Side Effects](docs/side-effects.md) |
+| **Assert** | `EnsureSuccess`, `EnsureFailure` (with async) | [Side Effects](docs/side-effects.md) |
 | **Status** | `Success`, `Failure` | [Extraction](docs/extraction.md) |
-| **Transform** | `MapValue`, `MapFault`, `Upcast` | [Conversion](docs/conversion.md) |
-| **Combine** | `Then`, `OrElse`, `Select` (require `Kontur.Results.Monad`) | [Combining](docs/combining.md) |
-| **Do-notation** | LINQ `from`/`where`/`let`/`select` (require `Kontur.Results.Monad`) | [Combining](docs/combining.md) |
+| **Transform** | `MapValue`, `MapFault` (with async), `Upcast` | [Conversion](docs/conversion.md) |
+| **Combine** | `Then`, `OrElse`, `Select` (with async, require `Kontur.Results.Monad`) | [Combining](docs/combining.md) |
+| **Do-notation** | LINQ `from`/`where`/`let`/`select` (with async, require `Kontur.Results.Monad`) | [Combining](docs/combining.md) |
 | **Collections** | `GetValues`, `GetFaults`, `foreach` | [Extraction](docs/extraction.md) |
 
 See [full documentation](docs/readme.md) for all overloads and detailed examples.
@@ -236,8 +236,8 @@ See [full documentation](docs/readme.md) for all overloads and detailed examples
 * [Full Documentation Index](docs/readme.md) — brief API reference with links to detailed pages
 * [Instantiation](docs/instantiation.md) — creating Optional and Result instances
 * [Extraction](docs/extraction.md) — TryGetValue, Match, GetValueOrElse/OrThrow/OrDefault (with async), status properties
-* [Side Effects](docs/side-effects.md) — Switch, OnSome/OnNone, OnSuccess/OnFailure, Ensure*
-* [Conversion](docs/conversion.md) — MapValue, MapFault, Upcast (with async support)
+* [Side Effects](docs/side-effects.md) — Switch, OnSome/OnNone, OnSuccess/OnFailure, Ensure* (with async)
+* [Conversion](docs/conversion.md) — MapValue, MapFault (with async), Upcast
 * [Combining](docs/combining.md) — Then, OrElse, Select, do-notation with async
 * [LINQ Integration](docs/linq-integration.md) — query syntax for IEnumerable
 * [Inheritance](docs/inheritance.md) — custom Result types

@@ -9,8 +9,8 @@ Full documentation for `Optional<TValue>`, `Result<TFault>`, and `Result<TFault,
 |---|---|
 | [Instantiation](instantiation.md) | Creating `Optional` and `Result` instances (explicit, implicit, ternary, conversions) |
 | [Extraction](extraction.md) | Getting data out: `TryGetValue`, `Match`, `GetValueOrElse` (with async), `GetValueOrThrow`, status properties, collections |
-| [Side Effects](side-effects.md) | Performing actions: `Switch`, `OnSome`/`OnNone`, `OnSuccess`/`OnFailure`, `Ensure*`, chaining |
-| [Conversion](conversion.md) | Transforming containers: `MapValue`, `MapFault`, `Upcast` (all with async support) |
+| [Side Effects](side-effects.md) | Performing actions: `Switch`, `OnSome`/`OnNone`, `OnSuccess`/`OnFailure`, `Ensure*`, chaining (with async) |
+| [Conversion](conversion.md) | Transforming containers: `MapValue`, `MapFault` (with async), `Upcast` |
 | [Combining](combining.md) | Monadic extensions: `Then`, `OrElse`, `Select`, do-notation (sync + async) |
 | [LINQ Integration](linq-integration.md) | Query syntax with `IEnumerable` (opt-in recipes) |
 | [Inheritance](inheritance.md) | Creating custom `Result` types by inheriting |
@@ -78,6 +78,9 @@ optional.OnSome(v => Log(v)).OnNone(() => Log("none"));
 // Ensure — assert state or throw
 optional.EnsureHasValue();           // throws ValueMissingException on None
 result.EnsureSuccess();              // throws ResultFailedException<T> on Failure
+
+// Async — all side effect methods support Task/ValueTask
+Task<Optional<string>> asyncChained = taskOptional.OnSome(v => Log(v));
 ```
 
 
